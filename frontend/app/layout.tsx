@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <body className="min-h-screen flex flex-col bg-canvas text-body">
-        {/* Sticky Header */}
+
         <header className="sticky top-0 z-50 w-full bg-canvas/80 backdrop-blur-md border-b border-hairline-soft">
           <div className="max-w-[1000px] mx-auto h-[60px] px-6 md:px-lg flex items-center justify-between">
             <Link href="/" className="text-[20px] font-bold text-ink hover:opacity-80 transition-opacity">
@@ -32,12 +32,12 @@ export default function RootLayout({
           </div>
         </header>
 
-        {/* Main Content Area */}
+
         <main className="flex-1 w-full max-w-[1000px] mx-auto px-6 md:px-lg py-xl">
           {children}
         </main>
 
-        {/* Footer */}
+
         <footer className="w-full mt-section border-t border-hairline-soft py-xl bg-canvas">
           <div className="max-w-[1000px] mx-auto px-6 md:px-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-sm">
             <div className="text-[14px] text-muted">

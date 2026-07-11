@@ -8,7 +8,9 @@ interface PageProps {
   }>;
 }
 
-// 1. Generate static routes at build time
+/**
+ * 빌드타임 정적 HTML 생성을 위해 전체 Slug 매개변수 리스트를 제공합니다.
+ */
 export async function generateStaticParams() {
   const slugs = getAllPostSlugs();
   return slugs.map((item) => ({
@@ -16,7 +18,9 @@ export async function generateStaticParams() {
   }));
 }
 
-// 2. Dynamic Post Detail Page (Next.js 15 compliant async params)
+/**
+ * Next.js 15 비동기 Params 규격에 맞춰 개별 포스트의 마크다운 상세 콘텐츠를 렌더링합니다.
+ */
 export default async function PostPage({ params }: PageProps) {
   const { slug } = await params;
 
@@ -30,7 +34,7 @@ export default async function PostPage({ params }: PageProps) {
 
   return (
     <article className="max-w-[700px] mx-auto py-xl">
-      {/* Back to List Navigation */}
+
       <div className="mb-lg">
         <Link
           href="/"
@@ -40,7 +44,7 @@ export default async function PostPage({ params }: PageProps) {
         </Link>
       </div>
 
-      {/* Article Header */}
+
       <header className="mb-xxl">
         <h1 className="text-display-lg font-bold text-ink leading-tight tracking-tight mb-md">
           {post.title}
@@ -52,13 +56,13 @@ export default async function PostPage({ params }: PageProps) {
         </div>
       </header>
 
-      {/* Article Body */}
+
       <section
         className="post-content"
         dangerouslySetInnerHTML={{ __html: post.contentHtml || "" }}
       />
 
-      {/* Author Profile Footer */}
+
       <footer className="mt-section border-t border-hairline pt-xl flex items-center gap-md">
         <div className="w-[48px] h-[48px] rounded-full bg-surface-muted flex items-center justify-center font-bold text-ink text-[18px]">
           Y

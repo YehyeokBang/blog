@@ -18,34 +18,27 @@ export interface PostData {
   contentHtml?: string;
 }
 
-// 1. Get all posts sorted by date (descending)
+/**
+ * content/posts 디렉터리 내 마크다운 파일들의 메타데이터(Frontmatter)를 파싱하고
+ * 발행일을 기준으로 내림차순 정렬된 목록을 반환합니다.
+ */
 export function getSortedPostsData(): PostData[] {
-  // Check if directory exists
   if (!fs.existsSync(postsDirectory)) {
     return [];
   }
 
-  // Get file names under /content/posts
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData = fileNames
     .filter((fileName) => fileName.endsWith(".md"))
     .map((fileName) => {
-      // Remove ".md" from file name to get slug
       const slug = fileName.replace(/\.md$/, "");
-
-      // Read markdown file as string
       const fullPath = path.join(postsDirectory, fileName);
       const fileContents = fs.readFileSync(fullPath, "utf8");
-
-      // Use gray-matter to parse the post metadata section
       const matterResult = matter(fileContents);
-
-      // Ensure tags is parsed as an array
       const tags = Array.isArray(matterResult.data.tags)
         ? matterResult.data.tags
         : [];
 
-      // Combine the data with the slug
       return {
         slug,
         title: matterResult.data.title || slug,
@@ -55,7 +48,6 @@ export function getSortedPostsData(): PostData[] {
       };
     });
 
-  // Sort posts by date
   return allPostsData.sort((a, b) => {
     if (a.date < b.date) {
       return 1;
@@ -67,7 +59,10 @@ export function getSortedPostsData(): PostData[] {
   });
 }
 
-// 2. Get all post slugs for generateStaticParams
+/**
+ * SSG(Static Site Generation) 빌드 시 동적 세그먼트 생성에 필요한
+ * 모든 마크다운 파일명의 Slug 목록을 반환합니다.
+ */
 export function getAllPostSlugs() {
   if (!fs.existsSync(postsDirectory)) {
     return [];
@@ -83,15 +78,15 @@ export function getAllPostSlugs() {
     });
 }
 
-// 3. Get single post data including parsed HTML
+/**
+ * 개별 Slug에 해당하는 마크다운 파일을 읽어 Frontmatter 분리 및
+ * Shiki 테마가 적용된 HTML 구조로 컴파일하여 반환합니다.
+ */
 export async function getPostData(slug: string): Promise<PostData> {
   const fullPath = path.join(postsDirectory, `${slug}.md`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
-
-  // Use gray-matter to parse the metadata
   const matterResult = matter(fileContents);
 
-  // Parse markdown to HTML and apply syntax highlighting
   const processedContent = await unified()
     .use(remarkParse)
     .use(remarkRehype)
@@ -103,7 +98,6 @@ export async function getPostData(slug: string): Promise<PostData> {
     .process(matterResult.content);
 
   const contentHtml = processedContent.toString();
-
   const tags = Array.isArray(matterResult.data.tags)
     ? matterResult.data.tags
     : [];
