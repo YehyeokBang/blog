@@ -189,11 +189,12 @@ function ItemEditModal({ onConfirm }) {
 ## Implementation Guidelines For AI
 
 When generating frontend code:
-1. **Safety First**: Never violate React's Rules of Hooks. Hooks always go at the very top.
-2. **Start Simple**: Write the simplest, working solution first. 
-3. **AHA (Avoid Hasty Abstractions)**: Extract abstractions only when patterns repeat exactly 3+ times. Do not create complex generic components early on.
-4. **Composition over Props**: Use `children` to avoid prop drilling.
-5. **No Placeholders**: Build functioning, complete components.
+1. **Pre-Generation Pause Gate**: Always question the necessity before writing or refactoring. Never auto-decide reuse or consolidation just because code looks similar. A pause to question is cheap and reversible, while a wrong consolidation is expensive and hard to undo.
+2. **Safety First**: Never violate React's Rules of Hooks. Hooks always go at the very top.
+3. **Start Simple**: Write the simplest, working solution first. 
+4. **AHA (Avoid Hasty Abstractions)**: Extract abstractions only when patterns repeat exactly 3+ times. Do not create complex generic components early on.
+5. **Composition over Props**: Use `children` to avoid prop drilling.
+6. **No Placeholders**: Build functioning, complete components.
 
 ## Refactoring Signals
 Consider refactoring when:
