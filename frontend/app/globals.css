@@ -43,6 +43,22 @@
   --radius-lg: 14px;
 }
 
+.dark {
+  --color-canvas: #0B0F19; /* Very dark blue-gray */
+  --color-surface-soft: #151A26;
+  --color-surface-muted: #1F2937;
+  --color-hairline: #374151;
+  --color-hairline-soft: #1F2937;
+  --color-ink: #F9FAFB;
+  --color-body: #D1D5DB;
+  --color-muted: #9CA3AF;
+  --color-muted-soft: #6B7280;
+  
+  --color-primary: #3B82F6; /* Slightly brighter blue for dark mode */
+  --color-primary-hover: #60A5FA;
+  --color-primary-surface: rgba(59, 130, 246, 0.1); /* Subtle transparent blue for callouts */
+}
+
 html, body {
   background-color: var(--color-canvas);
   color: var(--color-body);
@@ -57,17 +73,34 @@ html, body {
   color: var(--color-body);
 }
 
+.post-content h1 {
+  font-size: var(--text-display-lg);
+  font-weight: 800;
+  color: var(--color-ink);
+  margin-top: var(--spacing-xxl);
+  scroll-margin-top: 80px;
+  margin-bottom: var(--spacing-lg);
+  letter-spacing: -0.02em;
+}
+
 .post-content p {
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-lg);
 }
 
 .post-content h2 {
   font-size: var(--text-display-md);
   font-weight: 700;
   color: var(--color-ink);
-  margin-top: var(--spacing-section);
+  margin-top: var(--spacing-xl);
+  scroll-margin-top: 80px;
   margin-bottom: var(--spacing-md);
   letter-spacing: -0.01em;
+}
+
+.post-content h1 + h2,
+.post-content h2 + h3,
+.post-content h3 + h4 {
+  margin-top: var(--spacing-md);
 }
 
 .post-content h3 {
@@ -75,7 +108,27 @@ html, body {
   font-weight: 600;
   color: var(--color-ink);
   margin-top: var(--spacing-xl);
+  scroll-margin-top: 80px;
   margin-bottom: var(--spacing-sm);
+}
+
+.post-content h4 {
+  font-size: var(--text-body-lg);
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-top: var(--spacing-lg);
+  scroll-margin-top: 80px;
+  margin-bottom: var(--spacing-xs);
+}
+
+.post-content h5,
+.post-content h6 {
+  font-size: var(--text-body-md);
+  font-weight: 600;
+  color: var(--color-body);
+  margin-top: var(--spacing-md);
+  scroll-margin-top: 80px;
+  margin-bottom: var(--spacing-xs);
 }
 
 .post-content a {
@@ -86,6 +139,12 @@ html, body {
 
 .post-content a:hover {
   text-decoration: underline;
+}
+
+.post-content strong,
+.post-content b {
+  font-weight: 700;
+  color: var(--color-ink);
 }
 
 .post-content ul {
@@ -104,9 +163,66 @@ html, body {
   margin-bottom: var(--spacing-sm);
 }
 
+/* Callout / Blockquote Styling */
+.post-content blockquote {
+  border-left: 4px solid var(--color-primary); /* Toss-style Blue accent */
+  background-color: var(--color-surface-soft);
+  padding: var(--spacing-md) var(--spacing-lg);
+  margin: var(--spacing-xl) 0;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  color: var(--color-ink);
+}
+
+.post-content blockquote p {
+  margin-bottom: 0;
+}
+
+.post-content blockquote p + p {
+  margin-top: var(--spacing-md);
+}
+
+.post-content blockquote h3 {
+  margin-top: 0;
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Table Styling */
+.post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--spacing-xl);
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.post-content th,
+.post-content td {
+  border: 1px solid var(--color-hairline);
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.post-content th {
+  background-color: var(--color-surface-soft);
+  font-weight: 600;
+}
+
 /* Code Blocks Styling */
+.post-content figure[data-rehype-pretty-code-figure] {
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+  position: relative;
+}
+
+.post-content figure[data-rehype-pretty-code-figure] pre {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: var(--spacing-xxl);
+}
+
 .post-content pre {
   background-color: #0d1117 !important; /* GitHub Dark background fallback */
+  color: #c9d1d9 !important; /* Light text for dark background */
   padding: var(--spacing-lg);
   border-radius: var(--radius-md);
   overflow-x: auto;
@@ -132,4 +248,25 @@ html, body {
   font-size: 0.9em;
   font-weight: 500;
   border: 1px solid var(--color-hairline-soft);
+}
+
+/* Custom Scrollbar for TOC */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--color-hairline);
+  border-radius: 4px;
+}
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: var(--color-muted-soft);
+}
+
+@layer utilities {
+  .prose img {
+    @apply max-w-full h-auto rounded-lg;
+  }
 }

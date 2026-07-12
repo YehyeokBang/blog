@@ -44,3 +44,9 @@ Define success criteria and iterate until verified.
   - *"Fix the bug"* → *"Write a test that reproduces it, then make it pass"*
 - For multi-step tasks, outline a simple plan: `1. [Step] → verify: [Check]`
 - Strong success criteria allow for independent iteration. Avoid weak, ambiguous criteria (e.g., "make it work").
+
+### 3.5. Adversarial UI/UX Review (디자이너와 적대적 검토)
+Always evaluate UI/UX requests from an adversarial and critical perspective before implementing them.
+- **Challenge References**: When the user provides a reference design (e.g., images, other blogs), do not blindly copy it. Analyze whether it fits the specific design system, typography, and mood of *this* blog.
+- **Prioritize User Experience**: Focus on readability, spacing, and clean interactions. E.g., if a TOC is too long, suggest shortening the hierarchy instead of adding an ugly scrollbar.
+- **Propose Modern Alternatives**: If a requested design feels dated or obtrusive, propose a more subtle, modern alternative that aligns with standard premium developer blogs.
