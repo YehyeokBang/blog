@@ -91,7 +91,10 @@ blog/ (Repository Root)
 ├── content/           ← Markdown 글 (정본)
 │   └── posts/
 ├── frontend/          ← Next.js 앱
-│   ├── src/
+│   ├── app/           ← 라우트 (App Router)
+│   ├── components/    ← 공통 컴포넌트
+│   ├── lib/           ← 유틸리티 (markdown 파싱 등)
+│   ├── public/        ← 정적 에셋 (이미지 등)
 │   ├── package.json
 │   └── Dockerfile
 ├── backend/           ← Kotlin + Spring Boot

@@ -265,8 +265,3 @@ html, body {
   background-color: var(--color-muted-soft);
 }
 
-@layer utilities {
-  .prose img {
-    @apply max-w-full h-auto rounded-lg;
-  }
-}

@@ -24,6 +24,8 @@ const frontmatterSchema = z.object({
     z.date().transform((d) => d.toISOString().split('T')[0])
   ]), // YYYY-MM-DD
   description: z.string().optional(),
+  summary: z.string().optional(),
+  excerpt: z.string().optional(),
   tags: z.array(z.string()).optional(),
   thumbnail: z.string().optional(),
 });
@@ -72,9 +74,11 @@ export async function getPostMetadataBySlug(slug: string): Promise<PostMetadata 
     const fileContents = await fs.readFile(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
     const parsedData = frontmatterSchema.parse(data);
-    
+    const { summary, excerpt, ...rest } = parsedData;
+
     return {
-      ...parsedData,
+      ...rest,
+      description: rest.description ?? summary ?? excerpt,
       slug,
       readingTime: calculateReadingTime(content),
     };
@@ -118,9 +122,12 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       .use(rehypeStringify, { allowDangerousHtml: true })
       .process(content);
 
+    const { summary, excerpt, ...rest } = parsedData;
+
     return {
       metadata: {
-        ...parsedData,
+        ...rest,
+        description: rest.description ?? summary ?? excerpt,
         slug,
         readingTime: calculateReadingTime(content),
       },
@@ -143,6 +150,6 @@ export async function getAllPosts(): Promise<PostMetadata[]> {
   );
 
   // Filter out nulls and sort by date
-  const validPosts = posts.filter((post): post is PostMetadata => post !== undefined);
+  const validPosts = posts.filter((post): post is PostMetadata => post != null);
   return validPosts.sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
 }

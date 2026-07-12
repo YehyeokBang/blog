@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { Check, Copy } from "lucide-react";
 
 export default function PostContent({ content }: { content: string }) {
   const contentRef = useRef<HTMLDivElement>(null);
