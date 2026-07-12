@@ -79,13 +79,13 @@ jobs:
           
           # Dynamically write docker-compose.yml without git exposure on production VPS
           cat << 'EOF' > docker-compose.yml
-          version: '3.8'
-
           services:
             traefik:
-              image: traefik:v3.0
+              image: traefik:v3.1
               container_name: traefik
               restart: always
+              environment:
+                - DOCKER_API_VERSION=1.41
               command:
                 - "--providers.docker=true"
                 - "--providers.docker.exposedbydefault=false"
