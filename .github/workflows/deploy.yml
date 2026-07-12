@@ -59,78 +59,78 @@ jobs:
           cache-to: type=gha,mode=max
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build-and-push
 
     steps:
-      - name: Deploy to VPS via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: opc
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT || 22 }}
-          script: |
-            # Ensure the deployment directory exists
-            sudo mkdir -p /opt/blog
-            sudo chown -R opc:opc /opt/blog
-            
-            cd /opt/blog
-            
-            # Dynamically write docker-compose.yml without git exposure on production VPS
-            cat << 'EOF' > docker-compose.yml
-            version: '3.8'
+      - name: Deploy to VPS
+        env:
+          DOMAIN: ${{ secrets.DOMAIN }}
+        run: |
+          # Ensure the deployment directory exists
+          sudo mkdir -p /opt/blog
+          # self-hosted runner는 구동되는 유저 권한으로 실행됩니다 (일반적으로 로그인 유저)
+          sudo chown -R $USER:$USER /opt/blog
+          
+          cd /opt/blog
+          
+          # GitHub Secret으로 넘겨받은 DOMAIN을 서버의 .env 파일로 저장
+          echo "DOMAIN=$DOMAIN" > .env
+          
+          # Dynamically write docker-compose.yml without git exposure on production VPS
+          cat << 'EOF' > docker-compose.yml
+          version: '3.8'
 
-            services:
-              traefik:
-                image: traefik:v3.0
-                container_name: traefik
-                restart: always
-                command:
-                  - "--providers.docker=true"
-                  - "--providers.docker.exposedbydefault=false"
-                  - "--entrypoints.web.address=:80"
-                  - "--entrypoints.websecure.address=:443"
-                  # Global HTTP to HTTPS Redirection
-                  - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
-                  - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-                  - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
-                  # ACME configuration
-                  - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-                  - "--certificatesresolvers.myresolver.acme.email=qkddpgur318@gmail.com"
-                  - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-                ports:
-                  - "80:80"
-                  - "443:443"
-                volumes:
-                  - "/var/run/docker.sock:/var/run/docker.sock:ro"
-                  - "./letsencrypt:/letsencrypt"
-                networks:
-                  - blog-network
+          services:
+            traefik:
+              image: traefik:v3.0
+              container_name: traefik
+              restart: always
+              command:
+                - "--providers.docker=true"
+                - "--providers.docker.exposedbydefault=false"
+                - "--entrypoints.web.address=:80"
+                - "--entrypoints.websecure.address=:443"
+                # Global HTTP to HTTPS Redirection
+                - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+                - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+                - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+                # ACME configuration
+                - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+                - "--certificatesresolvers.myresolver.acme.email=qkddpgur318@gmail.com"
+                - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+              ports:
+                - "80:80"
+                - "443:443"
+              volumes:
+                - "/var/run/docker.sock:/var/run/docker.sock:ro"
+                - "./letsencrypt:/letsencrypt"
+              networks:
+                - blog-network
 
-              frontend:
-                image: ghcr.io/yehyeokbang/blog-frontend:latest
-                container_name: blog-frontend
-                restart: always
-                labels:
-                  - "traefik.enable=true"
-                  - "traefik.http.routers.frontend.rule=Host(`${DOMAIN}`)"
-                  - "traefik.http.routers.frontend.entrypoints=websecure"
-                  - "traefik.http.routers.frontend.tls.certresolver=myresolver"
-                  - "traefik.http.services.frontend.loadbalancer.server.port=80"
-                networks:
-                  - blog-network
+            frontend:
+              image: ghcr.io/yehyeokbang/blog-frontend:latest
+              container_name: blog-frontend
+              restart: always
+              labels:
+                - "traefik.enable=true"
+                - "traefik.http.routers.frontend.rule=Host(`${DOMAIN}`)"
+                - "traefik.http.routers.frontend.entrypoints=websecure"
+                - "traefik.http.routers.frontend.tls.certresolver=myresolver"
+                - "traefik.http.services.frontend.loadbalancer.server.port=80"
+              networks:
+                - blog-network
 
-            networks:
-              blog-network:
-                driver: bridge
-            EOF
-            
-            # Pull the newly pushed frontend docker image
-            docker compose pull frontend
-            
-            # Restart/Deploy containers in background
-            docker compose up -d
-            
-            # Clean up old dangling unused images to save disk space
-            docker image prune -f
+          networks:
+            blog-network:
+              driver: bridge
+          EOF
+          
+          # Pull the newly pushed frontend docker image
+          docker compose pull frontend
+          
+          # Restart/Deploy containers in background
+          docker compose up -d
+          
+          # Clean up old dangling unused images to save disk space
+          docker image prune -f
