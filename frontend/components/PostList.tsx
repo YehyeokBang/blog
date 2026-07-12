@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { PostMetadata } from "@/lib/markdown";
-import { calculateReadingTime } from "@/lib/utils";
 
 const ALL_TAG = "전체";
 
@@ -25,12 +24,12 @@ export default function PostList({ initialPosts }: PostListProps) {
 
   return (
     <div>
-      <div className="flex flex-wrap gap-sm mb-xxl border-b border-hairline-soft pb-lg">
+      <div className="flex overflow-x-auto gap-sm mb-xxl border-b border-hairline-soft pb-lg [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         {tags.map((tag) => (
           <button
             key={tag}
             onClick={() => setSelectedTag(tag)}
-            className={`px-[12px] py-[6px] text-tag font-semibold rounded-full cursor-pointer transition-colors border-0 focus:outline-none ${
+            className={`whitespace-nowrap shrink-0 px-[12px] py-[6px] text-tag font-semibold rounded-full cursor-pointer transition-colors border-0 focus:outline-none ${
               selectedTag === tag
                 ? "bg-color-primary-surface text-primary"
                 : "bg-surface-muted text-body hover:bg-hairline"
@@ -52,7 +51,7 @@ export default function PostList({ initialPosts }: PostListProps) {
               <div className="flex items-center gap-xs text-caption text-muted mb-sm">
                 <span>{post.date}</span>
                 <span>·</span>
-                <span>읽는 시간 {calculateReadingTime(post.description || "")}분</span>
+                <span>읽는 시간 {post.readingTime}분</span>
               </div>
 
               <h2 className="text-title-lg font-bold text-ink group-hover:text-primary transition-colors mb-sm leading-snug">

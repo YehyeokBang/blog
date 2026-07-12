@@ -3,6 +3,8 @@ import Link from "next/link";
 import "./globals.css";
 import { Providers } from "./providers";
 import ThemeToggle from "@/components/ThemeToggle";
+import NavLinks from "@/components/NavLinks";
+
 export const metadata: Metadata = {
   title: "Yehyeok | Backend Dev Blog",
   description: "배움과 기록을 위한 개인 개발 블로그 및 백엔드 실험실",
@@ -23,12 +25,7 @@ export default function RootLayout({
               Yehyeok
             </Link>
             <nav className="flex items-center gap-lg">
-              <Link href="/" className="text-[15px] font-semibold text-ink hover:opacity-80 transition-opacity">
-                아티클
-              </Link>
-              <Link href="/about" className="text-[15px] font-medium text-muted hover:text-ink transition-colors">
-                소개
-              </Link>
+              <NavLinks />
               <ThemeToggle />
             </nav>
           </div>
