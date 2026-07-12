@@ -4,7 +4,6 @@ import PostContent from "@/components/PostContent";
 import TOC from "@/components/TOC";
 import { Metadata } from "next";
 import Link from "next/link";
-import { calculateReadingTime } from "@/lib/utils";
 
 export async function generateStaticParams() {
   const slugs = await getPostSlugs();
@@ -60,7 +59,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           <div className="flex flex-wrap items-center gap-sm text-muted text-body-md">
             <span>{post.metadata.date}</span>
             <span>·</span>
-            <span>읽는 시간 {calculateReadingTime(post.rawContent)}분</span>
+            <span>읽는 시간 {post.metadata.readingTime}분</span>
             {post.metadata.tags && post.metadata.tags.length > 0 && (
               <>
                 <span>·</span>

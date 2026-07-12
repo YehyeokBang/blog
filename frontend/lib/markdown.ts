@@ -12,13 +12,17 @@ import rehypeStringify from 'rehype-stringify';
 import { visit } from 'unist-util-visit';
 import { Plugin } from 'unified';
 import { Root } from 'hast';
+import { calculateReadingTime } from './utils';
 
 const postsDirectory = path.join(process.cwd(), '../content/posts');
 
 // Frontmatter schema
 const frontmatterSchema = z.object({
   title: z.string(),
-  date: z.string().or(z.date().transform((d) => d.toISOString().split('T')[0])), // YYYY-MM-DD or parseable date string
+  date: z.union([
+    z.string().transform((str) => str.split('T')[0]),
+    z.date().transform((d) => d.toISOString().split('T')[0])
+  ]), // YYYY-MM-DD
   description: z.string().optional(),
   tags: z.array(z.string()).optional(),
   thumbnail: z.string().optional(),
@@ -26,6 +30,7 @@ const frontmatterSchema = z.object({
 
 export type PostMetadata = z.infer<typeof frontmatterSchema> & {
   slug: string;
+  readingTime: number;
 };
 
 export type Post = {
@@ -99,6 +104,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       metadata: {
         ...parsedData,
         slug,
+        readingTime: calculateReadingTime(content),
       },
       content: processedContent.toString(),
       rawContent: content,

@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { PostMetadata } from "@/lib/markdown";
-import { calculateReadingTime } from "@/lib/utils";
 
 const ALL_TAG = "전체";
 
@@ -52,7 +51,7 @@ export default function PostList({ initialPosts }: PostListProps) {
               <div className="flex items-center gap-xs text-caption text-muted mb-sm">
                 <span>{post.date}</span>
                 <span>·</span>
-                <span>읽는 시간 {calculateReadingTime(post.description || "")}분</span>
+                <span>읽는 시간 {post.readingTime}분</span>
               </div>
 
               <h2 className="text-title-lg font-bold text-ink group-hover:text-primary transition-colors mb-sm leading-snug">
