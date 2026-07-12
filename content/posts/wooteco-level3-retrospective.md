@@ -17,7 +17,7 @@ excerpt: "완벽주의라는 착각과 분업과 협업 사이에서의 고민, 
 
 ## 완벽한 주제는 없었다
 
-![](https://velog.velcdn.com/images/hyeok_1212/post/761291aa-3e1c-4b83-898a-510447880e47/image.png)
+![](/images/posts/wooteco-level3-retrospective/761291aa-3e1c-4b83-898a-510447880e47_image.png)
 
 <p align="center">(위) 주제 어필의 흔적들</p>
 
@@ -64,7 +64,7 @@ excerpt: "완벽주의라는 착각과 분업과 협업 사이에서의 고민, 
 
 그러면 작업을 나눠서 진행해야 할 것 같은데, 처음에는 의문이 먼저 들었다. "작업을 나누면 순서 의존성 문제는 어떻게 해결하지?" 
 
-![](https://velog.velcdn.com/images/hyeok_1212/post/2b7820e0-374b-4c80-8923-869d532189d0/image.png)
+![](/images/posts/wooteco-level3-retrospective/2b7820e0-374b-4c80-8923-869d532189d0_image.png)
 
 예를 들어, 게시판 기능(A)이 완전히 완성되어야만 댓글이나 신고 기능(B)을 개발할 수 있다고 생각했다. 만약 두 짝이 A와 B를 동시에 작업하다 나중에 합칠 때 코드가 엉키거나 충돌이 나면, 그걸 해결하는 데 시간을 뺏겨 오히려 더 비효율적일 거라고 예상했기 때문이다.
 (돌아보면 충돌이 나거나 코드가 엉망이 되는 것을 두려워했던 것 같다. 고치면 되는데..)
@@ -73,7 +73,7 @@ excerpt: "완벽주의라는 착각과 분업과 협업 사이에서의 고민, 
 
 단지 '게시물이 존재한다'는 약속, 즉 최소한의 데이터 구조만 있어도 기능을 구현할 수 있고, 충돌 역시 두려워할 대상이 아니었다.
 
-![](https://velog.velcdn.com/images/hyeok_1212/post/2833d46e-d299-489b-babf-ca2a5010c01f/image.png)
+![](/images/posts/wooteco-level3-retrospective/2833d46e-d299-489b-babf-ca2a5010c01f_image.png)
 
 
 이 깨달음을 바탕으로 우리는 2:2 짝으로 나뉘고, 코드 리뷰를 활성화하기로 했다. 서로 다른 작업을 하니, 코드 리뷰를 통한 동기화가 필수적이라 느꼈기 때문이다. 변화는 성공적이었다. 작업 속도는 눈에 띄게 빨라졌고, 코드 리뷰를 통해 배우는 점도 많아졌다. 이제 속도와 협업, 두 마리 토끼를 다 잡았다고 생각했다.
@@ -90,7 +90,7 @@ excerpt: "완벽주의라는 착각과 분업과 협업 사이에서의 고민, 
 
 > "왜 일을 따로 하나요? 처음부터 같이 만들면 고칠 일이 없지 않을까요?"
 
-![](https://velog.velcdn.com/images/hyeok_1212/post/05b1b9d5-9c99-4a16-a34c-791223a40659/image.png)
+![](/images/posts/wooteco-level3-retrospective/05b1b9d5-9c99-4a16-a34c-791223a40659_image.png)
 
 지금까지는 팀이었지만 파트라는 이름으로 경계가 뚜렷했고, 서로의 과정보다는 연동 시점의 결과물만을 중시했다. 그 결과, 실제 연동 단계에 들어서야 서로의 생각 차이를 발견하게 되었고, 충돌과 수정이 반복되곤 했다.
 
@@ -100,7 +100,7 @@ excerpt: "완벽주의라는 착각과 분업과 협업 사이에서의 고민, 
 
 ### 1. 백엔드 + 안드로이드 짝을 이뤄 하나의 기능을 완성한다.
 
-![](https://velog.velcdn.com/images/hyeok_1212/post/254871d4-3831-41fa-851e-8504779485d4/image.png)
+![](/images/posts/wooteco-level3-retrospective/254871d4-3831-41fa-851e-8504779485d4_image.png)
 
 - 하나의 이슈(기능)를 서로 다른 파트원끼리 짝을 이룬다.
 - 기능 구현에 대한 결정권은 해당 짝이 갖는다.
@@ -108,7 +108,7 @@ excerpt: "완벽주의라는 착각과 분업과 협업 사이에서의 고민, 
 
 처음엔 다른 파트와 짝을 맺으니 낯설었지만, 내가 만든 API가 바로 눈앞 화면에 연결되는 걸 보며 성취감을 함께 느낄 수 있었다.
 
-![](https://velog.velcdn.com/images/hyeok_1212/post/0bcfb600-ec03-46c0-81d6-eee35aaaa8f0/image.png)
+![](/images/posts/wooteco-level3-retrospective/0bcfb600-ec03-46c0-81d6-eee35aaaa8f0_image.png)
 
 <p align="center">(위) 서로 다른 파트 협업 이슈</p>
 
@@ -130,7 +130,7 @@ excerpt: "완벽주의라는 착각과 분업과 협업 사이에서의 고민, 
 
 ### 도입 후 결과
 
-![](https://velog.velcdn.com/images/hyeok_1212/post/f1b85df4-8839-459d-9fd3-1a19a5e66ad0/image.png)
+![](/images/posts/wooteco-level3-retrospective/f1b85df4-8839-459d-9fd3-1a19a5e66ad0_image.png)
 
 <p align="center">(위) 서로 다른 파트 협업 도입 시점 전후의 완료 PR 개수 변화 (각 1개월)</p>
 
