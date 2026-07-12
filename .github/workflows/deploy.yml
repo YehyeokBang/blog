@@ -1,0 +1,136 @@
+name: Deploy MVP Frontend to Oracle Cloud VPS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository_owner }}/blog-frontend
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: './frontend/package-lock.json'
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Build Next.js Static Export
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Log in to GitHub Container Registry (GHCR)
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and Push frontend Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    runs-on: self-hosted
+    needs: build-and-push
+
+    steps:
+      - name: Deploy to VPS
+        env:
+          DOMAIN: ${{ secrets.DOMAIN }}
+        run: |
+          # Ensure the deployment directory exists
+          sudo mkdir -p /opt/blog
+          # self-hosted runner는 구동되는 유저 권한으로 실행됩니다 (일반적으로 로그인 유저)
+          sudo chown -R $USER:$USER /opt/blog
+          
+          cd /opt/blog
+          
+          # GitHub Secret으로 넘겨받은 DOMAIN을 서버의 .env 파일로 저장
+          echo "DOMAIN=$DOMAIN" > .env
+          
+          # Dynamically write docker-compose.yml without git exposure on production VPS
+          cat << 'EOF' > docker-compose.yml
+          version: '3.8'
+
+          services:
+            traefik:
+              image: traefik:v3.0
+              container_name: traefik
+              restart: always
+              command:
+                - "--providers.docker=true"
+                - "--providers.docker.exposedbydefault=false"
+                - "--entrypoints.web.address=:80"
+                - "--entrypoints.websecure.address=:443"
+                # Global HTTP to HTTPS Redirection
+                - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+                - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+                - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+                # ACME configuration
+                - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+                - "--certificatesresolvers.myresolver.acme.email=qkddpgur318@gmail.com"
+                - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+              ports:
+                - "80:80"
+                - "443:443"
+              volumes:
+                - "/var/run/docker.sock:/var/run/docker.sock:ro"
+                - "./letsencrypt:/letsencrypt"
+              networks:
+                - blog-network
+
+            frontend:
+              image: ghcr.io/yehyeokbang/blog-frontend:latest
+              container_name: blog-frontend
+              restart: always
+              labels:
+                - "traefik.enable=true"
+                - "traefik.http.routers.frontend.rule=Host(`${DOMAIN}`)"
+                - "traefik.http.routers.frontend.entrypoints=websecure"
+                - "traefik.http.routers.frontend.tls.certresolver=myresolver"
+                - "traefik.http.services.frontend.loadbalancer.server.port=80"
+              networks:
+                - blog-network
+
+          networks:
+            blog-network:
+              driver: bridge
+          EOF
+          
+          # Pull the newly pushed frontend docker image
+          docker compose pull frontend
+          
+          # Restart/Deploy containers in background
+          docker compose up -d
+          
+          # Clean up old dangling unused images to save disk space
+          docker image prune -f

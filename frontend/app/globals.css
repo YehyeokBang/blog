@@ -1,0 +1,135 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: "JetBrains Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  --text-display-xl: 48px;
+  --text-display-lg: 36px;
+  --text-display-md: 24px;
+  --text-title-lg: 20px;
+  --text-title-md: 17px;
+  --text-body-lg: 17px;
+  --text-body-md: 15px;
+  --text-caption: 14px;
+  --text-code: 14px;
+  --text-tag: 13px;
+
+  --color-primary: #3182F6;
+  --color-primary-hover: #1B64DA;
+  --color-primary-surface: #E8F3FF;
+  --color-canvas: #FFFFFF;
+  --color-surface-soft: #F9FAFB;
+  --color-surface-muted: #F2F4F6;
+  --color-hairline: #E5E8EB;
+  --color-hairline-soft: #F2F4F6;
+  --color-ink: #191F28;
+  --color-body: #333D4B;
+  --color-muted: #8B95A1;
+  --color-muted-soft: #B0B8C1;
+  --color-on-primary: #FFFFFF;
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-section: 80px;
+
+  --radius-md: 12px;
+  --radius-lg: 14px;
+}
+
+html, body {
+  background-color: var(--color-canvas);
+  color: var(--color-body);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Post Details Markdown Styling */
+.post-content {
+  font-size: var(--text-body-lg);
+  line-height: 1.6;
+  color: var(--color-body);
+}
+
+.post-content p {
+  margin-bottom: var(--spacing-xl);
+}
+
+.post-content h2 {
+  font-size: var(--text-display-md);
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-top: var(--spacing-section);
+  margin-bottom: var(--spacing-md);
+  letter-spacing: -0.01em;
+}
+
+.post-content h3 {
+  font-size: var(--text-title-md);
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-top: var(--spacing-xl);
+  margin-bottom: var(--spacing-sm);
+}
+
+.post-content a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.post-content a:hover {
+  text-decoration: underline;
+}
+
+.post-content ul {
+  list-style-type: disc;
+  margin-bottom: var(--spacing-xl);
+  padding-left: var(--spacing-lg);
+}
+
+.post-content ol {
+  list-style-type: decimal;
+  margin-bottom: var(--spacing-xl);
+  padding-left: var(--spacing-lg);
+}
+
+.post-content li {
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Code Blocks Styling */
+.post-content pre {
+  background-color: #0d1117 !important; /* GitHub Dark background fallback */
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  line-height: 1.5;
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+  border: 1px solid var(--color-hairline-soft);
+}
+
+.post-content code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+/* Inline code (not in pre) */
+.post-content :not(pre) > code {
+  background-color: var(--color-surface-soft);
+  color: var(--color-primary);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 0.9em;
+  font-weight: 500;
+  border: 1px solid var(--color-hairline-soft);
+}
