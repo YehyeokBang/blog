@@ -17,9 +17,28 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   try {
     const post = await getPostBySlug(resolvedParams.slug);
     if (!post) return {};
+
+    const url = `/posts/${resolvedParams.slug}`;
+    const images = post.metadata.thumbnail ? [post.metadata.thumbnail] : [];
+
     return {
-      title: `${post.metadata.title} | Yehyeok`,
+      title: post.metadata.title,
       description: post.metadata.description,
+      openGraph: {
+        title: post.metadata.title,
+        description: post.metadata.description,
+        url,
+        type: "article",
+        publishedTime: post.metadata.date,
+        authors: ["Yehyeok"],
+        images,
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: post.metadata.title,
+        description: post.metadata.description,
+        images,
+      },
     };
   } catch (e) {
     return {};

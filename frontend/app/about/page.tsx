@@ -1,3 +1,15 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "소개",
+  description: "주니어 백엔드 엔지니어 방예혁의 소개 페이지입니다.",
+  openGraph: {
+    title: "소개",
+    description: "주니어 백엔드 엔지니어 방예혁의 소개 페이지입니다.",
+    url: "/about",
+  },
+};
+
 export default function AboutPage() {
   return (
     <div className="w-full">
