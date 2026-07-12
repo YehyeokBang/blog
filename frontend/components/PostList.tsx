@@ -2,26 +2,26 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { PostData } from "@/lib/posts";
+import { PostMetadata } from "@/lib/markdown";
 import { calculateReadingTime } from "@/lib/utils";
 
 const ALL_TAG = "전체";
 
 interface PostListProps {
-  initialPosts: PostData[];
+  initialPosts: PostMetadata[];
 }
 
 export default function PostList({ initialPosts }: PostListProps) {
   const [selectedTag, setSelectedTag] = useState(ALL_TAG);
 
   const uniqueTags = Array.from(
-    new Set(initialPosts.flatMap((post) => post.tags))
+    new Set(initialPosts.flatMap((post) => post.tags || []))
   );
   const tags = [ALL_TAG, ...uniqueTags];
 
   const filteredPosts = selectedTag === ALL_TAG
     ? initialPosts
-    : initialPosts.filter((post) => post.tags.includes(selectedTag));
+    : initialPosts.filter((post) => (post.tags || []).includes(selectedTag));
 
   return (
     <div>
@@ -52,7 +52,7 @@ export default function PostList({ initialPosts }: PostListProps) {
               <div className="flex items-center gap-xs text-caption text-muted mb-sm">
                 <span>{post.date}</span>
                 <span>·</span>
-                <span>읽는 시간 {calculateReadingTime(post.description)}분</span>
+                <span>읽는 시간 {calculateReadingTime(post.description || "")}분</span>
               </div>
 
               <h2 className="text-title-lg font-bold text-ink group-hover:text-primary transition-colors mb-sm leading-snug">
@@ -66,7 +66,7 @@ export default function PostList({ initialPosts }: PostListProps) {
               </p>
 
               <div className="flex flex-wrap gap-xs">
-                {post.tags.map((tag) => (
+                {(post.tags || []).map((tag) => (
                   <button
                     key={tag}
                     onClick={() => setSelectedTag(tag)}

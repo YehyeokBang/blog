@@ -1,0 +1,32 @@
+## ADDED Requirements
+
+### Requirement: 정적 이미지 파싱 및 마크다운 내 이미지 서빙
+시스템은 마크다운 파일 내부에서 `![alt텍스트](/images/posts/my-post/image.png)` 형식으로 작성된 이미지 경로를 정상적으로 파싱하고, 정적 배포본(out 폴더) 내의 `public/images/` 경로로부터 이미지를 제공해야 한다.
+
+#### Scenario: 마크다운 상세 페이지 이미지 렌더링
+- **WHEN** 사용자가 이미지가 포함된 게시글의 상세 페이지에 접속할 때
+- **THEN** 브라우저는 `<img src="/images/posts/.../image.png" alt="...">` 태그를 정상적으로 렌더링하고 이미지를 성공적으로 불러온다.
+
+## MODIFIED Requirements
+
+### Requirement: 마크다운 정적 파싱 및 피드 렌더링
+시스템(Next.js)은 빌드 타임에 `content/posts/` 디렉토리 내의 마크다운 파일 목록을 읽어 최신순으로 정렬된 정적 HTML 블로그 피드 페이지를 생성해야 한다.
+
+#### Scenario: 피드 목록 정적 생성
+- **WHEN** 빌드 스크립트(`next build`)가 실행될 때
+- **THEN** 시스템은 각 마크다운의 Frontmatter(date, title, tags 등)를 파싱하여 메인 피드 페이지의 HTML 정적 파일을 생성한다.
+
+#### Scenario: 피드 목록 내 이미지 썸네일 노출
+- **WHEN** 마크다운 파일의 Frontmatter에 `thumbnail: /images/...` 속성이 존재할 때
+- **THEN** 시스템은 메인 피드 목록에서 해당 게시글의 썸네일 이미지를 함께 렌더링한다.
+
+### Requirement: 강력한 런타임 제약 (Fail-fast)
+시스템은 마크다운 파일의 메타데이터와 이미지 파일이 약속된 컨벤션을 어길 경우 빌드를 즉시 중단시켜야 한다.
+
+#### Scenario: 마크다운 메타데이터 스키마 위반 시 빌드 실패
+- **WHEN** 마크다운의 Frontmatter 필수값(title, date 등)이 누락되거나 타입이 다를 때
+- **THEN** 파싱 유틸리티의 `zod` 검증 로직이 에러를 발생시키며, 앱의 정적 빌드는 즉시 실패한다.
+
+#### Scenario: 이미지 저장 컨벤션 위반 시 빌드 실패
+- **WHEN** 글 본문에 삽입된 이미지 경로가 `/images/posts/[현재글slug]/` 패턴을 벗어나거나, 확장자가 `.webp`가 아닐 때
+- **THEN** 마크다운 파싱 유틸리티에서 경로 검증 에러를 발생시키며, 빌드는 즉시 실패한다.

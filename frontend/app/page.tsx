@@ -1,8 +1,8 @@
-import { getSortedPostsData } from "@/lib/posts";
+import { getAllPosts } from "@/lib/markdown";
 import PostList from "@/components/PostList";
 
-export default function Home() {
-  const posts = getSortedPostsData();
+export default async function Home() {
+  const posts = await getAllPosts();
 
   return (
     <div className="w-full">
