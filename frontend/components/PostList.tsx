@@ -24,12 +24,12 @@ export default function PostList({ initialPosts }: PostListProps) {
 
   return (
     <div>
-      <div className="flex flex-wrap gap-sm mb-xxl border-b border-hairline-soft pb-lg">
+      <div className="flex overflow-x-auto gap-sm mb-xxl border-b border-hairline-soft pb-lg [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         {tags.map((tag) => (
           <button
             key={tag}
             onClick={() => setSelectedTag(tag)}
-            className={`px-[12px] py-[6px] text-tag font-semibold rounded-full cursor-pointer transition-colors border-0 focus:outline-none ${
+            className={`whitespace-nowrap shrink-0 px-[12px] py-[6px] text-tag font-semibold rounded-full cursor-pointer transition-colors border-0 focus:outline-none ${
               selectedTag === tag
                 ? "bg-color-primary-surface text-primary"
                 : "bg-surface-muted text-body hover:bg-hairline"

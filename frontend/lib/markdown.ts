@@ -66,6 +66,24 @@ const rehypeValidateImages: Plugin<[{ slug: string }], Root> = (options) => {
   };
 };
 
+export async function getPostMetadataBySlug(slug: string): Promise<PostMetadata | null> {
+  try {
+    const fullPath = path.join(postsDirectory, `${slug}.md`);
+    const fileContents = await fs.readFile(fullPath, 'utf8');
+    const { data, content } = matter(fileContents);
+    const parsedData = frontmatterSchema.parse(data);
+    
+    return {
+      ...parsedData,
+      slug,
+      readingTime: calculateReadingTime(content),
+    };
+  } catch (error) {
+    console.error(`Error reading metadata for ${slug}:`, error);
+    return null;
+  }
+}
+
 export async function getPostSlugs(): Promise<string[]> {
   try {
     const files = await fs.readdir(postsDirectory);
@@ -119,8 +137,8 @@ export async function getAllPosts(): Promise<PostMetadata[]> {
   const slugs = await getPostSlugs();
   const posts = await Promise.all(
     slugs.map(async (slug) => {
-      const post = await getPostBySlug(slug);
-      return post?.metadata;
+      const metadata = await getPostMetadataBySlug(slug);
+      return metadata;
     })
   );
 
