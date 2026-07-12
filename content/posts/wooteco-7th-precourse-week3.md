@@ -13,7 +13,7 @@ tags: ["우아한테크코스", "프리코스", "회고록", "Backend", "Java"]
 
 이번 미션이 로또인 것을 핑계로 저번 주에도 구매를 했어요.
 
-![](/images/posts/wooteco-7th-precourse-week3/afaed102-1561-495b-9309-0107dcd7e359_image.png)
+![](/images/posts/wooteco-7th-precourse-week3/afaed102-1561-495b-9309-0107dcd7e359_image.webp)
 
 ...
 
@@ -23,7 +23,7 @@ tags: ["우아한테크코스", "프리코스", "회고록", "Backend", "Java"]
 
 [생각하라, 객체지향처럼 - 김승영](https://techblog.woowahan.com/2502/) 포스팅에서는 [객체지향의 사실과 오해](https://search.shopping.naver.com/book/catalog/32482589668) 부분 중에서 ’07장. 함께 모으기’ 중 커피 전문점 도메인 설계 및 구현 예제에 대한 내용을 설명 하듯이 작성하신 것을 볼 수 있어요.
 
-![](/images/posts/wooteco-7th-precourse-week3/44eef81d-bb85-4d50-95aa-1579806bf08c_image.png)
+![](/images/posts/wooteco-7th-precourse-week3/44eef81d-bb85-4d50-95aa-1579806bf08c_image.webp)
 
 > 여기서 손님, 메뉴판, 메뉴 항목들(4가지), 바리스타, 커피(4가지)가 각각 하나의 객체가 될 수 있습니다. (저는 처음에 혼자 생각해볼 때 4가지의 메뉴 항목들까지 객체로 생각하지는 못 했습니다. 근데 사실 아직도 어색하긴 합니다..ㅋㅋ)
 > - [생각하라, 객체지향처럼 - 김승영](https://techblog.woowahan.com/2502/)
@@ -49,7 +49,7 @@ tags: ["우아한테크코스", "프리코스", "회고록", "Backend", "Java"]
 
 로또를 구매한 토요일에 위와 같은 구조가 떠올라서 바로 추가했습니다.
 
-![](/images/posts/wooteco-7th-precourse-week3/737855fd-94c2-4c7f-bade-c38e1ee1d6d0_image.png)
+![](/images/posts/wooteco-7th-precourse-week3/737855fd-94c2-4c7f-bade-c38e1ee1d6d0_image.webp)
 
  ~~4주 차 미션인 편의점도 다녀오면 좋을 것 같아서 고민하고 있습니다.~~
 
@@ -130,7 +130,7 @@ public class Car {
 
 ## 합치기 (3주 차)
 
-![](/images/posts/wooteco-7th-precourse-week3/0949e661-9859-40b1-a797-f5ee8c59fd1b_image.png)
+![](/images/posts/wooteco-7th-precourse-week3/0949e661-9859-40b1-a797-f5ee8c59fd1b_image.webp)
 
 그래서 저는 두 방식의 장점을 섞으면 좋을 것 같다고 생각했습니다. 검증 로직을 한 곳에 모아 재사용성을 높이면서도, 개별 객체가 스스로의 일관성을 보장할 수 있도록 만드는 것이 이번 미션의 목표였습니다.
 

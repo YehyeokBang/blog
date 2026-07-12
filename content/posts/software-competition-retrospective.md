@@ -16,7 +16,7 @@ tags: ["Retrospective", "Competition", "Project", "EasySobi"]
 ### EasySobi
 &nbspEasySobi는 쉬운 소비기한이라는 의미를 가지고 있으며, 소비기한을 쉽게 관리할 수 있는 서비스를 기획했어요. 소비기한은 유통기한을 대체하는 개념이에요. 실제로 이번년도(2023)부터 시행됐지만, 여러 사업장의 상황을 고려하여 사업 별로 계도기간을 부여하고 있어요.
 
-![](/images/posts/software-competition-retrospective/9c0c5560_image.png)
+![](/images/posts/software-competition-retrospective/9c0c5560_image.webp)
  
 - **유통기한**은 소비자에게 유통 및 판매가 허용되는 기한
 - **소비기한**은 보관 방법을 준수했을 때 식품 섭취가 가능한 기한
@@ -86,7 +86,7 @@ tags: ["Retrospective", "Competition", "Project", "EasySobi"]
 
 ### 결과
 
-![](/images/posts/software-competition-retrospective/52c5edd2_image.png)
+![](/images/posts/software-competition-retrospective/52c5edd2_image.webp)
 
 ---
 

@@ -25,7 +25,7 @@ tags: ["우아한테크코스", "프리코스", "회고록", "Backend", "Java"]
 
 ### 구분자 관련
 
-![](/images/posts/wooteco-7th-precourse-week2/8bf17e8f-be09-40f3-b23c-d00c60e5b107_image.png)
+![](/images/posts/wooteco-7th-precourse-week2/8bf17e8f-be09-40f3-b23c-d00c60e5b107_image.webp)
 
 1주 차 미션에서 구분자를 객체로 다루고 기본 구분자와 사용할 수 없는 구분자를 enum으로 관리하도록 구현했습니다. 덕분에 구분자 규칙을 명확하게 확인할 수 있었고, 큰 변경 없이 새로운 구분자를 추가할 수 있게 되었습니다. 
 
@@ -33,7 +33,7 @@ tags: ["우아한테크코스", "프리코스", "회고록", "Backend", "Java"]
 
 ---
 
-![](/images/posts/wooteco-7th-precourse-week2/1fe1c00d-d63c-426c-8024-09a2acff11a6_image.png)
+![](/images/posts/wooteco-7th-precourse-week2/1fe1c00d-d63c-426c-8024-09a2acff11a6_image.webp)
 
 그래서 2주 차 미션에서 자동차의 움직임 여부를 결정하는 로직을 하나의 패턴으로 분리했습니다. 움직임 전략 인터페이스에는 움직일 수 있는지 확인하는 하나의 메서드만 존재하고 만들려는 규칙에 맞게 움직임 전략 구현체를 만들어 사용하도록 설계했습니다. 덕분에 기본 규칙에 따라 `무작위 값을 기준으로 자동차가 움직이는가?`를 테스트하는 것이 아니라 `특정 전략에 맞춰서 자동차가 움직이는가?`를 테스트할 수 있게 되어 더 깊은 부분까지 테스트 코드를 작성해볼 수 있었습니다. 
 
@@ -43,7 +43,7 @@ tags: ["우아한테크코스", "프리코스", "회고록", "Backend", "Java"]
 
 ### 검증 책임 위치
 
-![](/images/posts/wooteco-7th-precourse-week2/54484757-2d57-45f6-b48e-1c51514531a9_image.png)
+![](/images/posts/wooteco-7th-precourse-week2/54484757-2d57-45f6-b48e-1c51514531a9_image.webp)
 
 지금까지 저는 해당 객체가 스스로 검증하고 생성되도록 설계하는 것을 좋아했습니다. 런타임 시점에 생성된 모든 객체가 모두 검증된 상태임을 보장하고, 코드가 안정적으로 동작할 수 있다고 생각했습니다.
 
@@ -61,11 +61,11 @@ tags: ["우아한테크코스", "프리코스", "회고록", "Backend", "Java"]
 
 ### 단일 책임 원칙
 
-![](/images/posts/wooteco-7th-precourse-week2/6f7ab105-a076-433a-acff-e93b401dbf1c_image.png)
+![](/images/posts/wooteco-7th-precourse-week2/6f7ab105-a076-433a-acff-e93b401dbf1c_image.webp)
 
 위 질문에 대한 답변입니다.
 
-![](/images/posts/wooteco-7th-precourse-week2/9c19e5e6-9541-4285-99a9-4d8a35b3d407_image.png)
+![](/images/posts/wooteco-7th-precourse-week2/9c19e5e6-9541-4285-99a9-4d8a35b3d407_image.webp)
 
 서비스를 왜 만들게되었는지는 설명할 수 있었으나, 피드백 이후 다시 읽어보니 관리하는 책임이 많다고 생각했습니다.
 
@@ -87,7 +87,7 @@ tags: ["우아한테크코스", "프리코스", "회고록", "Backend", "Java"]
 
 ### 놓쳤던 부분
 
-![](/images/posts/wooteco-7th-precourse-week2/63954b26-f775-4033-b46b-17db355fe275_image.png)
+![](/images/posts/wooteco-7th-precourse-week2/63954b26-f775-4033-b46b-17db355fe275_image.webp)
 
 마지막으로 생각하지 못했거나 놓쳤던 부분에 대한 피드백입니다. 다른 지원자분의 꼼꼼한 리뷰로 알 수 있게 되었습니다. 문제가 될 수 있는 부분을 보완하고, 제출 전 요구 사항을 다시 한번 검토하는 과정으로 실수를 줄이려고 했습니다.
 
@@ -95,7 +95,7 @@ tags: ["우아한테크코스", "프리코스", "회고록", "Backend", "Java"]
 
 저는 그동안 `구현할` 기능 목록을 작성할 때 미리 모든 상황을 꼼꼼히 고려해 설계한 후 그대로 따르는 방식을 선호했습니다. 그러나 예상보다 시간이 많이 소요되었고, 정해둔 틀에 갇혀 자유롭게 수정하기가 어렵다는 느낌을 받았습니다.
 
-![](/images/posts/wooteco-7th-precourse-week2/dc8bdf23-d614-4fd4-8772-741f23e3d1c5_image.png)
+![](/images/posts/wooteco-7th-precourse-week2/dc8bdf23-d614-4fd4-8772-741f23e3d1c5_image.webp)
 
 2주 차 공통 피드백에서 구현할 기능 목록을 죽은 문서가 아닌 살아있는 문서로 유지하도록 지속적인 업데이트가 필요하다는 피드백에 큰 공감을 했습니다.
 

@@ -77,11 +77,11 @@ names.add("홍길동");
 
 실제 **ArrayList** 구현 코드를 살펴볼게요.
 
-![](/images/posts/java-arraylist-growth/4dd1732b-c68f-422f-86ea-a00cc524e8d1_image.png)
+![](/images/posts/java-arraylist-growth/4dd1732b-c68f-422f-86ea-a00cc524e8d1_image.webp)
 
 `elementData`는 **ArrayList**가 데이터를 저장하는 실제 배열이에요. **ArrayList**가 관리하는 모든 요소는 이 배열에 저장돼요.
 
-![](/images/posts/java-arraylist-growth/d04e801d-f87b-4327-b48e-9c583398e05a_image.png)
+![](/images/posts/java-arraylist-growth/d04e801d-f87b-4327-b48e-9c583398e05a_image.webp)
 
 `new ArrayList<>();` 생성자로 **ArrayList**를 생성할 경우 `elementData`는 `DEFAULTCAPACITY_EMPTY_ELEMENTDATA`라는 빈 배열을 가리켜요. 즉, 실제로는 아직 배열이 할당되지 않은 상태에요.
 
@@ -115,7 +115,7 @@ public static void main(String[] args) {
 
 ### add() 메서드
 
-![](/images/posts/java-arraylist-growth/18962929-e97b-4b98-afac-6bceebf7894d_image.png)
+![](/images/posts/java-arraylist-growth/18962929-e97b-4b98-afac-6bceebf7894d_image.webp)
 
 - public으로 정의된 `add()` 메서드는 우리가 ArrayList에 새로운 요소를 추가할 때 사용해요.
 - private로 정의된 `add()` 메서드는 실제로 요소를 배열에 추가하고, 필요할 경우 배열의 크기를 조정해요.
@@ -124,7 +124,7 @@ public static void main(String[] args) {
 
 ### grow() 메서드
 
-![](/images/posts/java-arraylist-growth/53025079-9a6b-46d0-80fd-273293bc98ae_image.png)
+![](/images/posts/java-arraylist-growth/53025079-9a6b-46d0-80fd-273293bc98ae_image.webp)
 
 `minCapacity`는 배열이 확장된 후 최소로 가져야 하는 용량이에요.
 
@@ -175,7 +175,7 @@ public static void main(String[] args) {
 
 **ArrayList**를 default size인 10의 크기로 생성한 것과 1000만의 크기를 주고 생성한 것을 비교했어요.
 
-![](/images/posts/java-arraylist-growth/54b92d50-a749-4f6f-a5b9-fa2a93707cd8_image.png)
+![](/images/posts/java-arraylist-growth/54b92d50-a749-4f6f-a5b9-fa2a93707cd8_image.webp)
 
 10의 크기로 생성된 ArrayList는 계속해서 1.5배의 새로운 배열을 생성하고 복사하는 과정이 반복되기 때문에 크기를 미리 지정한 ArrayList가 더 빠른 것을 볼 수 있어요.
 
@@ -205,7 +205,7 @@ public static void main(String[] args) {
 
 실제로 소요 시간이 줄어든 것을 확인할 수 있어요. 
 
-![](/images/posts/java-arraylist-growth/18d7f514-4e3b-4b3f-a4b3-7568c65308f2_image.png)
+![](/images/posts/java-arraylist-growth/18d7f514-4e3b-4b3f-a4b3-7568c65308f2_image.webp)
 
 
 ### 동기화
@@ -253,7 +253,7 @@ public static void main(String[] args) {
 
 위 코드를 실행하면 실제로 `ConcurrentModificationException` 예외가 발생하는 것을 볼 수 있어요. **ArrayList**를 반복하는 과정에서 **ArrayList**의 구조가 변경되어 발생한 것이에요.
 
-![](/images/posts/java-arraylist-growth/3649e93a-67f6-4bed-a8a8-0b2a7cb948ff_image.png)
+![](/images/posts/java-arraylist-growth/3649e93a-67f6-4bed-a8a8-0b2a7cb948ff_image.webp)
 
 
 # 마무리

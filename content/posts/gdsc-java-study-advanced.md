@@ -23,7 +23,7 @@ GDSC 미니 스터디 `자바잡아` 심화반을 위한 자료에요.
 ## Generics
 제네릭은 아래와 같이 `일반적인` 이라는 뜻을 가지고 있어요.
 
-![generic 뜻](/images/posts/gdsc-java-study-advanced/530b2d34_image.png)
+![generic 뜻](/images/posts/gdsc-java-study-advanced/530b2d34_image.webp)
 
 자바에서 제네릭이란 `데이터의 타입을 일반화한다.` 라고 말할 수 있어요. 더 자세히 설명하면, 제네릭은 클래스 내부에서 지정하는 것이 아닌 외부에서 사용자에 의해 지정되는 것을 말해요.
 
@@ -172,7 +172,7 @@ Collection 인터페이스를 사용하는 이유는 다음과 같아요.
 - `강력함` : 이미 수많은 사용으로 검증되었으며, 고도로 최적화되어 있어요.
 
 ### 구조
-![Collection 구조](/images/posts/gdsc-java-study-advanced/63049407_image.png)
+![Collection 구조](/images/posts/gdsc-java-study-advanced/63049407_image.webp)
 
 Collection은 대표적인 인터페이스를 알아볼게요.
 - `List` : 목록에서 각 요소가 삽입되는 위치를 정확하게 제어할 수 있는 순서가 지정된 컬렉션이에요. (시퀀스라고도 해요.)

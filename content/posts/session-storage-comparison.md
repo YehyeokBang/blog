@@ -81,13 +81,13 @@ spring:
 
 의존성을 추가하고 아래의 설정을 추가하면 바로 테스트를 진행할 수 있어요. 간단히 만든 로그인 기능을 실행하고 저장된 세션 정보를 살펴보면 아래와 같아요. (MySQL을 사용했어요.)
 
-![](/images/posts/session-storage-comparison/37f8c8e3-b754-49d9-8a9f-99db8b500651_image.png)
+![](/images/posts/session-storage-comparison/37f8c8e3-b754-49d9-8a9f-99db8b500651_image.webp)
 
 세션 저장을 위한 테이블이 자동으로 생성되어 저장되는 것을 볼 수 있어요.
 
 생각보다 구성은 어렵지 않은 편이지만, 하드 디스크에 저장하는 데이터베이스 특성상 메모리에 저장하는 방식들보단 시간이 오래 걸려요. 정확한 지표가 될 순 없겠지만, 실제로 여러 번 요청을 테스트해본 결과에요.
 
-![](/images/posts/session-storage-comparison/d2234c23-cb48-4f56-8dac-b649482a35a1_image.png)
+![](/images/posts/session-storage-comparison/d2234c23-cb48-4f56-8dac-b649482a35a1_image.webp)
 
 
 로그인 과정 마지막에 생성된 세션을 저장소에 저장하는 코드가 있는데, 톰캣 서버에 세션을 저장하는 방식은 메모리 기반이기 때문에 비교적 빨리 write 되어 응답 속도에 차이가 있어요.
@@ -146,11 +146,11 @@ server:
 
 > 참고: [Spring Session Redis - Spring Docs](https://docs.spring.io/spring-session/reference/guides/boot-redis.html)
 
-![](/images/posts/session-storage-comparison/98de45e0-8e62-4e4f-8eb0-04872aed5817_image.png)
+![](/images/posts/session-storage-comparison/98de45e0-8e62-4e4f-8eb0-04872aed5817_image.webp)
 
 의존성을 변경하고 `application.yml` 설정 값을 추가해주면, 바로 사용할 수 있어요. (Redis는 직접 구동해야 해요.)
 
-![](/images/posts/session-storage-comparison/5bd4b352-efe6-4407-b1df-f2f013c52a4a_image.png)
+![](/images/posts/session-storage-comparison/5bd4b352-efe6-4407-b1df-f2f013c52a4a_image.webp)
 
 데이터베이스 저장 방식보다 확실히 평균 응답 속도가 빨라진 것을 볼 수 있어요.
 
@@ -165,7 +165,7 @@ server:
 
 ## 데이터 불일치 상황
 
-![](/images/posts/session-storage-comparison/aa20af05-3951-4faa-a7b0-660a7f657608_image.png)
+![](/images/posts/session-storage-comparison/aa20af05-3951-4faa-a7b0-660a7f657608_image.webp)
 
 각 서버마다 세션 저장소가 존재하는 경우 위와 같은 상황이 발생할 수 있어요. (편의를 위해 간단하게 그렸어요.)
 
@@ -189,7 +189,7 @@ server:
 
 위에서 살펴본 상황처럼 `Server 1` 에서 로그인하고 `Server 2` 에서 다른 요청을 보내면, 세션 정보가 없어 인증에 실패할테니 그냥 처음 정해진 서버인 `Server 1` 로 계속 요청을 보내는 것을 말해요. (너의 세션은 저기 저장되어 있으니 저기로 가라. `반복` )
 
-![](/images/posts/session-storage-comparison/aa0bd600-d5c9-4013-ba7a-d8905c7fcdd8_image.png)
+![](/images/posts/session-storage-comparison/aa0bd600-d5c9-4013-ba7a-d8905c7fcdd8_image.webp)
 
 각 클라이언트가 보낸 요청들을 리버스 프록시가 받으면, 요청을 보낸 사용자의 IP 주소나 쿠키로부터 어떤 서버에 고정되어 있는지 확인한 후, 해당 요청을 지정된 서버로 보내요. 따라서, 사용자는 세션이 유지되는 동안에는 같은 서버로 요청을 주고 받기 때문에 데이터 불일치가 발생하지 않아요.
 
@@ -208,15 +208,15 @@ server:
 
 톰캣은 각 서버에서 생성된 모든 세션 정보들을 클러스터로 묶인 모든 서버에 복제하는 `all-to-all 세션 복제 방식`을 사용하고 있어요. 이 방식을 기준으로 한번 살펴볼게요.
 
-![](/images/posts/session-storage-comparison/b086e0f1-28bc-468a-887a-7733b574f766_image.png)
+![](/images/posts/session-storage-comparison/b086e0f1-28bc-468a-887a-7733b574f766_image.webp)
 
 사용자가 로그인을 하면 새로운 세션을 생성하고 응답해요.
 
-![](/images/posts/session-storage-comparison/011c6922-2700-4bfb-8819-d823f1a3269d_image.png)
+![](/images/posts/session-storage-comparison/011c6922-2700-4bfb-8819-d823f1a3269d_image.webp)
 
 이처럼 새로 세션이 생성되었거나 세션 정보가 변경될 때마다 모든 서버에 복제해요.
 
-![](/images/posts/session-storage-comparison/59f4b978-e2eb-4b8c-ad5a-0e97d3daa5f0_image.png)
+![](/images/posts/session-storage-comparison/59f4b978-e2eb-4b8c-ad5a-0e97d3daa5f0_image.webp)
 
 따라서 모든 서버가 일관성있는 세션 정보를 가지고 있을 수 있어요. 그렇다는 것은 다른 서버로 요청이 전송되더라도 로그인을 다시 할 필요없이 계속해서 서비스를 이용할 수 있다는 말이에요.
 
@@ -241,7 +241,7 @@ server:
 
 각 서버 메모리에 세션을 저장하는 톰캣 기본 방식과 달리 세션 저장소를 분리하는 방식이에요. 앞에서 세션 저장소 유형에서 살펴봤던 데이터베이스나 인-메모리 데이터베이스를 사용하는 것이 세션 저장소를 분리했다고 말할 수 있어요.
 
-![](/images/posts/session-storage-comparison/d1c0f564-60b8-411d-84c7-7d1ff2bba4c7_image.png)
+![](/images/posts/session-storage-comparison/d1c0f564-60b8-411d-84c7-7d1ff2bba4c7_image.webp)
 
 `Sticky Session` 방법처럼 특정 세션이 서버에 바인딩 되지 않으면서 데이터 불일치 문제를 해결할 수 있어요. 또한, 데이터 정합성을 위해 `Session Clustering` 방법처럼 세션을 복제할 필요가 없어요. (모두가 같은 곳에서 세션을 조회하기 때문이에요.)
 

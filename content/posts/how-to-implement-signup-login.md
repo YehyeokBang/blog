@@ -24,7 +24,7 @@ tags: ["Backend", "Authentication", "UX"]
 
 직접 아이디와 비밀번호, 선택적으로 입력 가능한 개인정보 등을 입력하여 회원으로 등록한 후 가입된 계정으로 로그인하여 서비스를 이용하는 방법이에요. 어디서나 쉽게 볼 수 있었던 가입 방법이에요. 아래는 네이버 회원 가입 과정을 캡쳐한 것이에요.
 
-![](/images/posts/how-to-implement-signup-login/35818bb8-9016-45a8-ae61-5b8f72f3aab0_image.png)
+![](/images/posts/how-to-implement-signup-login/35818bb8-9016-45a8-ae61-5b8f72f3aab0_image.webp)
 
 사진에서 볼 수 있듯이 회원가입을 진행하면 약관에 동의해야 하며, 휴대전화 인증 등의 번거로운 과정을 거쳐야 해요. 추가적으로 보안성 문제를 이유로 비밀번호를 어렵게 만들기를 권장하고 있어요. 덕분에 로그인 할 때 비밀번호를 까먹고 재설정하는 경험을 겪어본 적이 있을 거에요. 또한 사용자들은 우리 서비스 외에도 다양한 서비스에 회원으로 가입되어 있기 때문에 이를 기억하기는 더더욱 쉽지 않아요.
 
@@ -51,7 +51,7 @@ SNS 계정을 통한 회원가입 및 로그인은 사용자 입장에서 반복
 
 저도 SNS 계정을 통해 서비스를 이용하는 빈도가 늘어났어요. 이유는 번거로운 회원가입 과정과 계정을 직접 기억하고 있어야 되기 때문이에요. 물론 기기 내부에 계정을 저장해두고 인증(Face ID, 지문 인식 등)을 통해 쉽게 로그인할 수 있지만, 자주 사용하는 계정(구글, 카카오 등)으로 쉽게 로그인 하는 과정이 더욱 간편하기 때문에 많이 사용했던 것 같아요.
 
-![](/images/posts/how-to-implement-signup-login/6f5f953c-209a-430e-a036-aed6cfeb586b_image.png)
+![](/images/posts/how-to-implement-signup-login/6f5f953c-209a-430e-a036-aed6cfeb586b_image.webp)
 
 위 이미지는 대한항공 사이트의 로그인 화면이에요. 이처럼 요즘은 다양한 곳에서 SNS 계정을 통한 회원가입 및 로그인을 제공하고 있어요.
 
@@ -65,7 +65,7 @@ SNS 계정을 통한 회원가입 및 로그인은 사용자 입장에서 반복
 
 ### 그럼 당연히 이거 아냐?
 
-![](/images/posts/how-to-implement-signup-login/58705521-cda4-46c4-8ace-d9431ae09c3e_image.png)
+![](/images/posts/how-to-implement-signup-login/58705521-cda4-46c4-8ace-d9431ae09c3e_image.webp)
 
 - [자료 출처](https://cuk.or.kr/information/01_view.asp?no=872)
 
@@ -114,7 +114,7 @@ SNS 계정을 통한 회원가입의 경우 사용자가 직접 계정을 기억
 
 서버는 제공받은 사용자의 정보를 토대로 가입 여부를 확인하여 로그인 또는 회원가입 과정을 진행해야 해요.
 
-![](/images/posts/how-to-implement-signup-login/70c1d228-a7e8-4edb-b39e-1ac0b73b6a43_image.png)
+![](/images/posts/how-to-implement-signup-login/70c1d228-a7e8-4edb-b39e-1ac0b73b6a43_image.webp)
 
 ## 흐름
 
@@ -122,7 +122,7 @@ SNS 계정을 통한 회원가입의 경우 사용자가 직접 계정을 기억
 
 즉, 서비스를 개발한다면 미리 준비된 로그인 화면, SNS 플랫폼과 협동할 서버, DB, 별도 서비스 로그인 방법(JWT, 세션 쿠키 등) 등을 직접 구현해야 해요.
 
-![](/images/posts/how-to-implement-signup-login/67f2d66e-604a-4e90-b402-de335d54f081_image.png)
+![](/images/posts/how-to-implement-signup-login/67f2d66e-604a-4e90-b402-de335d54f081_image.webp)
 
 ## 사용자 정보 저장 방법
 
@@ -159,7 +159,7 @@ SNS 계정을 통한 회원가입의 경우 사용자가 직접 계정을 기억
 
 각 가입 경로마다 별도로 관리하는 경우 사용자가 어떤 SNS 계정을 사용했는지 기억해야 하는 단점이 있어요. 하지만 이는 [관련 포스팅](https://brunch.co.kr/@toqha7822/7)에서 다룬 방식을 활용하면 사용성이 더 좋아질 것 같아요. 추가로 인프런에서는 최근에 로그인 시 사용한 SNS 계정을 표시하여 알려주기도 해요.
 
-![](/images/posts/how-to-implement-signup-login/6f131dbb-1c60-4c33-b3a1-8b4cf04f23b4_image.png)
+![](/images/posts/how-to-implement-signup-login/6f131dbb-1c60-4c33-b3a1-8b4cf04f23b4_image.webp)
 
 
 ### 일반 로그인 기반에 소셜 인증

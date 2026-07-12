@@ -5,7 +5,7 @@ summary: "2023년 한 해 동안 참여했던 GDSC 멤버 및 코어 활동, 멘
 tags: ["Retrospective", "GDSC", "Mentoring", "Growth"]
 ---
 
-![나이 한 살 택배](/images/posts/2023-retrospective/d7a8d53d-9f04-4fd2-b5a2-9f9dd9512392_image.png)
+![나이 한 살 택배](/images/posts/2023-retrospective/d7a8d53d-9f04-4fd2-b5a2-9f9dd9512392_image.webp)
 
 # 2023 돌아보기
 나는 올해 꽤나 성장한 것 같다고 느낀다. 그럴 수밖에 없는게. 백엔드 개발을 2022년도 하반기부터 시작했기에 아직 성장할 부분이 많아서 그런다고 생각한다. 지난 경험들을 돌아보며 더 나아질 수 있거나 보완할 수 있는 것들을 찾아서 더 나은 개발자가 되려고 노력해보자.
@@ -16,15 +16,15 @@ tags: ["Retrospective", "GDSC", "Mentoring", "Growth"]
 그렇게 시간이 지나 나는 교내 `Google Developer Student Clubs(이하 GDSC)` 모집 공고를 보게 되었다. 여러 선배 개발자들과의 만남, 해커톤, 프로젝트 경험을 할 수 있다고 적혀 있었다. 이전 프로젝트를 실패했던 경험의 이유도 듣고 싶었고, 프로젝트를 완성하고 싶은 마음도 있었다. 그렇게 나는 `Backend 파트`를 지원했다. 이유는 전 프로젝트에서 Firebase를 이용해 데이터를 저장하고 조회하는 기능을 개발할 때 더 배우고 싶다고 생각했고, 뒤에서 묵묵히 자기 할 일을 하는 형태도 내 성격과 잘 맞는다고 생각해서 지원했고, 면접까지 합격하여 활동하게 되었다.
 
 
-![](/images/posts/2023-retrospective/b3f33976-c76a-4fd7-9025-c4a5698e9f1f_image.png)
+![](/images/posts/2023-retrospective/b3f33976-c76a-4fd7-9025-c4a5698e9f1f_image.webp)
 
 Job Fair에 참여해서 여러 기업의 설명회를 들을 수 있었다.
 
-![](/images/posts/2023-retrospective/cf9a84d2-db1f-49fc-a12a-9fdfb4fcdc6a_image.png)
+![](/images/posts/2023-retrospective/cf9a84d2-db1f-49fc-a12a-9fdfb4fcdc6a_image.webp)
 
 2주간 진행한 첫 미니 프로젝트! 우리 팀이 원하던 기능과 웹, 모바일과의 API 연결까지 성공하여 1등을 수상할 수 있었다.
 
-![해커톤](/images/posts/2023-retrospective/f59263ef-8284-4a4a-8b24-f83cec1bab9c_image.png)
+![해커톤](/images/posts/2023-retrospective/f59263ef-8284-4a4a-8b24-f83cec1bab9c_image.webp)
 
 해커톤에 참여하여 뀰잼 상도 수상했고
 
@@ -38,7 +38,7 @@ GDSC 활동을 하면서 되게 많은 경험을 했다. 짧은 시간동안 많
 ## 2. 멘토링 활동
 [경험 공유 포스팅](https://velog.io/@hyeok_1212/%EA%B2%BD%ED%97%98%EA%B3%B5%EC%9C%A0) 이미 작성한 적 있는 내용이지만, 간단하게 설명하면 교내 멘토링 프로그램에서 멘토로 활동하여 많은 부분을 느꼈다는 내용이다.
 
-![](/images/posts/2023-retrospective/03555f8a-33e3-41b6-8323-0dfec4396b33_image.png)
+![](/images/posts/2023-retrospective/03555f8a-33e3-41b6-8323-0dfec4396b33_image.webp)
 
 ### 돌아보기
 내가 잘했던 과목이니 내가 잘 알려줄 수 있을 것 같다고 생각하고 참여했다. 하지만 내가 잘하는 것과 알려주는 것은 매우 달랐다. 그래서 여러 시행 착오를 거치고 이미 효과가 있다고 보여지는 여러 학습 모델을 멘토링에 적용시켜보는 경험을 했다. 이처럼 지식 외의 여러 교수 기술이나 커뮤니케이션 기술을 배우고 싶다는 생각이 들었다.
@@ -50,7 +50,7 @@ GDSC 활동을 하면서 되게 많은 경험을 했다. 짧은 시간동안 많
 지금은 GDSC 다음 기수의 코어(운영진)으로 활동하고 있다.
 ![](/images/posts/2023-retrospective/e980aa15-7218-4ffe-ad9a-9c2b96bc3172_image.jpeg)
 
-![](/images/posts/2023-retrospective/e3f27dce-0b22-4daa-bf6c-27b3ac9adf6c_image.png)
+![](/images/posts/2023-retrospective/e3f27dce-0b22-4daa-bf6c-27b3ac9adf6c_image.webp)
 
 나는 멤버들의 성장을 위해 여러 강의를 준비하고 진행했다. 
 [초심자 깃허브 강의](https://github.com/YehyeokBang/git_pr_test)
@@ -70,7 +70,7 @@ GDSC 활동을 하면서 되게 많은 경험을 했다. 짧은 시간동안 많
 
 ## 4. 잔디 심기
 
-![](/images/posts/2023-retrospective/70cdc02e-617b-4182-9286-35773587fcab_image.png)
+![](/images/posts/2023-retrospective/70cdc02e-617b-4182-9286-35773587fcab_image.webp)
 
 ### 돌아보기
 엄청난 것은 아니지만, 어느정도 잔디가 심어지니 무엇이라도 기록하고 남기려는 습관이 생긴 것 같다. 앞으로도 나의 배움을 기록하고 돌아보는 습관을 유지하기 위해 노력할 것 같다.

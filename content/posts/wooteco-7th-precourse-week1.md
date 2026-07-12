@@ -24,13 +24,13 @@ tags: ["우아한테크코스", "프리코스", "회고록", "Backend", "Java"]
 
 위 요구 사항을 보고, 커스텀 구분자에 대한 규칙을 미리 정해두는 것이 추후 변경을 줄이는 데 도움이 될 것이라 판단했습니다. 여러 경우의 수를 고려하여 다음과 같은 규칙을 세웠습니다.
 
-![](/images/posts/wooteco-7th-precourse-week1/99a1dd1f-3d23-4e82-8cfd-ef612d3eea7c_image.png)
+![](/images/posts/wooteco-7th-precourse-week1/99a1dd1f-3d23-4e82-8cfd-ef612d3eea7c_image.webp)
 
 구분자는 단일 문자만 사용할 수 있으며, 수학적 기호는 제외하도록 했습니다. 
 
 수학적 기호를 배제한 이유는 문자열 덧셈 계산기라는 특성 때문입니다. 예를 들어, `"5-2"`라는 문자열을 입력하면 뺄셈을 기대할 수 있지만, 실제 계산 결과는 7이 나와 혼란을 줄 수 있습니다. 이러한 혼동을 방지하기 위해 널리 사용되는 수학적 기호들은 커스텀 구분자에서 제외하는 규칙을 세웠습니다.
 
-![](/images/posts/wooteco-7th-precourse-week1/9a02b71a-662a-4ab9-b17a-e63303b8293d_image.png)
+![](/images/posts/wooteco-7th-precourse-week1/9a02b71a-662a-4ab9-b17a-e63303b8293d_image.webp)
 
 
 구분자는 단일 문자로 타입이 같고, 카테고리컬하게 묶을 수 있는 특성을 활용하기 위해 enum으로 관리하도록 했습니다.
@@ -42,7 +42,7 @@ tags: ["우아한테크코스", "프리코스", "회고록", "Backend", "Java"]
 ## 프로젝트 구조
 1주 차 `문자열 덧셈 계산기` 미션을 진행하며, 저는 "객체지향은 실제 사물의 동작을 모방하는 것"이라고 생각했습니다. 그래서 일상에서 볼 수 있는 `진짜 계산기`를 참고하여 구현했습니다.
 
-![](/images/posts/wooteco-7th-precourse-week1/402bcb49-658f-44bf-8359-d2500f35c87c_image.png)
+![](/images/posts/wooteco-7th-precourse-week1/402bcb49-658f-44bf-8359-d2500f35c87c_image.webp)
 
 ```bash
 project/
@@ -91,7 +91,7 @@ project/
 
 ## 매일 기록
 
-![](/images/posts/wooteco-7th-precourse-week1/31ac6437-612c-400a-aa77-b3dee1a2869c_image.png)
+![](/images/posts/wooteco-7th-precourse-week1/31ac6437-612c-400a-aa77-b3dee1a2869c_image.webp)
 
 매일 학습 내용을 기록하는 이유는 두 가지입니다. 
 
@@ -107,7 +107,7 @@ project/
 
 이러한 목표를 가진 저에게는 더 나은 피드백을 받는 것이 중요했습니다. `가는 말이 고와야 오는 말이 곱다`는 속담처럼, 제가 작성한 코드의 의도를 명확히 전달해야 더 깊고 유의미한 피드백을 받을 수 있을 것이라 생각했습니다. 이를 위해 PR 페이지에 의도를 작성하거나, 메서드명을 명확하고 통일성 있게 작성하려고 노력했습니다.
 
-![](/images/posts/wooteco-7th-precourse-week1/8eb41b47-4650-4a8b-a11c-38b24315df2d_image.png)
+![](/images/posts/wooteco-7th-precourse-week1/8eb41b47-4650-4a8b-a11c-38b24315df2d_image.webp)
 
 이후 프리코스 커뮤니티의 `서로 리뷰하기` 채널에 홍보하고, 깊고 의미있는 피드백을 주고받을 수 있었습니다.
 

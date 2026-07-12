@@ -20,7 +20,7 @@ tags: ["HTTP", "REST", "Backend", "DELETE"]
 
 # DELETE 메서드
 
-![HTTP Method](/images/posts/resource-delete-response/00be2618-9c45-4ff2-94e3-ee9f2121bb18_image.png)
+![HTTP Method](/images/posts/resource-delete-response/00be2618-9c45-4ff2-94e3-ee9f2121bb18_image.webp)
 
 - [이미지 출처](https://en.wikipedia.org/wiki/HTTP)
 
@@ -103,11 +103,11 @@ DELETE는 기본적으로 데이터가 변경(삭제) 되는 메서드이기 때
 
 물리적 삭제는 우리가 기본적으로 삭제한다는 말을 들을 때 생각할 수 있는 방식이에요.
 
-![물리적 삭제 예시](/images/posts/resource-delete-response/c1a58277-fb59-4417-a024-ea1c8e341785_image.png)
+![물리적 삭제 예시](/images/posts/resource-delete-response/c1a58277-fb59-4417-a024-ea1c8e341785_image.webp)
 
 위와 같이 주문(Orders) 테이블이 구성되어 있어요. 물리적 삭제로 구현한다면, 홍길동님이 멋진 키보드를 주문한 내용을 삭제할 때, 아래와 같이 실제로 레코드가 데이터베이스에서 제거돼요.
 
-![물리적 삭제 예시](/images/posts/resource-delete-response/2ea69e7c-aa8c-4804-8c01-e1b94216fd61_image.png)
+![물리적 삭제 예시](/images/posts/resource-delete-response/2ea69e7c-aa8c-4804-8c01-e1b94216fd61_image.webp)
 
 물리적 삭제의 장단점은 아래와 같아요.
 
@@ -125,7 +125,7 @@ DELETE는 기본적으로 데이터가 변경(삭제) 되는 메서드이기 때
 
 논리적 삭제는 앞서 말한 것처럼 삭제 여부라는 이름으로 새로운 컬럼을 추가하고 실제 삭제 여부를 값으로 표현하는 방식이에요.
 
-![논리적 삭제 예시](/images/posts/resource-delete-response/61c013dd-cdfe-4256-b338-4b201a20ab48_image.png)
+![논리적 삭제 예시](/images/posts/resource-delete-response/61c013dd-cdfe-4256-b338-4b201a20ab48_image.webp)
 
 같은 Orders 테이블에 `is_deleted` 라는 컬럼을 추가했어요. false라면 아직 삭제되지 않은 레코드, 반대로 true라면 삭제된 레코드를 의미해요. 따라서 논리적 삭제로 멋진 키보드 주문을 삭제한다면 아래와 같이 테이블이 변경돼요.
 
@@ -136,7 +136,7 @@ SET is_deleted = TRUE
 WHERE order_id = 1;
 ```
 
-![논리적 삭제 예시](/images/posts/resource-delete-response/82476e9c-5f18-4f48-8e6b-4859853cfad5_image.png)
+![논리적 삭제 예시](/images/posts/resource-delete-response/82476e9c-5f18-4f48-8e6b-4859853cfad5_image.webp)
 
 
 그렇다면 왜 실제로 삭제하는 물리적 삭제 대신에 논리적 삭제를 사용할까요? 삭제될 레코드(데이터)가 `보존 가치`가 있을 때 논리적 삭제를 사용해요. 예시를 보면 더욱 이해하기 쉬울 거에요.
@@ -181,7 +181,7 @@ WHERE order_id = 1;
 ### Soft Delete 다양한 지원
 - Spring Data JPA를 사용하는 경우 [`@SQLDelete`, `@Where`](https://www.baeldung.com/spring-jpa-soft-delete) 어노테이션들을 사용하여 논리적 삭제의 단점인 매번 삭제 여부 관련 조건절을 추가해야 하는 불편함도 약간 줄일 수 있을 것 같아요.
 
-![gorm soft delete](/images/posts/resource-delete-response/206fbd74-7074-4e0f-8dcd-bfa81ef2b13f_image.png)
+![gorm soft delete](/images/posts/resource-delete-response/206fbd74-7074-4e0f-8dcd-bfa81ef2b13f_image.webp)
 
 - Go의 ORM인 Gorm에서도 [Soft Delete](https://gorm.io/docs/delete.html#Soft-Delete)를 지원해요. (삭제 여부가 boolean 필드가 아닌 DeletedAt 필드에 삭제 시간이 기록돼요.)
 
@@ -255,7 +255,7 @@ WHERE order_id = 1;
 
 [RFC9110-DELETE](https://datatracker.ietf.org/doc/html/rfc9110#name-delete)를 번역해가면서 읽어봤어요.
 
-![rfc9110-delete](/images/posts/resource-delete-response/c12a64d8-9934-44f7-9f0f-e6586532350e_image.png)
+![rfc9110-delete](/images/posts/resource-delete-response/c12a64d8-9934-44f7-9f0f-e6586532350e_image.webp)
 
 DELETE 메서드가 성공적으로 적용된 경우 아래의 상태 코드를 사용한다고 해요.
 

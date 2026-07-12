@@ -16,7 +16,7 @@ GDSC 서버 파트의 스터디를 위한 자료에요.
 
 ## OAuth
 
-![](/images/posts/gdsc-oauth2-tutorial/61a58dcd-07ff-4615-b43b-1e4dcd8a5679_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/61a58dcd-07ff-4615-b43b-1e4dcd8a5679_image.webp)
 
 - [출처](https://king-ja.tistory.com/87)
 
@@ -25,31 +25,31 @@ GDSC 서버 파트의 스터디를 위한 자료에요.
 
 먼저 [Google Cloud Platform](https://console.cloud.google.com/welcome)에서 새 프로젝트를 만들어요.
 
-![](/images/posts/gdsc-oauth2-tutorial/d9773b2c-045a-488b-979b-1b5da6311489_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/d9773b2c-045a-488b-979b-1b5da6311489_image.webp)
 
-![](/images/posts/gdsc-oauth2-tutorial/dddf7463-16ee-4547-817b-1dd749b55bfd_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/dddf7463-16ee-4547-817b-1dd749b55bfd_image.webp)
 
 오른쪽 상단에서 생성된 것을 확인할 수 있어요.
-![](/images/posts/gdsc-oauth2-tutorial/c88c4b7a-bdf9-4d15-9e44-bc2cea11081b_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/c88c4b7a-bdf9-4d15-9e44-bc2cea11081b_image.webp)
 
 만든 프로젝트에서 사용자 인증 정보를 선택해요.
-![](/images/posts/gdsc-oauth2-tutorial/5f0114df-5742-4a2e-9bdb-0ad0f4bbb606_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/5f0114df-5742-4a2e-9bdb-0ad0f4bbb606_image.webp)
 
 사용자 인증 정보 만들기 -> OAuth 클라이언트 ID를 선택해요.
-![](/images/posts/gdsc-oauth2-tutorial/13e0cef1-c422-42a0-9948-16015bdfb31b_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/13e0cef1-c422-42a0-9948-16015bdfb31b_image.webp)
 
-![](/images/posts/gdsc-oauth2-tutorial/0bdda463-ce77-4481-9e74-afc9a3276a93_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/0bdda463-ce77-4481-9e74-afc9a3276a93_image.webp)
 
 User Type은 `External` 을 사용해요.
-![](/images/posts/gdsc-oauth2-tutorial/f18a4fa0-6051-45ef-9b52-5caf5577eb72_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/f18a4fa0-6051-45ef-9b52-5caf5577eb72_image.webp)
 
-![](/images/posts/gdsc-oauth2-tutorial/db070522-8dd5-4b4e-be7b-374bc90e3c7d_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/db070522-8dd5-4b4e-be7b-374bc90e3c7d_image.webp)
 
 이후 테스트 사용자에 본인 이메일만 추가하고 계속 진행하고 완료되면 다시 OAuth 클라이언트 ID를 선택해요.
 
-![](/images/posts/gdsc-oauth2-tutorial/c5671f7d-a35c-4a1d-b3d9-0fbd3be9168c_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/c5671f7d-a35c-4a1d-b3d9-0fbd3be9168c_image.webp)
 
-![](/images/posts/gdsc-oauth2-tutorial/8544f15b-4546-40f8-b3d6-1f76be39ce2d_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/8544f15b-4546-40f8-b3d6-1f76be39ce2d_image.webp)
 
 만들면 `client_id` 값을 알 수 있어요.
 ```
@@ -60,9 +60,9 @@ curl -X GET "https://accounts.google.com/o/oauth2/v2/auth?client_id=<client_id>&
 ## 프로젝트 만들기
 
 다음과 같이 프로젝트를 생성했어요.
-![](/images/posts/gdsc-oauth2-tutorial/783262ef-c234-452b-b4b4-87cacfe51809_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/783262ef-c234-452b-b4b4-87cacfe51809_image.webp)
 
-![](/images/posts/gdsc-oauth2-tutorial/af425ffd-60ac-471a-9ba5-e6ddd1db725e_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/af425ffd-60ac-471a-9ba5-e6ddd1db725e_image.webp)
 
 추가로 JWT와 JSON 관련 의존성을 추가해야 해요. `build.gradle` 에 추가해요.
 추가하고 꼭 적용을 시켜줘야 해요.
@@ -82,7 +82,7 @@ dependencies {
 
 우리는 별도로 라이브러리를 설치하지 않아도 돼요.
 
-![](/images/posts/gdsc-oauth2-tutorial/e9a209da-d430-4a40-9e62-fec79efc3c90_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/e9a209da-d430-4a40-9e62-fec79efc3c90_image.webp)
 
 
 아래의 코드는 구글 로그인을 통해 사용자의 정보를 구글로부터 가져오는 방법이에요. 코드만 살펴볼게요.
@@ -157,19 +157,19 @@ public class AuthService {
 
 ## 테스트 해보기
 
-![](/images/posts/gdsc-oauth2-tutorial/50c58126-591f-4f5b-9e8f-a97d22958180_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/50c58126-591f-4f5b-9e8f-a97d22958180_image.webp)
 
 로그인을 하면 스프링 부트로 만들어둔 API가 작동하여 AccessToken을 발견할 수 있어요.
 
 이제 그 AccessToken으로 구글에 접근하여 로그인한 유저의 정보를 가져올 수 있어요.
 
-![](/images/posts/gdsc-oauth2-tutorial/d91df3d9-3bd9-4427-9c17-7398142da103_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/d91df3d9-3bd9-4427-9c17-7398142da103_image.webp)
 
 id, 이름 등의 유저 정보를 가져왔어요.
 
 추가로 구글 로그인한 사용자의 이메일을 사용하기 위해서는 범위를 추가해야 해요.
 
-![](/images/posts/gdsc-oauth2-tutorial/6b52e75b-7999-41c2-866c-15ce1b16bb31_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/6b52e75b-7999-41c2-866c-15ce1b16bb31_image.webp)
 
 </br>
 
@@ -554,15 +554,15 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 자신의 클라이언트 아이디를 넣고 실행하면 다음과 같이 구글 로그인 화면을 볼 수 있어요.
 
-![](/images/posts/gdsc-oauth2-tutorial/473749c8-1ed9-43d4-92ba-29da35283454_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/473749c8-1ed9-43d4-92ba-29da35283454_image.webp)
 
 자신의 아이디로 로그인하면 스프링 서버에서 사용하는 AccessToken을 받을 수 있어요.
 
-![](/images/posts/gdsc-oauth2-tutorial/70b9c3d2-9a05-4cb7-828c-9cedb9692996_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/70b9c3d2-9a05-4cb7-828c-9cedb9692996_image.webp)
 
 Postman을 사용하여 "/test" API를 실행하면 자신의 정보를 조회할 수 있어요. (회원가입이 진행되면서 유저 정보가 저장됐어요.)
 
-![](/images/posts/gdsc-oauth2-tutorial/9c8d88d4-aa72-4e2b-bcd2-bcbde8065a90_image.png)
+![](/images/posts/gdsc-oauth2-tutorial/9c8d88d4-aa72-4e2b-bcd2-bcbde8065a90_image.webp)
 
 사용자의 아이디와 비밀번호를 직접 암호화하거나 가지고 있지 않아도 로그인을 구현할 수 있어요.
 

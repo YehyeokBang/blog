@@ -15,7 +15,7 @@ tags: ["Retrospective", "Study", "HTTP", "Growth"]
 
 ## 책으로 공부하기
 
-![](/images/posts/http-study-retrospective/92c89d31-9492-45db-899d-d1d191321527_image.png)
+![](/images/posts/http-study-retrospective/92c89d31-9492-45db-899d-d1d191321527_image.webp)
 
 여러 영상과 게시글에서 `HTTP 완벽 가이드` 책을 추천해주셨다. 나온지 오래된 책이지만, HTTP 개념이 크게 바뀐 것은 없어서 기본기를 공부할 때 전혀 무리가 없으며, 후기도 좋아서 책을 구매하려고 했다.
 
@@ -27,7 +27,7 @@ tags: ["Retrospective", "Study", "HTTP", "Growth"]
 
 여러 강의를 비교하다가 한국 JPA의 아버지라고 불리는 김영한님의 [모든 개발자를 위한 HTTP 웹 기본 지식](https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC) 강의를 찾았다. 수강생이 많고 후기가 좋은 것도 믿을만 했고, 수강 목표가 제일 마음에 들었다.
 
-![](/images/posts/http-study-retrospective/3144ee95-e6ec-4382-9a62-d1f57934fe04_image.png)
+![](/images/posts/http-study-retrospective/3144ee95-e6ec-4382-9a62-d1f57934fe04_image.webp)
 
 나에게 `알맞은 학습량`이라는 키워드는 책보단 짧은 학습 시간으로 느껴졌고, `전체 흐름+원리` 키워드는 HTTP를 처음 공부하겠다고 생각한 나에게 적합하다고 생각했다. 결국 해당 강의를 구매하기로 결정했다.
 
@@ -59,7 +59,7 @@ tags: ["Retrospective", "Study", "HTTP", "Growth"]
 
 외에도 매력적인 스터디로 만들기 위해 약간의 ~~어필~~을 첨가했다.
 
-![](/images/posts/http-study-retrospective/09687284-e6c1-4c7c-8055-fca9b941c43d_image.png)
+![](/images/posts/http-study-retrospective/09687284-e6c1-4c7c-8055-fca9b941c43d_image.webp)
 
 ### 모집 대상
 
@@ -85,7 +85,7 @@ tags: ["Retrospective", "Study", "HTTP", "Growth"]
 
 ### 모집 폼
 
-![](/images/posts/http-study-retrospective/e94687e9-3f01-4f4a-8f5b-be49a3285c6a_image.png)
+![](/images/posts/http-study-retrospective/e94687e9-3f01-4f4a-8f5b-be49a3285c6a_image.webp)
 
 신청을 위한 구글 폼이다. 스터디를 진행할 때 강의 형식을 채택할 예정이었기 때문에 참여자분들이 얼마나 HTTP를 알고있는가?가 중요하다고 생각했다. 그래서 **검색 없이** 입력해달라고 부탁드렸다.
 
@@ -106,11 +106,11 @@ tags: ["Retrospective", "Study", "HTTP", "Growth"]
 
 대부분은 강의 형태로 진행했다. 분량은 키노트 50~70장 정도이다.
 
-![](/images/posts/http-study-retrospective/1014a27f-dc50-4da0-a46c-94b943cd9a29_image.png)
+![](/images/posts/http-study-retrospective/1014a27f-dc50-4da0-a46c-94b943cd9a29_image.webp)
 
 쉽게 이해할 수 있도록 예시를 많이 준비했었다.
 
-![](/images/posts/http-study-retrospective/cd5b94c1-5475-4688-bb7b-b82fbcab1f71_image.png)
+![](/images/posts/http-study-retrospective/cd5b94c1-5475-4688-bb7b-b82fbcab1f71_image.webp)
 
 `리마인드` 시간을 만들어서 이전 차시에서 학습한 내용을 스터디원이 설명할 수 있도록 만들었다. 배웠던 키워드를 나열해두고 모든 스터디원이 돌아가면서 각 키워드에 대해 생각나는 만큼 설명하도록 지도했다. 덕분에 모두 복습을 하게 되었고, 따로 질문을 주는 스터디원도 있어서 뿌듯했다.
 
@@ -152,6 +152,6 @@ tags: ["Retrospective", "Study", "HTTP", "Growth"]
 
 스터디에서 함께하신 분들의 후기글인데, 뿌듯하다.
 
-![](/images/posts/http-study-retrospective/8630eaf7-4871-46ba-b16a-64526093472e_image.png)
+![](/images/posts/http-study-retrospective/8630eaf7-4871-46ba-b16a-64526093472e_image.webp)
 
 읽어주셔서 감사합니다.

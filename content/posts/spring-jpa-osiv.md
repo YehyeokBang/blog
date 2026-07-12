@@ -5,13 +5,13 @@ description: "Spring Boot에서 기본으로 활성화되는 OSIV(Open Session I
 tags: ["Spring Boot", "JPA", "OSIV", "Backend"]
 ---
 
-![](/images/posts/spring-jpa-osiv/50d7c42f-161e-499c-9bd9-3398e5877c79_image.png)
+![](/images/posts/spring-jpa-osiv/50d7c42f-161e-499c-9bd9-3398e5877c79_image.webp)
 
 Spring Boot 애플리케이션을 실행시키면 볼 수 있는 흔한 화면이에요. 대부분은 `INFO` 레벨의 로그이지만, `WARN` 레벨의 로그가 출력된 것을 볼 수 있어요.
 
 사실 개발을 할 때 이상한 예외 TRACE가 출력되지 않고 아래와 같이 톰캣과 애플리케이션이 실행되었다는 것만 보고 기능을 테스트해 볼 때가 많았어요.
 
-![](/images/posts/spring-jpa-osiv/92ef9391-e3d0-4eb1-913d-c0b4c21b207c_image.png)
+![](/images/posts/spring-jpa-osiv/92ef9391-e3d0-4eb1-913d-c0b4c21b207c_image.webp)
 
 이처럼 별 생각 없이 넘겼던 부분을 인식하고 학습해 보려고 해요.
 
@@ -206,7 +206,7 @@ public class UserController {
 
 아직 영속성 컨텍스트가 존재하기 때문에 `user.getArticles().size()`를 호출하면서 지연 로딩이 발생해요. (추가 쿼리가 발생하여 정상적으로 데이터를 가져올 수 있어요.)
 
-![](/images/posts/spring-jpa-osiv/c013b42a-6384-4d2c-97a4-2a397c9c53b5_image.png)
+![](/images/posts/spring-jpa-osiv/c013b42a-6384-4d2c-97a4-2a397c9c53b5_image.webp)
 
 만약 OSIV가 비활성화된 상태라면, 트랜잭션이 종료된 후 영속성 컨텍스트가 닫히기 때문에, (예시에서는 컨트롤러 계층에서) 지연 로딩 시도 시 `LazyInitializationException`이 발생해요.
 
@@ -214,7 +214,7 @@ public class UserController {
 
 예시 프로젝트에서 `jpa.open-in-view` 옵션을 false로 바꾼 후 똑같이 시도하면 아래와 같이 예외가 발생해요.
 
-![](/images/posts/spring-jpa-osiv/6c9513f3-8cff-418a-a15a-c1500661c1b8_image.png)
+![](/images/posts/spring-jpa-osiv/6c9513f3-8cff-418a-a15a-c1500661c1b8_image.webp)
 
 > #### 예외 로그
 > org.hibernate.LazyInitializationException : failed to lazily initialize a collection of role: dev.bang.osivtest.entity.User.articles: could not initialize proxy - no Session
@@ -244,7 +244,7 @@ logging.level:
 
 ### OSIV 활성화 로그
 
-![](/images/posts/spring-jpa-osiv/78b27e5c-9d96-430c-8b2b-8fe780aa7cc2_image.png)
+![](/images/posts/spring-jpa-osiv/78b27e5c-9d96-430c-8b2b-8fe780aa7cc2_image.webp)
 
 ```
 2024-11-23T01:09:32.434+09:00 TRACE ... Opening Hibernate Session.  tenant=null
@@ -313,7 +313,7 @@ logging.level:
 
 ### OSIV 비활성화 로그
 
-![](/images/posts/spring-jpa-osiv/46d5cf31-258d-4afd-8b22-a6d9bf4ef777_image.png)
+![](/images/posts/spring-jpa-osiv/46d5cf31-258d-4afd-8b22-a6d9bf4ef777_image.webp)
 
 트랜잭션이 종료되면서 영속성 컨텍스트도 종료되었어요.
 
@@ -321,7 +321,7 @@ logging.level:
 
 ## 그림으로 확인하기
 
-![](/images/posts/spring-jpa-osiv/76372ca9-593f-4c42-832b-704897c714b2_image.png)
+![](/images/posts/spring-jpa-osiv/76372ca9-593f-4c42-832b-704897c714b2_image.webp)
 
 영속성 컨텍스트와 지연 로딩, 트랜잭션의 범위를 생각하며 흐름을 따라가다 보면 그림을 이해할 수 있을 거에요.
 
@@ -396,7 +396,7 @@ public ResponseEntity<UserResponse> findUser(@PathVariable String username) {
 
 이렇게 하면 이미 트랜잭션은 종료되었기 때문에 예외가 발생해요. 
 
-![](/images/posts/spring-jpa-osiv/e4d9a46f-deb9-4f69-9074-4b79c92f576c_image.png)
+![](/images/posts/spring-jpa-osiv/e4d9a46f-deb9-4f69-9074-4b79c92f576c_image.webp)
 
 하지만, 다른 비즈니스 메서드를 호출하여 사용할 때 Dirty Checking이 동작하여 update 쿼리가 발생해요.
 
@@ -413,7 +413,7 @@ public ResponseEntity<UserResponse> findUser(@PathVariable String username) {
 }
 ```
 
-![](/images/posts/spring-jpa-osiv/8857d40e-612e-41eb-8bc8-5bb738c3163f_image.png)
+![](/images/posts/spring-jpa-osiv/8857d40e-612e-41eb-8bc8-5bb738c3163f_image.webp)
 
 따라서 비즈니스에 의해 엔티티를 트랜잭션이 종료된 후 변경해야 한다면 제일 마지막에 하는 것이 좋을 것 같아요.
 

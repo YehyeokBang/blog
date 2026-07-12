@@ -9,7 +9,7 @@ tags: ["Kotlin", "Spring Boot", "WebSocket", "React", "TypeScript"]
 우리가 당연하게 사용하는 메신저인 카카오톡, 굳이 통계를 찾아보지 않더라도 국민 대다수가 사용하는 것은 체감할 수 있어요. 하지만 [나무위키-카카오톡/먹통](https://namu.wiki/w/%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%86%A1/%EB%A8%B9%ED%86%B5) 문서가 따로 있는 만큼 먹통이 되는 경우가 꽤 있었어요.
 
 아래 사진은 실제로 카카오톡에 문제가 생겼을 때 대학 동기가 물어보는 메시지에요.
-![카톡 안됨](/images/posts/realtime-chat-service/9ad27a7b-6df3-48a8-b4e5-bfdbaeff55a9_image.png)
+![카톡 안됨](/images/posts/realtime-chat-service/9ad27a7b-6df3-48a8-b4e5-bfdbaeff55a9_image.webp)
 
 저는 비슷한 문제가 발생했을 때 모일 수 있는 우리만의 아지트를 만들고 싶다는 생각을 했어요.
 
@@ -277,7 +277,7 @@ class WebSocketConfig(
 ## 테스트
 저는 웹소켓 서버를 테스트하기 위해 [Simple WebSocket Client](https://chrome.google.com/webstore/detail/simple-websocket-client/pfdhoblngboilpfeibdedpjgfnlcodoo?hl=en)를 설치했어요.
 
-![simple websocket client](/images/posts/realtime-chat-service/605494ce-a254-49fe-9bf1-60c6a7ba7ccb_image.png)
+![simple websocket client](/images/posts/realtime-chat-service/605494ce-a254-49fe-9bf1-60c6a7ba7ccb_image.webp)
 Server Location의 URL을 작성하는 부분을 보면 `ws://`로 시작하는 것을 볼 수 있어요. 
 
 > 웹소켓 프로토콜을 사용할 때 URL은 일반적으로 `ws://` 또는 `wss://` (웹소켓 Secure, 즉 SSL/TLS를 통한 암호화된 연결)로 시작한다. 이는 HTTP 프로토콜의 URL이 `http://` 또는 `https://` 로 시작하는 것과 유사한 원리이다. 여기서 `ws://` 는 웹소켓 연결을 나타내며, 이를 통해 클라이언트와 서버 간에 전이중(full-duplex) 통신 채널을 열 수 있다. 즉, 웹소켓 프로토콜은 HTTP와 달리 실시간 양방향 데이터 전송을 가능하게 하므로, 실시간 채팅 애플리케이션과 같은 경우에 주로 사용된다. 따라서 서버 위치의 URL을 작성할 때 웹소켓 연결을 나타내기 위해 `ws://` 로 시작하는 것이다.  - `ChatGPT`
@@ -285,11 +285,11 @@ Server Location의 URL을 작성하는 부분을 보면 `ws://`로 시작하는 
 지금 스프링 부트를 로컬 환경에서 실행하고 웹소켓이 잘 되는지 확인해볼게요.
 URL은 아까 socketHandler를 등록하면서 지정한 경로를 사용하면 돼요. `ws://localhost:8080/chat`
 
-![urltest](/images/posts/realtime-chat-service/e0a100ca-a0d5-420c-9916-ea7e486075f7_image.png)
+![urltest](/images/posts/realtime-chat-service/e0a100ca-a0d5-420c-9916-ea7e486075f7_image.webp)
 
 이렇게 접속한 후에 요청을 보내면 돼요. 안녕하세요~ 라는 요청을 보내볼게요.
 
-![결과](/images/posts/realtime-chat-service/7d811578-80b3-49d0-9f1a-5f9f740fd052_image.png)
+![결과](/images/posts/realtime-chat-service/7d811578-80b3-49d0-9f1a-5f9f740fd052_image.webp)
 
 잘 작동하는 것을 볼 수 있어요. 이제 이 웹소켓 서버를 이용할 화면을 만들어볼게요.
 
@@ -575,9 +575,9 @@ export default ChatComponent;
 해당 컴포넌트의 주요 목적은 채팅 애플리케이션의 모든 기능들을 조합하여 전체적인 동작을 구현하는 것이에요
 
 ### 실행
-![1](/images/posts/realtime-chat-service/f0954d65-dd59-42dd-8273-7f3122aea5dd_image.png)
+![1](/images/posts/realtime-chat-service/f0954d65-dd59-42dd-8273-7f3122aea5dd_image.webp)
 
-![2](/images/posts/realtime-chat-service/289d7da8-a9aa-4526-8f6e-39e4bc27812c_image.png)
+![2](/images/posts/realtime-chat-service/289d7da8-a9aa-4526-8f6e-39e4bc27812c_image.webp)
 
 사용자의 이름을 입력하면 웹소켓 서버와 연결되며, 메시지를 보내면 `사용자명 : 메시지` 형식으로 누가 어떤 메시지를 보냈는지 볼 수 있어요.
 

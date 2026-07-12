@@ -48,7 +48,7 @@ tags: ["JPA", "Spring Data JPA", "Backend", "Database"]
 - 학생은 하나의 학과에만 소속될 수 있어요.
 - 학생은 학과와 다대일(N:1)
 
-![연관관계](/images/posts/jpa-association-mapping-basics/e3ee7250_image.png)
+![연관관계](/images/posts/jpa-association-mapping-basics/e3ee7250_image.webp)
 
 위는 객체 연관관계를 나타내고, 아래는 테이블 연관관계를 나타내요.
 
@@ -131,7 +131,7 @@ public static void main(String[] args) {
 }
 ~~~
 
-![객체 단방향 다대일 인스턴스](/images/posts/jpa-association-mapping-basics/44135977_image.png)
+![객체 단방향 다대일 인스턴스](/images/posts/jpa-association-mapping-basics/44135977_image.webp)
 
 학생1과 학생2는 학과1에 소속했음을 알 수 있어요.
 그리고 아래와 같은 코드로 회원1이 속한 학과1을 조회할 수 있어요.
@@ -378,7 +378,7 @@ private static void deleteRelation(EntityManager em) {
 학생에서 학과로만 접근하는 다대일 단방향 매핑을 알아봤어요.
 이제는 학과에서 학생으로 접근하는 관계를 추가해서 알아보려고 해요.
 
-![양방향 연관관계](/images/posts/jpa-association-mapping-basics/9617ecee_image.png)
+![양방향 연관관계](/images/posts/jpa-association-mapping-basics/9617ecee_image.webp)
 
 ### 객체 연관관계
 먼저 객체 연관관계에서는 학생과 학과는 다대일 관계에요.
@@ -541,7 +541,7 @@ public class Department {
 }                        
 ```
 
-![연관관계의 주인과 반대편](/images/posts/jpa-association-mapping-basics/cbc3d56a_image.png)
+![연관관계의 주인과 반대편](/images/posts/jpa-association-mapping-basics/cbc3d56a_image.webp)
 
 연관관계의 주인만 데이터베이스 연관관계와 매핑되고 외래 키를 관리할 수 있어요.
 
@@ -707,7 +707,7 @@ Student findStudent = department1.getStudent();
 // 첫 번째 코드가 실행되면 아래와 같은 연관관계를 가져요.
 student1.setDepartment(department1);
 ```
-![](/images/posts/jpa-association-mapping-basics/4b464890_image.png)
+![](/images/posts/jpa-association-mapping-basics/4b464890_image.webp)
 
 학생1은 학과1에 소속되어 있으며 학과1에 소속된 학생은 학생1이 있는 상태에요.
 
@@ -715,7 +715,7 @@ student1.setDepartment(department1);
 // 두 번째 코드가 실행되면 아래와 같은 연관관계를 가져요.
 student1.setDepartment(department2);
 ```
-![](/images/posts/jpa-association-mapping-basics/7c7d0b35_image.png)
+![](/images/posts/jpa-association-mapping-basics/7c7d0b35_image.webp)
 
 학과1에서 학과2로 변경할 때 기존 학과1 → 학생1 관계가 제거되지 않았어요.
 

@@ -148,7 +148,7 @@ useEffect(() => {
 
 결과와 상관없이 웹소켓 연결 코드가 실행된 것이에요.
 
-![문제](/images/posts/realtime-chat-service-2/f538abb7-0666-41a5-8e3e-13830fb97696_image.png)
+![문제](/images/posts/realtime-chat-service-2/f538abb7-0666-41a5-8e3e-13830fb97696_image.webp)
 
 찾아보니 axios로 서버에 요청을 보내 응답을 받는 과정은 비동기적으로 수행되기 때문에, 이미 존재하는 사용자 이름인지 결과가 나오기 전에 웹소켓 연결 코드가 실행될 수 있는 환경이라는 것을 알 수 있었어요.
 
@@ -203,7 +203,7 @@ useEffect(() => {
 `checkUserNameDuplicate` 함수를 async 함수로 선언했어요. 이렇게 하면 await axios.get(...) 코드가 실행될 때까지 웹소켓 연결 코드의 실행이 지연되므로, 이제는 userName의 중복 여부 확인 후 웹소켓 연결을 시도하게 돼요. 이제 원하는 순서대로 동작할 수 있어요.
 
 ### 결과
-![이름중복결과](/images/posts/realtime-chat-service-2/1d344fa2-191d-4389-92bd-9abd994ea5ca_image.png)
+![이름중복결과](/images/posts/realtime-chat-service-2/1d344fa2-191d-4389-92bd-9abd994ea5ca_image.webp)
 
 **해당 코드의 개선으로 중복된 사용자 이름을 사용할 수 없게 되었고, 한 명의 사용자를 유일하게 구분할 수 있게 되었어요.** 
 
@@ -359,7 +359,7 @@ wsRef.current.onclose = (event) => {
 오전 6시에 해당 서비스를 이용할 일은 거의 없다고 판단하고 이렇게 구현했어요.
 
 ### 결과
-![초기화결과](/images/posts/realtime-chat-service-2/d73abe9f-f5d7-49bc-a5ee-c3b44afda92e_image.png)
+![초기화결과](/images/posts/realtime-chat-service-2/d73abe9f-f5d7-49bc-a5ee-c3b44afda92e_image.webp)
 
 
 **해당 코드의 개선으로 서비스 구현이 간단해지고, 용량 걱정이 줄어들게 되었어요.**
@@ -512,7 +512,7 @@ export default ChatLogs;
 `작성자 : 메시지 - 시간:분` 포맷으로 메시지를 주고 받을 수 있게 되었어요.
 
 ### 결과
-![시간결과](/images/posts/realtime-chat-service-2/888a2291-2727-4d0d-839a-8cd169125014_image.png)
+![시간결과](/images/posts/realtime-chat-service-2/888a2291-2727-4d0d-839a-8cd169125014_image.webp)
 
 **해당 코드의 개선으로 이제 각 메시지가 언제 전송되었는지 확인할 수 있어요.**
 
@@ -577,7 +577,7 @@ export default ChatLogs;
 ```
 
 어느정도 채팅창 같은 느낌을 내기 위해서 디자인을 변경했어요.
-![디자인1](/images/posts/realtime-chat-service-2/5e45c872-a9ff-4164-bfed-12827da3d189_image.png)
+![디자인1](/images/posts/realtime-chat-service-2/5e45c872-a9ff-4164-bfed-12827da3d189_image.webp)
 
 하지만 약간 아쉬운 부분이 있어요. 자신과 상대방 메시지 모두 왼쪽에서 출력되는 부분이에요. 자신의 메시지는 오른쪽에서, 나머지는 왼쪽에서 출력되도록 수정하려고 해요.
 
@@ -711,7 +711,7 @@ return (
 
 ### 결과
 
-![](/images/posts/realtime-chat-service-2/985215e3-7d38-4d6e-8584-05310ce73ed0_image.png)
+![](/images/posts/realtime-chat-service-2/985215e3-7d38-4d6e-8584-05310ce73ed0_image.webp)
 
 **디자인 변경으로 좀 더 우리가 평소에 사용하는 채팅 서비스와 가까워지게 되었어요.**
 

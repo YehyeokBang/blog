@@ -9,7 +9,7 @@ tags: ["Authentication", "SMS", "Backend", "UX"]
 
 [이전 글](https://velog.io/@hyeok_1212/%EC%96%B4%EB%96%A4-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EB%B0%A9%EC%8B%9D%EC%9D%84-%EC%84%A0%ED%83%9D%ED%95%B4%EC%95%BC-%ED%95%A0%EA%B9%8C-2)에서는 어떻게 로그인 기능을 구현하고, 어떻게 회원가입을 시킬 것인가에 대해 고민했어요. 이번에는 회원가입 중 필요한 `본인 인증 과정`에 대해서 이야기해보려고 해요. 
 
-![](/images/posts/custom-sms-authentication/a74f6f55-fd80-4b90-8bea-66f7dd45de09_image.png)
+![](/images/posts/custom-sms-authentication/a74f6f55-fd80-4b90-8bea-66f7dd45de09_image.webp)
 
 최근 팀원들과 로그인 및 회원가입 기능에 대해 논의하면서, 사용자 인증 방식에 대해 여러 가지 의견이 나왔어요. 그중에서 가장 많은 관심을 받은 것은 `휴대폰 인증`이었어요. 이번 글에서는 왜 휴대폰 인증이 나오게 되었는지, 그리고 이를 도입할 때 고려해야 할 점들은 무엇이 있는지 알아보려고 해요.
 
@@ -49,7 +49,7 @@ tags: ["Authentication", "SMS", "Backend", "UX"]
 
 대부분의 사용자는 휴대폰 인증 과정이 익숙하다고 생각해요. 제 메시지 수신함에 쌓인 인증번호만 봐도 수많은 서비스에서 사용하고 있다는 것을 알 수 있었어요.
 
-![](/images/posts/custom-sms-authentication/478215a1-c6ce-412c-9d25-1e64171eb2cf_image.png)
+![](/images/posts/custom-sms-authentication/478215a1-c6ce-412c-9d25-1e64171eb2cf_image.webp)
 
 휴대폰 인증을 도입할 경우, 사용자는 아래와 같은 과정을 경험해요.
 
@@ -66,9 +66,9 @@ tags: ["Authentication", "SMS", "Backend", "UX"]
 
 우선 SMS를 통한 인증 과정은 비용이 발생해요. 도입 이후 개발 단계에서 테스트만 하더라도 요금이 발생해요.
 
-![](/images/posts/custom-sms-authentication/14e201a6-f798-405a-8a61-b8d432939cce_image.png)
+![](/images/posts/custom-sms-authentication/14e201a6-f798-405a-8a61-b8d432939cce_image.webp)
 
-![](/images/posts/custom-sms-authentication/a583f82f-8cd0-40be-aed6-694c4c451b53_image.png)
+![](/images/posts/custom-sms-authentication/a583f82f-8cd0-40be-aed6-694c4c451b53_image.webp)
 
 위 사진들은 각각 [본인 인증 과정까지 포함된 서비스](https://imweb.me/appstore?app=adult_phone)와 [SMS 발송 API](https://coolsms.zendesk.com/hc/ko/articles/115001071551-%EB%AC%B8%EC%9E%90%ED%83%80%EC%9E%85%EB%B3%84-%EB%B9%84%EC%9A%A9)의 요금 표에요. 직접 인증 과정을 구현하더라도 SMS 발송 건당 요금이 부가되는 것을 볼 수 있어요. 찾아보면 약간의 무료 크레딧을 제공하는 업체도 있지만, 인증 과정 테스트만 하더라도 모두 사용될 양을 제공해요. 
 
@@ -85,7 +85,7 @@ tags: ["Authentication", "SMS", "Backend", "UX"]
 - ["가입한 적 없는데 계정이 있다고 나와요" - 당근](https://www.daangn.com/wv/faqs/167)
 - ["휴대전화번호를 변경하고 싶어요. 어떻게 변경하나요?" - 당근](https://www.daangn.com/wv/faqs/3)
 
-![](/images/posts/custom-sms-authentication/c3028d7b-0d68-4598-b7f3-4ee5ce2378c5_image.png)
+![](/images/posts/custom-sms-authentication/c3028d7b-0d68-4598-b7f3-4ee5ce2378c5_image.webp)
 
 
 휴대폰 번호 기반으로 가입할 수 있는 당근은 가입 이후에 휴대폰 번호가 변경된 경우 설정 탭 또는 문의를 통해 계정에 반영할 수 있도록 하며, 만약 새로운 번호로 처음 가입하려는데 이미 가입된 계정이 있는 경우에는 이미 존재하는 계정을 삭제하는 방식을 선택한 것 같아요.
@@ -115,7 +115,7 @@ tags: ["Authentication", "SMS", "Backend", "UX"]
 
 남들과는 다른 방향의 인증 방식을 사용하는 쏘카의 기기인증 방식이 있다는 것을 알게 되었어요.
 
-![](/images/posts/custom-sms-authentication/c5f23b13-6fca-48a5-bd37-a3841d4c44f2_image.png)
+![](/images/posts/custom-sms-authentication/c5f23b13-6fca-48a5-bd37-a3841d4c44f2_image.webp)
 
 인증 메시지 보내기를 누르면 자동으로 받는 사람과 보낼 내용이 자동으로 입력되며 그대로 인증 메시지를 보내면 인증되는 방식이에요. 추가로 SMS 인증번호 발송을 통한 인증도 함께 진행하는 것 같아요.
 
@@ -172,7 +172,7 @@ tags: ["Authentication", "SMS", "Backend", "UX"]
 
 저는 이런 인증 방법을 위해 테스트를 하고 있는 이유가 **비용**이기 때문에 인증을 위한 전화(유지 비용이 발생해요.)를 두는 것은 의미가 없다고 생각했고, 기본 메신저 앱으로 이메일 전송까지 가능하다는 점에서 이메일을 하나 만들어서 `인증 메시지 수신함`으로 사용하는 것이 더 괜찮다고 생각했어요.
 
-![](/images/posts/custom-sms-authentication/773b5814-e1f7-47ab-91db-34d5d54618db_image.png)
+![](/images/posts/custom-sms-authentication/773b5814-e1f7-47ab-91db-34d5d54618db_image.webp)
 
 실제로 전송하면 `010xxxxxxxx(사용자의 휴대폰 번호)@이메일.com`와 비슷한 형태의 이메일 주소로 메시지가 전송되는 것을 확인할 수 있어요. 인증 번호를 전송한 사용자의 전화번호와 인증 번호 모두를 확인할 수 있고, 서비스를 위해 필요한 휴대폰 인증 요청 비용이 무료에 가깝기 때문에 좋다고 생각했어요.
 
@@ -180,7 +180,7 @@ tags: ["Authentication", "SMS", "Backend", "UX"]
 
 `?body=`를 사용하여 미리 보내게 만들 내용을 지정할 수 있어요. 저는 서버에서 생성한 인증 번호를 내용으로 지정하면 될 것 같다고 생각했어요. 그림으로 표현하면 아래와 같아요.
 
-![](/images/posts/custom-sms-authentication/77f1b37c-6e4d-4622-8ab2-f1e98937c25e_image.png)
+![](/images/posts/custom-sms-authentication/77f1b37c-6e4d-4622-8ab2-f1e98937c25e_image.webp)
 
 사용자가 메시지를 전송하면 휴대폰 번호와 서버에서 만들어준 인증 번호까지 함께 확인할 수 있기 때문에 가능한 인증 방식일 것 같았어요.
 
@@ -261,7 +261,7 @@ if __name__ == "__main__":
 
 이 코드는 Gmail의 받은 편지함에서 최근 10개의 이메일을 가져와서 보낸 사람과 이메일의 일부 내용을 출력하는 코드에요.
 
-![](/images/posts/custom-sms-authentication/5a062f6a-0220-49f4-9e35-395619fa7d0e_image.png)
+![](/images/posts/custom-sms-authentication/5a062f6a-0220-49f4-9e35-395619fa7d0e_image.webp)
 
 실제 실행하여 결과를 보면 위에서 직접 전송했던 메시지를 확인할 수 있었어요. (From: 부분은 제 휴대폰 번호라서 가렸어요.)
 

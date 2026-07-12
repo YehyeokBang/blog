@@ -17,7 +17,7 @@ UN은 2015년에 17가지 지속 가능한 발전 목표를 세우고 2030년까
 [Solution Challenge](https://developers.google.com/community/gdsc-solution-challenge?hl=ko)의 목표는 Google 기술을 사용한 17가지 지속 가능한 개발 목표 중 하나 이상을 달성하는 데 기여하는 프로젝트를 만드는 것이에요
 
 # 작년 회고
-![작년회고글](/images/posts/gdsc-solution-challenge-2024-retrospective/fbfeb4ed-1865-4830-bc37-3e25b9b7b0a9_image.png)
+![작년회고글](/images/posts/gdsc-solution-challenge-2024-retrospective/fbfeb4ed-1865-4830-bc37-3e25b9b7b0a9_image.webp)
 
 작년에 회고하면서 아쉬웠던 부분이에요. 간단하게 정리해 보면 다음과 같아요.
 
@@ -29,7 +29,7 @@ UN은 2015년에 17가지 지속 가능한 발전 목표를 세우고 2030년까
 
 ## Goal 3. Good Health and Well-Being
 
-![](/images/posts/gdsc-solution-challenge-2024-retrospective/7cd701c6-58ac-4500-8264-a962c378862d_image.png)
+![](/images/posts/gdsc-solution-challenge-2024-retrospective/7cd701c6-58ac-4500-8264-a962c378862d_image.webp)
 
 우리 팀은 [17가지 목표](https://developers.google.com/community/gdsc-solution-challenge/UN-goals?hl=ko) 중에서 3번 건강과 웰빙을 주제로 선택했습니다. 건강과 웰빙을 선택한 이유는 사람들이 건강한 몸이나 체력을 가지는 것이 여러 문제를 해결할 수 있는 뿌리가 될 것 같다고 생각했기 때문이에요!
 
@@ -45,13 +45,13 @@ UN은 2015년에 17가지 지속 가능한 발전 목표를 세우고 2030년까
 
 ## BARO 아키텍처
 
-![바로 아키텍쳐](/images/posts/gdsc-solution-challenge-2024-retrospective/c42e2e0f-0e01-44ff-9874-14c1c2d292f6_image.png)
+![바로 아키텍쳐](/images/posts/gdsc-solution-challenge-2024-retrospective/c42e2e0f-0e01-44ff-9874-14c1c2d292f6_image.webp)
 
 주황색은 Backend, 파란색은 App 그리고 빨간색은 AI 파트가 담당했어요.
 
 ## 팀 구성
 
-![팀 구성](/images/posts/gdsc-solution-challenge-2024-retrospective/10d628d3-bc59-4f1d-9359-ad6fda349e4a_image.png)
+![팀 구성](/images/posts/gdsc-solution-challenge-2024-retrospective/10d628d3-bc59-4f1d-9359-ad6fda349e4a_image.webp)
   
 모두 같은 챕터에 소속되어 있고, 파트는 각각 Backend, App, AI, PM으로 구성되어 있어요.
 
