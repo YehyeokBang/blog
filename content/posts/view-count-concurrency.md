@@ -622,7 +622,7 @@ private void syncViewCount(String redisKey, Long feedId, long redisViewCount) {
 
 현재는 교내 LMS처럼 게시글을 조회할 때마다 조회수가 증가해요.
 
-![](/images/posts/view-count-concurrency/d1e47375-19d8-432c-bf1c-a9bcd7d3b417_image.gif)
+![](/images/posts/view-count-concurrency/d1e47375-19d8-432c-bf1c-a9bcd7d3b417_image.webp)
 
 이 방식은 부정확한 인기 지표를 나타낼 가능성이 있으며, 사용성에 영향을 줄 수 있어요. 이를 개선하기 위해 쿠키와 만료 시간을 활용하여 12시간(혹은 하루) 동안 동일 사용자의 반복 조회가 조회수 증가에 영향을 주지 않도록 구현해 볼 예정이에요.
 

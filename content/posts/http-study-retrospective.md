@@ -99,7 +99,7 @@ tags: ["Retrospective", "Study", "HTTP", "Growth"]
 
 인터넷 네트워크, HTTP 메시지 구조, Status, Header 등 흐름은 김영한님 강의와 유사하게 준비했고, 앞서 말했듯이 4차시로 구성했다.
 
-![](/images/posts/http-study-retrospective/e3bace67-a89c-458e-9fdf-70bdc46dc0f1_image.jpeg)
+![](/images/posts/http-study-retrospective/e3bace67-a89c-458e-9fdf-70bdc46dc0f1_image.webp)
 
 
 ### 진행 방식

@@ -164,7 +164,7 @@ tags: ["Authentication", "SMS", "Backend", "UX"]
 
 > 실제로 브라우저 주소창에 `sms:보낼 곳?body=내용`을 입력하면 각 환경에 맞게 기본 SMS 앱이 열리는 것을 확인할 수 있어요.
 
-![](/images/posts/custom-sms-authentication/a0375ed4-8c31-4587-ba47-1ba75dc71cd0_image.gif)
+![](/images/posts/custom-sms-authentication/a0375ed4-8c31-4587-ba47-1ba75dc71cd0_image.webp)
 
 ### 어디로?
 

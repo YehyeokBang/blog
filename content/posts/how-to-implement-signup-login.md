@@ -83,9 +83,9 @@ SNS 계정을 통한 회원가입 및 로그인은 사용자 입장에서 반복
 
 카카오 계정을 예시로 가져왔어요. 계정 설정에서 `연결된 서비스 관리` 탭에 들어가면 제가 카카오 계정을 통해 가입한 서비스들을 볼 수 있어요. 보안을 위해 가끔씩 확인하시면 좋을 것 같아요.
 
-![](/images/posts/how-to-implement-signup-login/84e0b671-95de-40f7-8909-5ff8a8659ef7_image.jpeg)
+![](/images/posts/how-to-implement-signup-login/84e0b671-95de-40f7-8909-5ff8a8659ef7_image.webp)
 
-![](/images/posts/how-to-implement-signup-login/01bd9e60-ab08-4280-b1e8-c86c171bfe86_image.jpeg)
+![](/images/posts/how-to-implement-signup-login/01bd9e60-ab08-4280-b1e8-c86c171bfe86_image.webp)
 
 저도 확인해보니 기억에 없는 서비스들에 카카오 계정을 통해 가입되어 있었어요. 이처럼 카카오 계정 하나로 많은 서비스에 접근할 수 있게 되기 때문에 소셜 로그인을 주로 사용하시는 분들은 SNS 계정을 잘 관리해야 해요. 이러한 것도 사용자에게 부담이 될 수 있을 것 같아요.
 

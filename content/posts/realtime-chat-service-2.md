@@ -276,7 +276,7 @@ class SocketHandler(
 - `afterConnectionEstablished()` : 웹소켓 연결 후 세션 정보를 `sessionList`에 저장한 후에 지금까지 쌓인 메시지들을 연결된 세션에게 모두 전송해요. 즉 이전까지 쌓인 메시지를 세션 연결과 동시에 볼 수 있어요.
 
 ### 결과
-![이전기록결과](/images/posts/realtime-chat-service-2/9d7a0483-4e1e-4e20-b80d-5ef99d1965f6_image.gif)
+![이전기록결과](/images/posts/realtime-chat-service-2/9d7a0483-4e1e-4e20-b80d-5ef99d1965f6_image.webp)
 
 **해당 코드의 개선으로 사용자가 채팅방에 참여하면 그동안의 대화 내용도 함께 볼 수 있게 되었어요.**
 

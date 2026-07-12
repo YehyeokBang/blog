@@ -48,7 +48,7 @@ GDSC 활동을 하면서 되게 많은 경험을 했다. 짧은 시간동안 많
 
 ## 3. GDSC 코어 활동
 지금은 GDSC 다음 기수의 코어(운영진)으로 활동하고 있다.
-![](/images/posts/2023-retrospective/e980aa15-7218-4ffe-ad9a-9c2b96bc3172_image.jpeg)
+![](/images/posts/2023-retrospective/e980aa15-7218-4ffe-ad9a-9c2b96bc3172_image.webp)
 
 ![](/images/posts/2023-retrospective/e3f27dce-0b22-4daa-bf6c-27b3ac9adf6c_image.webp)
 
@@ -65,7 +65,7 @@ GDSC 활동을 하면서 되게 많은 경험을 했다. 짧은 시간동안 많
 
 ### 돌아보기
 준비하고 강의를 진행하면서 나는 누군가에게 알려주면서 더 많은 효능감을 느낀다는 것을 깨달았다. 무엇을 해야할지 모르겠는 후배들에게도 자신이 아는 것을 누군가에게 알려주는 경험을 해보라고 권유하기도 한다. **내가 아는 것을 누군가에게 알려주는 것이나 시간을 너무 아깝게 생각하지 않았으면 한다.** 사실 요즘 소프트웨어 장인이라는 책을 추천받아서 읽고 있는 중인데, 이 책의 영향도 살짝은 있는 것 같다. 아직 다 읽진 못했지만, 개발자 모두에게 추천되는 이유가 있다고 생각한다. 꼭 주변 사람들도 읽어보면 좋을 것 같다.
-![](/images/posts/2023-retrospective/0e4f6e7f-ac33-43b7-ae4f-cff9dd1ed5d2_image.jpg)
+![](/images/posts/2023-retrospective/0e4f6e7f-ac33-43b7-ae4f-cff9dd1ed5d2_image.webp)
 
 
 ## 4. 잔디 심기
