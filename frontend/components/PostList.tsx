@@ -3,20 +3,23 @@
 import { useState } from "react";
 import Link from "next/link";
 import { PostData } from "@/lib/posts";
+import { calculateReadingTime } from "@/lib/utils";
+
+const ALL_TAG = "전체";
 
 interface PostListProps {
   initialPosts: PostData[];
 }
 
 export default function PostList({ initialPosts }: PostListProps) {
-  const [selectedTag, setSelectedTag] = useState("전체");
+  const [selectedTag, setSelectedTag] = useState(ALL_TAG);
 
   const uniqueTags = Array.from(
     new Set(initialPosts.flatMap((post) => post.tags))
   );
-  const tags = ["전체", ...uniqueTags];
+  const tags = [ALL_TAG, ...uniqueTags];
 
-  const filteredPosts = selectedTag === "전체"
+  const filteredPosts = selectedTag === ALL_TAG
     ? initialPosts
     : initialPosts.filter((post) => post.tags.includes(selectedTag));
 
@@ -49,7 +52,7 @@ export default function PostList({ initialPosts }: PostListProps) {
               <div className="flex items-center gap-xs text-caption text-muted mb-sm">
                 <span>{post.date}</span>
                 <span>·</span>
-                <span>읽는 시간 {Math.ceil(post.description.length / 100) || 1}분</span>
+                <span>읽는 시간 {calculateReadingTime(post.description)}분</span>
               </div>
 
               <h2 className="text-title-lg font-bold text-ink group-hover:text-primary transition-colors mb-sm leading-snug">

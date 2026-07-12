@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPostData, getAllPostSlugs } from "@/lib/posts";
+import { calculateReadingTime } from "@/lib/utils";
 
 interface PageProps {
   params: Promise<{
@@ -52,7 +53,7 @@ export default async function PostPage({ params }: PageProps) {
         <div className="flex flex-wrap items-center gap-sm text-caption text-muted">
           <span>{post.date}</span>
           <span>·</span>
-          <span>읽는 시간 {Math.ceil((post.contentHtml?.length || 0) / 300) || 1}분</span>
+          <span>읽는 시간 {calculateReadingTime(post.contentHtml || "")}분</span>
         </div>
       </header>
 
