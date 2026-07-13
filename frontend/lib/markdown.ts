@@ -24,11 +24,10 @@ const frontmatterSchema = z.object({
     z.date().transform((d) => d.toISOString().split('T')[0])
   ]), // YYYY-MM-DD
   description: z.string().optional(),
-  summary: z.string().optional(),
-  excerpt: z.string().optional(),
   tags: z.array(z.string()).optional(),
   thumbnail: z.string().optional(),
-});
+  draft: z.boolean().optional(),
+}).strict();
 
 export type PostMetadata = z.infer<typeof frontmatterSchema> & {
   slug: string;
@@ -74,17 +73,18 @@ export async function getPostMetadataBySlug(slug: string): Promise<PostMetadata 
     const fileContents = await fs.readFile(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
     const parsedData = frontmatterSchema.parse(data);
-    const { summary, excerpt, ...rest } = parsedData;
 
     return {
-      ...rest,
-      description: rest.description ?? summary ?? excerpt,
+      ...parsedData,
       slug,
       readingTime: calculateReadingTime(content),
     };
-  } catch (error) {
-    console.error(`Error reading metadata for ${slug}:`, error);
-    return null;
+  } catch (error: unknown) {
+    if (typeof error === 'object' && error !== null && 'code' in error && (error as { code?: string }).code === 'ENOENT') {
+      return null;
+    }
+    console.error(`[Fail-fast] Error reading metadata for ${slug}:`, error);
+    throw error;
   }
 }
 
@@ -122,12 +122,9 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       .use(rehypeStringify, { allowDangerousHtml: true })
       .process(content);
 
-    const { summary, excerpt, ...rest } = parsedData;
-
     return {
       metadata: {
-        ...rest,
-        description: rest.description ?? summary ?? excerpt,
+        ...parsedData,
         slug,
         readingTime: calculateReadingTime(content),
       },
@@ -149,7 +146,7 @@ export async function getAllPosts(): Promise<PostMetadata[]> {
     })
   );
 
-  // Filter out nulls and sort by date
-  const validPosts = posts.filter((post): post is PostMetadata => post != null);
+  // Filter out nulls and drafts, and sort by date
+  const validPosts = posts.filter((post): post is PostMetadata => post != null && post.draft !== true);
   return validPosts.sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
 }

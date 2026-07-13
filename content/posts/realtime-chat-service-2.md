@@ -1,8 +1,13 @@
 ---
-title: "실시간 채팅 서비스 만들어보기 2"
-date: "2023-10-01"
-summary: "이전에 만든 실시간 채팅 서비스의 문제점(사용자 이름 중복, 대화 기록 조회 불가 등)을 식별하고 개선하는 과정을 다룹니다."
-tags: ["Kotlin", "Spring Boot", "WebSocket", "React", "TypeScript"]
+title: 실시간 채팅 서비스 만들어보기 2
+date: '2023-10-01'
+tags:
+  - Kotlin
+  - Spring Boot
+  - WebSocket
+  - React
+  - TypeScript
+description: '이전에 만든 실시간 채팅 서비스의 문제점(사용자 이름 중복, 대화 기록 조회 불가 등)을 식별하고 개선하는 과정을 다룹니다.'
 ---
 
 ## 이전 내용 

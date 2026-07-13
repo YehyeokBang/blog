@@ -1,8 +1,15 @@
 ---
-title: "Spring Data JPA 원하는 컬럼만 가져오기"
-date: "2023-12-02"
-summary: "Spring Data JPA에서 성능 최적화를 위해 필요한 컬럼만 선택적으로 조회하는 Projections 기능(Interface, Class 기반, 동적 Projections)을 알아봅니다."
-tags: ["Java", "Spring Boot", "JPA", "Backend", "Performance"]
+title: Spring Data JPA 원하는 컬럼만 가져오기
+date: '2023-12-02'
+tags:
+  - Java
+  - Spring Boot
+  - JPA
+  - Backend
+  - Performance
+description: >-
+  Spring Data JPA에서 성능 최적화를 위해 필요한 컬럼만 선택적으로 조회하는 Projections 기능(Interface,
+  Class 기반, 동적 Projections)을 알아봅니다.
 ---
 
 ## Spring Data JPA

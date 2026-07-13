@@ -1,8 +1,12 @@
 ---
-title: "GDSC Solution Challenge 2023 회고"
-date: "2023-04-02T00:00:00Z"
-summary: "GDSC-SKHU 백엔드 파트로 참여한 2023 Solution Challenge 프로젝트 과정과 문제 해결에 대한 회고입니다."
-tags: ["Retrospective", "GDSC", "Solution Challenge", "Project"]
+title: GDSC Solution Challenge 2023 회고
+date: '2023-04-02T00:00:00Z'
+tags:
+  - Retrospective
+  - GDSC
+  - Solution Challenge
+  - Project
+description: GDSC-SKHU 백엔드 파트로 참여한 2023 Solution Challenge 프로젝트 과정과 문제 해결에 대한 회고입니다.
 ---
 저는 GDSC-SKHU 22-23 Member, Backend 파트로 활동하며 GDSC의 큰 활동인 Solutuin Challenge에 참여하게 되었어요. 
 약 1~2달 간의 프로젝트를 마무리하고 제출하는 과정을 돌아보며 성장하기 위해 회고 작성을 해보려고 해요.

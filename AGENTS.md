@@ -13,8 +13,22 @@ This file serves as the top-level common operational guidelines for all AI agent
 ## 2. Reference Management Strategy
 As the project grows, avoid cramming all instructions into this single file. Use a modular approach for efficiency.
 - **Global Guidelines**: Core rules and overall project direction are maintained in this `AGENTS.md` file.
-- **Domain-Specific Guidelines**: Maintain separate Markdown files for specific tech stacks, planning documents, or architecture designs (e.g., under `.agents/references/` or `docs/`).
+- **Domain-Specific Guidelines**: Maintain separate Markdown files for specific tech stacks, planning documents, or architecture designs under `docs/`.
+  - *Note: Do NOT use `.agents/` (plural) to avoid confusion with `.agent/` (singular) which contains OpenSpec tools.*
 - **Agent Workflow**: Before starting a task, agents MUST actively check for and read any relevant detailed reference documents.
+
+### Document Map (read what's relevant before starting)
+- `docs/project-overview.md` — 목표/가치 (SSoT)
+- `docs/architecture.md` — 기술 스택/배포 구조
+- `docs/feature-roadmap.md` — 단계별 로드맵
+- `docs/git-strategy.md` — 브랜치/커밋/PR 규칙 (gh 계정 규칙 포함)
+- `docs/design.md` — 디자인 토큰 정의 (frontend/app/globals.css와 1:1)
+- `openspec/` — 스펙 주도 변경 관리 (아래 Workflow 참조)
+
+### OpenSpec Workflow
+- **새 기능 및 동작 변경**: 반드시 OpenSpec change를 먼저 제안하고, 스펙과 아티팩트가 승인된 후 작업에 착수합니다.
+- **버그 수정, 오타 교정, 단순 리팩토링**: 스펙 제안 없이 바로 브랜치를 파서 작업합니다.
+- **작업 완료 후**: 완료된 OpenSpec change는 배포와 검증을 확인한 뒤 archive 처리합니다.
 
 ## 3. Behavioral Guidelines
 These guidelines aim to reduce common AI coding mistakes. Prioritize **stability, simplicity, and accuracy** over speed.

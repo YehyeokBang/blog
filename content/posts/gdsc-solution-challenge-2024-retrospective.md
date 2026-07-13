@@ -1,8 +1,15 @@
 ---
-title: "GDSC Solution Challenge 2024 회고"
-date: "2024-04-13"
-summary: "GDSC Solution Challenge 2024에 참여하여 진행한 프로젝트 회고와 새로운 기술(Go, gRPC, GCP) 도입 경험을 나눕니다."
-tags: ["GDSC", "Retrospective", "Go", "gRPC", "GCP"]
+title: GDSC Solution Challenge 2024 회고
+date: '2024-04-13'
+tags:
+  - GDSC
+  - Retrospective
+  - Go
+  - gRPC
+  - GCP
+description: >-
+  GDSC Solution Challenge 2024에 참여하여 진행한 프로젝트 회고와 새로운 기술(Go, gRPC, GCP) 도입 경험을
+  나눕니다.
 ---
 
 # GDSC

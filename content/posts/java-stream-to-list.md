@@ -1,8 +1,13 @@
 ---
-title: "[Java] Stream을 List로 수집하기"
-date: "2023-10-05"
-summary: "Java Stream API에서 리스트로 수집할 때 사용되는 collect(Collectors.toList())와 Java 16에 추가된 Stream.toList()의 차이점과 적절한 사용 상황을 알아봅니다."
-tags: ["Java", "Stream", "Backend"]
+title: '[Java] Stream을 List로 수집하기'
+date: '2023-10-05'
+tags:
+  - Java
+  - Stream
+  - Backend
+description: >-
+  Java Stream API에서 리스트로 수집할 때 사용되는 collect(Collectors.toList())와 Java 16에 추가된
+  Stream.toList()의 차이점과 적절한 사용 상황을 알아봅니다.
 ---
 
 ## 궁금증

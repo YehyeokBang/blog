@@ -1,8 +1,13 @@
 ---
-title: "[GDSC] 자바잡아 스터디 심화반"
-date: "2023-09-11T00:00:00Z"
-summary: "GDSC 미니 스터디 자바잡아 심화반을 위한 Generics, Collection, Lambda, Optional, Stream, Annotation, JSON 개념 정리 자료입니다."
-tags: ["Java", "Study", "GDSC"]
+title: '[GDSC] 자바잡아 스터디 심화반'
+date: '2023-09-11T00:00:00Z'
+tags:
+  - Java
+  - Study
+  - GDSC
+description: >-
+  GDSC 미니 스터디 자바잡아 심화반을 위한 Generics, Collection, Lambda, Optional, Stream,
+  Annotation, JSON 개념 정리 자료입니다.
 ---
 ## GDSC
 GDSC 미니 스터디 `자바잡아` 심화반을 위한 자료에요.

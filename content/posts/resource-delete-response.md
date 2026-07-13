@@ -1,8 +1,12 @@
 ---
-title: "자원 삭제 요청에 대한 응답"
-date: "2024-07-24"
-summary: "물리적 삭제와 논리적 삭제를 비교하고, 자원 삭제 시 HTTP DELETE 메서드 사용 및 적절한 응답 상태 코드에 대해 고민해 봅니다."
-tags: ["HTTP", "REST", "Backend", "DELETE"]
+title: 자원 삭제 요청에 대한 응답
+date: '2024-07-24'
+tags:
+  - HTTP
+  - REST
+  - Backend
+  - DELETE
+description: '물리적 삭제와 논리적 삭제를 비교하고, 자원 삭제 시 HTTP DELETE 메서드 사용 및 적절한 응답 상태 코드에 대해 고민해 봅니다.'
 ---
 
 # 자원 삭제 요청?

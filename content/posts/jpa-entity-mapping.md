@@ -1,8 +1,12 @@
 ---
-title: "[JPA] 엔티티 매핑"
-date: "2023-07-19T00:00:00Z"
-summary: "JPA의 엔티티 매핑 기본 개념, 데이터베이스 스키마 자동 생성, 기본 키 및 컬럼 매핑 방법 등에 대해 정리한 글입니다."
-tags: ["JPA", "Spring Data JPA", "Backend", "Database"]
+title: '[JPA] 엔티티 매핑'
+date: '2023-07-19T00:00:00Z'
+tags:
+  - JPA
+  - Spring Data JPA
+  - Backend
+  - Database
+description: 'JPA의 엔티티 매핑 기본 개념, 데이터베이스 스키마 자동 생성, 기본 키 및 컬럼 매핑 방법 등에 대해 정리한 글입니다.'
 ---
 ## Spring Data JPA
 제가 Spring Data JPA를 배우고 기록하게 된 [계기](https://velog.io/@hyeok_1212/JPA-%EC%98%81%EC%86%8D%EC%84%B1-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8)입니다.

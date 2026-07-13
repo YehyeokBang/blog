@@ -12,7 +12,9 @@ export default function TOC() {
   const [headings, setHeadings] = useState<TOCItem[]>([]);
   const [activeId, setActiveId] = useState<string>("");
   const activeIdRef = useRef(activeId);
-  activeIdRef.current = activeId;
+  useEffect(() => {
+    activeIdRef.current = activeId;
+  }, [activeId]);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const headingElementsRef = useRef<Record<string, IntersectionObserverEntry>>({});
 
@@ -28,7 +30,7 @@ export default function TOC() {
       level: Number(elem.tagName.charAt(1)),
     })).filter(item => item.id); // only headings with ids (added by rehype-slug)
 
-    setHeadings(items);
+    const timer = setTimeout(() => setHeadings(items), 0);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -61,7 +63,10 @@ export default function TOC() {
       if (elem.id) observer.observe(elem);
     });
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+    };
   }, []);
 
   if (headings.length === 0) return null;

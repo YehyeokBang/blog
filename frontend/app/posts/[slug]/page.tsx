@@ -1,4 +1,4 @@
-import { getPostBySlug, getPostSlugs } from "@/lib/markdown";
+import { getPostBySlug, getPostMetadataBySlug, getPostSlugs } from "@/lib/markdown";
 import { notFound } from "next/navigation";
 import PostContent from "@/components/PostContent";
 import TOC from "@/components/TOC";
@@ -15,33 +15,37 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   try {
-    const post = await getPostBySlug(resolvedParams.slug);
-    if (!post) return {};
+    const metadata = await getPostMetadataBySlug(resolvedParams.slug);
+    if (!metadata) return {};
 
     const url = `/posts/${resolvedParams.slug}`;
-    const images = post.metadata.thumbnail ? [post.metadata.thumbnail] : [];
+    const images = metadata.thumbnail ? [metadata.thumbnail] : [];
 
     return {
-      title: post.metadata.title,
-      description: post.metadata.description,
+      title: metadata.title,
+      description: metadata.description,
       openGraph: {
-        title: post.metadata.title,
-        description: post.metadata.description,
+        title: metadata.title,
+        description: metadata.description,
         url,
         type: "article",
-        publishedTime: post.metadata.date,
+        publishedTime: metadata.date,
         authors: ["Yehyeok"],
         images,
       },
       twitter: {
         card: "summary_large_image",
-        title: post.metadata.title,
-        description: post.metadata.description,
+        title: metadata.title,
+        description: metadata.description,
         images,
       },
     };
-  } catch (e) {
-    return {};
+  } catch (e: unknown) {
+    if (typeof e === 'object' && e !== null && 'code' in e && (e as { code?: string }).code === 'ENOENT') {
+      return {};
+    }
+    // Rethrow to fail fast during build
+    throw e;
   }
 }
 
@@ -50,9 +54,12 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   let post;
   try {
     post = await getPostBySlug(resolvedParams.slug);
-  } catch (error) {
-    console.error("Failed to load post:", error);
-    notFound();
+  } catch (error: unknown) {
+    if (typeof error === 'object' && error !== null && 'code' in error && (error as { code?: string }).code === 'ENOENT') {
+      notFound();
+    }
+    console.error("Failed to load post (Validation error):", error);
+    throw error; // Fail-fast during build
   }
 
   if (!post) {
