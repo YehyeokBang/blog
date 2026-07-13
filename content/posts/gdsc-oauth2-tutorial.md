@@ -1,8 +1,15 @@
 ---
-title: "[GDSC] OAuth 2.0 사용해보기"
-date: "2023-10-26"
-summary: "GDSC 서버 파트 스터디를 위한 OAuth 2.0 튜토리얼로, GCP 프로젝트 설정부터 Spring Boot를 이용한 Google 로그인 구현 과정까지 다룹니다."
-tags: ["GDSC", "OAuth 2.0", "Google Login", "Spring Boot", "Security"]
+title: '[GDSC] OAuth 2.0 사용해보기'
+date: '2023-10-26'
+tags:
+  - GDSC
+  - OAuth 2.0
+  - Google Login
+  - Spring Boot
+  - Security
+description: >-
+  GDSC 서버 파트 스터디를 위한 OAuth 2.0 튜토리얼로, GCP 프로젝트 설정부터 Spring Boot를 이용한 Google 로그인
+  구현 과정까지 다룹니다.
 ---
 
 ## GDSC

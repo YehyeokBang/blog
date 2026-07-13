@@ -1,8 +1,11 @@
 ---
-title: "누군가에게 알려주기"
-date: "2023-09-01T00:00:00Z"
-summary: "GDSC 활동 회고와 전공학습 공동체 한솥밥 멘토링 경험을 통해 배운 효과적인 학습 방법에 대한 이야기입니다."
-tags: ["GDSC", "Mentoring", "Retrospective"]
+title: 누군가에게 알려주기
+date: '2023-09-01T00:00:00Z'
+tags:
+  - GDSC
+  - Mentoring
+  - Retrospective
+description: GDSC 활동 회고와 전공학습 공동체 한솥밥 멘토링 경험을 통해 배운 효과적인 학습 방법에 대한 이야기입니다.
 ---
 ## GDSC
 저는 작년 `GDSC 22-23` 에서 백엔드 파트에서 멤버로 활동했어요.

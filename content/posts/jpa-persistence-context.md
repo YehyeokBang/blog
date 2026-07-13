@@ -1,8 +1,12 @@
 ---
-title: "[JPA] 영속성 컨텍스트"
-date: "2023-07-12T00:00:00Z"
-summary: "JPA의 영속성 컨텍스트, 엔티티 매니저, 엔티티의 생명 주기 및 영속성 컨텍스트의 이점들에 대해 정리한 글입니다."
-tags: ["JPA", "Spring Data JPA", "Backend", "Database"]
+title: '[JPA] 영속성 컨텍스트'
+date: '2023-07-12T00:00:00Z'
+tags:
+  - JPA
+  - Spring Data JPA
+  - Backend
+  - Database
+description: 'JPA의 영속성 컨텍스트, 엔티티 매니저, 엔티티의 생명 주기 및 영속성 컨텍스트의 이점들에 대해 정리한 글입니다.'
 ---
 ## Spring Data JPA
 저는 지금까지 Spring Boot로 프로젝트를 진행하면서 JPA를 많이 사용했어요. 정확히는 Spring에서 제공하는 **Spring Data JPA**를 사용하여 많은 프로젝트를 사용했어요. Spring Data JPA는 데이터 접근 계층을 개발할 때 구현 클래스 없이 인터페이스만 작성해도 개발할 수 있도록 도와주며, 그 중에서도 인터페이스에 메소드를 선언하면 이름에 맞게 적절한 쿼리를 생성해주는 쿼리 메소드 기능을 자주 사용했어요.

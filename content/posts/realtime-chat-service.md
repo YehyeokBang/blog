@@ -1,8 +1,15 @@
 ---
-title: "실시간 채팅 서비스 만들어보기"
-date: "2023-09-28"
-summary: "카카오톡 먹통 사태를 계기로 Spring Boot와 WebSocket, React를 활용하여 간단한 실시간 단체 채팅 서비스를 만들어보는 과정을 기록합니다."
-tags: ["Kotlin", "Spring Boot", "WebSocket", "React", "TypeScript"]
+title: 실시간 채팅 서비스 만들어보기
+date: '2023-09-28'
+tags:
+  - Kotlin
+  - Spring Boot
+  - WebSocket
+  - React
+  - TypeScript
+description: >-
+  카카오톡 먹통 사태를 계기로 Spring Boot와 WebSocket, React를 활용하여 간단한 실시간 단체 채팅 서비스를 만들어보는
+  과정을 기록합니다.
 ---
 
 ## 계기

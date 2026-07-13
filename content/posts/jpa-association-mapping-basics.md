@@ -1,8 +1,12 @@
 ---
-title: "[JPA] 연관관계 매핑 기초"
-date: "2023-08-15T00:00:00Z"
-summary: "JPA의 연관관계 매핑 기초인 단방향 및 양방향 연관관계, 연관관계의 주인 설정 등에 대해 정리한 글입니다."
-tags: ["JPA", "Spring Data JPA", "Backend", "Database"]
+title: '[JPA] 연관관계 매핑 기초'
+date: '2023-08-15T00:00:00Z'
+tags:
+  - JPA
+  - Spring Data JPA
+  - Backend
+  - Database
+description: 'JPA의 연관관계 매핑 기초인 단방향 및 양방향 연관관계, 연관관계의 주인 설정 등에 대해 정리한 글입니다.'
 ---
 ## Spring Data JPA
 제가 Spring Data JPA를 배우고 기록하게 된 [계기](https://velog.io/@hyeok_1212/JPA-%EC%98%81%EC%86%8D%EC%84%B1-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8)입니다.

@@ -1,8 +1,14 @@
 ---
-title: "[Java] byte는 너무 short한데.."
-date: "2024-07-27"
-summary: "자바에서 byte와 short 타입이 잘 사용되지 않는 이유에 대해 범위, 형변환(Casting), 그리고 메모리 효율성 측면에서 분석해 봅니다."
-tags: ["Java", "Backend", "Type", "Memory"]
+title: '[Java] byte는 너무 short한데..'
+date: '2024-07-27'
+tags:
+  - Java
+  - Backend
+  - Type
+  - Memory
+description: >-
+  자바에서 byte와 short 타입이 잘 사용되지 않는 이유에 대해 범위, 형변환(Casting), 그리고 메모리 효율성 측면에서 분석해
+  봅니다.
 ---
 
 자바로 여러 프로젝트를 진행하면서 byte와 short는 사용한 적이 없는 것 같아요. 왜 그랬는지 생각해봤는데, 많은 레퍼런스에서도 사용한 것을 본 적이 없는 것 같아요. 또한 범위가 작다는 것도 이유가 될 것 같아요.

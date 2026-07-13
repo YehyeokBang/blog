@@ -1,8 +1,12 @@
 ---
-title: "[GDSC] Spring Boot로 REST API 만들어보기"
-date: "2023-09-10T00:00:00Z"
-summary: "GDSC 서버 파트 스터디를 위한 Spring Boot와 REST API 기초 개념 및 실습 자료입니다."
-tags: ["Spring Boot", "REST API", "Java", "GDSC"]
+title: '[GDSC] Spring Boot로 REST API 만들어보기'
+date: '2023-09-10T00:00:00Z'
+tags:
+  - Spring Boot
+  - REST API
+  - Java
+  - GDSC
+description: GDSC 서버 파트 스터디를 위한 Spring Boot와 REST API 기초 개념 및 실습 자료입니다.
 ---
 ## GDSC
 GDSC 서버 파트의 스터디를 위한 자료에요.

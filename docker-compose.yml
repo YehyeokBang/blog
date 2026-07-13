@@ -1,20 +1,20 @@
-version: '3.8'
-
 services:
   traefik:
-    image: traefik:v3.0
+    image: traefik:v3.1
     container_name: traefik
     restart: always
+    environment:
+      - DOCKER_API_VERSION=1.41
     command:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-      # Global HTTP -> HTTPS Redirection
+      # Global HTTP to HTTPS Redirection
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
-      # Let's Encrypt (ACME) Auto-SSL configuration
+      # ACME configuration
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       - "--certificatesresolvers.myresolver.acme.email=qkddpgur318@gmail.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
@@ -28,7 +28,6 @@ services:
       - blog-network
 
   frontend:
-    # Serves the static Nginx image built and pushed via GitHub Actions
     image: ghcr.io/yehyeokbang/blog-frontend:latest
     container_name: blog-frontend
     restart: always

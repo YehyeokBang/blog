@@ -1,7 +1,7 @@
 ---
 title: "2023 회고"
 date: "2024-04-13"
-summary: "2023년 한 해 동안 참여했던 GDSC 멤버 및 코어 활동, 멘토링 등의 경험을 돌아보며 성장 과정과 새해 다짐을 기록합니다."
+description: "2023년 한 해 동안 참여했던 GDSC 멤버 및 코어 활동, 멘토링 등의 경험을 돌아보며 성장 과정과 새해 다짐을 기록합니다."
 tags: ["Retrospective", "GDSC", "Mentoring", "Growth"]
 ---
 

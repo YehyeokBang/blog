@@ -1,8 +1,12 @@
 ---
-title: "스터디 진행 회고"
-date: "2024-08-17"
-summary: "HTTP 웹 기본 지식 강의 수강 후 교내 GDSC에서 HTTP 스터디를 직접 모집하고 진행한 경험에 대한 회고입니다."
-tags: ["Retrospective", "Study", "HTTP", "Growth"]
+title: 스터디 진행 회고
+date: '2024-08-17'
+tags:
+  - Retrospective
+  - Study
+  - HTTP
+  - Growth
+description: HTTP 웹 기본 지식 강의 수강 후 교내 GDSC에서 HTTP 스터디를 직접 모집하고 진행한 경험에 대한 회고입니다.
 ---
 
 # HTTP

@@ -1,8 +1,15 @@
 ---
-title: "우리 팀은 이렇게 쿼리를 개선했어요"
-date: "2025-10-01"
-summary: "보따리 백엔드 팀이 대용량 데이터 환경에서 느린 쿼리를 발견하고, 커서 기반 페이징과 Full-Text Index, STRAIGHT_JOIN을 통해 99% 이상 성능을 개선한 과정을 소개합니다."
-tags: ["DB", "MySQL", "Query Tuning", "Backend", "Performance"]
+title: 우리 팀은 이렇게 쿼리를 개선했어요
+date: '2025-10-01'
+tags:
+  - DB
+  - MySQL
+  - Query Tuning
+  - Backend
+  - Performance
+description: >-
+  보따리 백엔드 팀이 대용량 데이터 환경에서 느린 쿼리를 발견하고, 커서 기반 페이징과 Full-Text Index,
+  STRAIGHT_JOIN을 통해 99% 이상 성능을 개선한 과정을 소개합니다.
 ---
 
 # 진행 중인 프로젝트
