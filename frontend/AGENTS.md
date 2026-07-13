@@ -202,3 +202,8 @@ Consider refactoring when:
 - A function/component exceeds 100 lines
 - Props are passed through 3+ components unchanged
 - The exact same complex logic appears in 3+ places
+
+## Next.js Static Export (SSG) & CI/CD Guidelines
+1. **Build-Time Environment Variables**: In a Next.js static export (`output: "export"`), all `NEXT_PUBLIC_*` environment variables are baked into the JavaScript bundle and HTML at **build time**. 
+2. **CI Pipeline Injection**: When using GitHub Actions (or any CI) to build the static export (`npm run build`), you MUST explicitly inject all required `NEXT_PUBLIC_*` environment variables into the build step. Failing to do so will result in them being `undefined` or falling back to local defaults (e.g., `http://localhost:3000`), breaking production SEO and routing.
+3. **DRY Configuration**: Never hardcode fallback URLs like `process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'` in multiple files (e.g., `layout.tsx`, `sitemap.ts`, `robots.ts`). Define it once in a `lib/constants.ts` file and export it to ensure consistency.

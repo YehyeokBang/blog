@@ -4,10 +4,28 @@ import "./globals.css";
 import { Providers } from "./providers";
 import ThemeToggle from "@/components/ThemeToggle";
 import NavLinks from "@/components/NavLinks";
+import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Yehyeok | Backend Dev Blog",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    template: "%s | Yehyeok",
+    default: "Yehyeok | Backend Dev Blog",
+  },
   description: "배움과 기록을 위한 개인 개발 블로그 및 백엔드 실험실",
+  openGraph: {
+    title: "Yehyeok | Backend Dev Blog",
+    description: "배움과 기록을 위한 개인 개발 블로그 및 백엔드 실험실",
+    url: "/",
+    siteName: "Yehyeok's Blog",
+    locale: "ko_KR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Yehyeok | Backend Dev Blog",
+    description: "배움과 기록을 위한 개인 개발 블로그 및 백엔드 실험실",
+  },
 };
 
 export default function RootLayout({
