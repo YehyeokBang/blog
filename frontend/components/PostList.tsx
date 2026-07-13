@@ -47,34 +47,46 @@ export default function PostList({ initialPosts }: PostListProps) {
           </div>
         ) : (
           filteredPosts.map((post) => (
-            <article key={post.slug} className="group flex flex-col items-start">
-              <div className="flex items-center gap-xs text-caption text-muted mb-sm">
-                <span>{post.date}</span>
-                <span>·</span>
-                <span>읽는 시간 {post.readingTime}분</span>
+            <article key={post.slug} className="group relative flex items-start gap-lg w-full">
+              <div className="flex-1 flex flex-col items-start min-w-0">
+                <div className="flex items-center gap-xs text-caption text-muted mb-sm">
+                  <span>{post.date}</span>
+                  <span>·</span>
+                  <span>읽는 시간 {post.readingTime}분</span>
+                </div>
+
+                <h2 className="text-title-lg font-bold text-ink group-hover:text-primary transition-colors mb-sm leading-snug">
+                  <Link href={`/posts/${post.slug}`} className="after:absolute after:inset-0">
+                    {post.title}
+                  </Link>
+                </h2>
+
+                <p className="text-body-md text-body leading-relaxed mb-md">
+                  {post.description}
+                </p>
+
+                <div className="flex flex-wrap gap-xs">
+                  {(post.tags || []).map((tag) => (
+                    <button
+                      key={tag}
+                      onClick={() => setSelectedTag(tag)}
+                      className="relative z-10 px-[10px] py-[4px] text-[12px] font-semibold rounded-full bg-surface-soft text-muted hover:text-ink transition-colors border-0 focus:outline-none cursor-pointer"
+                    >
+                      #{tag}
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              <h2 className="text-title-lg font-bold text-ink group-hover:text-primary transition-colors mb-sm leading-snug">
-                <Link href={`/posts/${post.slug}`}>
-                  {post.title}
-                </Link>
-              </h2>
-
-              <p className="text-body-md text-body leading-relaxed mb-md">
-                {post.description}
-              </p>
-
-              <div className="flex flex-wrap gap-xs">
-                {(post.tags || []).map((tag) => (
-                  <button
-                    key={tag}
-                    onClick={() => setSelectedTag(tag)}
-                    className="px-[10px] py-[4px] text-[12px] font-semibold rounded-full bg-surface-soft text-muted hover:text-ink transition-colors border-0 focus:outline-none cursor-pointer"
-                  >
-                    #{tag}
-                  </button>
-                ))}
-              </div>
+              {post.thumbnail && (
+                <div className="hidden sm:block shrink-0 w-[140px] h-[90px] overflow-hidden rounded-md bg-surface-muted">
+                  <img
+                    src={post.thumbnail}
+                    alt={`${post.title} 썸네일`}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+              )}
             </article>
           ))
         )}

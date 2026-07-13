@@ -4,6 +4,7 @@ import PostContent from "@/components/PostContent";
 import TOC from "@/components/TOC";
 import { Metadata } from "next";
 import Link from "next/link";
+import { SITE_URL } from "@/lib/constants";
 
 export async function generateStaticParams() {
   const slugs = await getPostSlugs();
@@ -19,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     if (!metadata) return {};
 
     const url = `/posts/${resolvedParams.slug}`;
-    const images = metadata.thumbnail ? [metadata.thumbnail] : [];
+    const images = metadata.thumbnail ? [metadata.thumbnail] : ["/images/og-default.webp"];
 
     return {
       title: metadata.title,
@@ -66,8 +67,27 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
     notFound();
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.metadata.title,
+    datePublished: post.metadata.date,
+    author: [{
+      "@type": "Person",
+      name: "Yehyeok"
+    }],
+    description: post.metadata.description,
+    image: post.metadata.thumbnail ? `${SITE_URL}${post.metadata.thumbnail}` : `${SITE_URL}/images/og-default.webp`,
+    url: `${SITE_URL}/posts/${resolvedParams.slug}`,
+  };
+
   return (
-    <div className="flex flex-col lg:flex-row gap-xl relative py-xl">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+      />
+      <div className="flex flex-col lg:flex-row gap-xl relative py-xl">
       <article className="flex-1 max-w-[800px] w-full min-w-0">
         <div className="mb-lg">
           <Link
@@ -108,5 +128,6 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         </div>
       </aside>
     </div>
+    </>
   );
 }
