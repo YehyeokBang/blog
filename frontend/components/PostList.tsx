@@ -80,6 +80,7 @@ export default function PostList({ initialPosts }: PostListProps) {
 
               {post.thumbnail && (
                 <div className="hidden sm:block shrink-0 w-[140px] h-[90px] overflow-hidden rounded-md bg-surface-muted">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={post.thumbnail}
                     alt={`${post.title} 썸네일`}
