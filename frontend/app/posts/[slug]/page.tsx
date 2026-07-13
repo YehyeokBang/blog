@@ -40,8 +40,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         images,
       },
     };
-  } catch (e: any) {
-    if (e.code === 'ENOENT') {
+  } catch (e: unknown) {
+    if (typeof e === 'object' && e !== null && 'code' in e && (e as { code?: string }).code === 'ENOENT') {
       return {};
     }
     // Rethrow to fail fast during build
@@ -54,8 +54,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   let post;
   try {
     post = await getPostBySlug(resolvedParams.slug);
-  } catch (error: any) {
-    if (error.code === 'ENOENT') {
+  } catch (error: unknown) {
+    if (typeof error === 'object' && error !== null && 'code' in error && (error as { code?: string }).code === 'ENOENT') {
       notFound();
     }
     console.error("Failed to load post (Validation error):", error);

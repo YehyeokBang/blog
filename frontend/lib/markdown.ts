@@ -79,8 +79,8 @@ export async function getPostMetadataBySlug(slug: string): Promise<PostMetadata 
       slug,
       readingTime: calculateReadingTime(content),
     };
-  } catch (error: any) {
-    if (error.code === 'ENOENT') {
+  } catch (error: unknown) {
+    if (typeof error === 'object' && error !== null && 'code' in error && (error as { code?: string }).code === 'ENOENT') {
       return null;
     }
     console.error(`[Fail-fast] Error reading metadata for ${slug}:`, error);
