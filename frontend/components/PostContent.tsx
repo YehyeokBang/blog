@@ -33,7 +33,7 @@ export default function PostContent({ content }: { content: string }) {
 
       const copyBtn = document.createElement("button");
       // Sleek, dark-mode adapted copy button on the top right
-      copyBtn.className = "absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-white/5 hover:bg-white/10 text-muted-soft hover:text-white border border-transparent hover:border-white/10 transition-all focus:outline-none backdrop-blur-sm z-10";
+      copyBtn.className = "absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-white/10 hover:bg-white/20 text-muted hover:text-white border border-transparent hover:border-white/20 transition-all focus:outline-none backdrop-blur-sm z-10";
       
       const copyIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
       const checkIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>`;
@@ -44,11 +44,11 @@ export default function PostContent({ content }: { content: string }) {
         const codeElement = pre.querySelector("code");
         if (codeElement) {
           navigator.clipboard.writeText(codeElement.innerText).then(() => {
-            copyBtn.classList.replace("text-muted-soft", "text-green-400");
+            copyBtn.classList.replace("text-muted", "text-green-400");
             copyBtn.classList.replace("hover:text-white", "hover:text-green-400");
             copyBtn.innerHTML = `${checkIcon}<span class="text-[11px] font-medium tracking-wide">완료</span>`;
             setTimeout(() => {
-              copyBtn.classList.replace("text-green-400", "text-muted-soft");
+              copyBtn.classList.replace("text-green-400", "text-muted");
               copyBtn.classList.replace("hover:text-green-400", "hover:text-white");
               copyBtn.innerHTML = `${copyIcon}<span class="text-[11px] font-medium tracking-wide">복사</span>`;
             }, 2000);

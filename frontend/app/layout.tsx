@@ -21,11 +21,13 @@ export const metadata: Metadata = {
     siteName: "Yehyeok's Blog",
     locale: "ko_KR",
     type: "website",
+    images: ["/images/og-default.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "Yehyeok's Blog",
     description: "배움과 기록을 위한 개인 개발 블로그 및 백엔드 실험실",
+    images: ["/images/og-default.png"],
   },
 };
 

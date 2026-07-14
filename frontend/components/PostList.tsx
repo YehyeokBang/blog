@@ -90,7 +90,7 @@ export default function PostList({ initialPosts }: PostListProps) {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={post.thumbnail}
-                    alt={`${post.title} 썸네일`}
+                    alt={post.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </Link>
