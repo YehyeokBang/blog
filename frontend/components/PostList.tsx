@@ -40,28 +40,28 @@ export default function PostList({ initialPosts }: PostListProps) {
         ))}
       </div>
 
-      <div className="flex flex-col gap-xxl w-full">
+      <div className="flex flex-col gap-[80px] w-full">
         {filteredPosts.length === 0 ? (
           <div className="py-xl text-center text-muted">
             등록된 아티클이 없습니다.
           </div>
         ) : (
           filteredPosts.map((post) => (
-            <article key={post.slug} className="group relative flex items-start gap-lg w-full">
-              <div className="flex-1 flex flex-col items-start min-w-0">
-                <div className="flex items-center gap-xs text-caption text-muted mb-sm">
+            <article key={post.slug} className="flex flex-col-reverse sm:flex-row items-start gap-xl w-full">
+              <div className="flex-1 flex flex-col items-start min-w-0 w-full">
+                <div className="flex items-center gap-xs text-caption text-muted mb-md">
                   <span>{post.date}</span>
                   <span>·</span>
                   <span>읽는 시간 {post.readingTime}분</span>
                 </div>
 
-                <h2 className="text-title-lg font-bold text-ink group-hover:text-primary transition-colors mb-sm leading-snug">
-                  <Link href={`/posts/${post.slug}`} className="after:absolute after:inset-0">
+                <h2 className="text-[26px] sm:text-[30px] font-bold text-ink mb-md leading-[1.3] break-keep">
+                  <Link href={`/posts/${post.slug}`} className="hover:text-primary hover:underline underline-offset-[6px] decoration-[2px] transition-all">
                     {post.title}
                   </Link>
                 </h2>
 
-                <p className="text-body-md text-body leading-relaxed mb-md">
+                <p className="text-body-md sm:text-[16px] text-body leading-relaxed mb-lg line-clamp-3">
                   {post.description}
                 </p>
 
@@ -70,7 +70,7 @@ export default function PostList({ initialPosts }: PostListProps) {
                     <button
                       key={tag}
                       onClick={() => setSelectedTag(tag)}
-                      className="relative z-10 px-[10px] py-[4px] text-[12px] font-semibold rounded-full bg-surface-soft text-muted hover:text-ink transition-colors border-0 focus:outline-none cursor-pointer"
+                      className="px-[12px] py-[6px] text-[13px] font-semibold rounded-full bg-surface-soft text-muted hover:text-ink transition-colors border-0 focus:outline-none cursor-pointer"
                     >
                       #{tag}
                     </button>
@@ -79,14 +79,14 @@ export default function PostList({ initialPosts }: PostListProps) {
               </div>
 
               {post.thumbnail && (
-                <div className="hidden sm:block shrink-0 w-[140px] h-[90px] overflow-hidden rounded-md bg-surface-muted">
+                <Link href={`/posts/${post.slug}`} className="group shrink-0 w-full sm:w-[200px] h-[130px] overflow-hidden rounded-lg bg-surface-muted">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={post.thumbnail}
                     alt={`${post.title} 썸네일`}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                </div>
+                </Link>
               )}
             </article>
           ))
