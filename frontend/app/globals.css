@@ -8,16 +8,16 @@
   --font-sans: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-mono: "JetBrains Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
-  --text-display-xl: 48px;
-  --text-display-lg: 36px;
-  --text-display-md: 24px;
-  --text-title-lg: 20px;
-  --text-title-md: 17px;
-  --text-body-lg: 17px;
-  --text-body-md: 15px;
-  --text-caption: 14px;
-  --text-code: 14px;
-  --text-tag: 13px;
+  --text-display-xl: 52px;
+  --text-display-lg: 40px;
+  --text-display-md: 28px;
+  --text-title-lg: 22px;
+  --text-title-md: 20px;
+  --text-body-lg: 18px;
+  --text-body-md: 16px;
+  --text-caption: 15px;
+  --text-code: 15px;
+  --text-tag: 14px;
 
   --color-primary: #008A63; /* Vibrant Mint-Green for energy */
   --color-primary-hover: #007050;

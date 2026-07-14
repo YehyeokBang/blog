@@ -47,16 +47,16 @@ The system exclusively runs **Pretendard** (or Toss Product Sans / Apple SD Goth
 
 | Token | Size | Weight | Line Height | Letter Spacing | Use |
 |---|---|---|---|---|---|
-| `{typography.display-xl}` | 48px | 800 | 1.3 | -0.02em | Hero headline on main page ("개발" / "디자인") |
-| `{typography.display-lg}` | 36px | 700 | 1.4 | -0.01em | Post Detail h1 (Article Title) |
-| `{typography.display-md}` | 24px | 700 | 1.4 | 0 | Section heads inside article (h2) |
-| `{typography.title-lg}` | 20px | 600 | 1.5 | 0 | Article feed card titles |
-| `{typography.title-md}` | 17px | 600 | 1.5 | 0 | Sub-section heads (h3) |
-| `{typography.body-lg}` | 17px | 400 | 1.6 | 0 | Default running-text inside listing copy (Highly legible) |
-| `{typography.body-md}` | 15px | 400 | 1.5 | 0 | Short descriptions on feed cards |
-| `{typography.caption}` | 14px | 500 | 1.5 | 0 | Author names, dates, read times |
-| `{typography.code}` | 14px | 400 | 1.5 | 0 | Code blocks — JetBrains Mono |
-| `{typography.tag}` | 13px | 600 | 1.4 | 0 | Category tags ("Spring Boot", "Architecture") |
+| `{typography.display-xl}` | 52px | 800 | 1.3 | -0.02em | Hero headline on main page ("개발" / "디자인") |
+| `{typography.display-lg}` | 40px | 700 | 1.4 | -0.01em | Post Detail h1 (Article Title) |
+| `{typography.display-md}` | 28px | 700 | 1.4 | 0 | Section heads inside article (h2) |
+| `{typography.title-lg}` | 22px | 600 | 1.5 | 0 | Article feed card titles |
+| `{typography.title-md}` | 20px | 600 | 1.5 | 0 | Sub-section heads (h3) |
+| `{typography.body-lg}` | 18px | 400 | 1.6 | 0 | Default running-text inside listing copy (Highly legible) |
+| `{typography.body-md}` | 16px | 400 | 1.5 | 0 | Short descriptions on feed cards |
+| `{typography.caption}` | 15px | 500 | 1.5 | 0 | Author names, dates, read times |
+| `{typography.code}` | 15px | 400 | 1.5 | 0 | Code blocks — JetBrains Mono |
+| `{typography.tag}` | 14px | 600 | 1.4 | 0 | Category tags ("Spring Boot", "Architecture") |
 
 ### Principles
 Size and weight do all the heavy lifting. Toss does not use all-caps or small-caps for hierarchy. The transition from a massive 36px/700 weight title down to a 17px/400 weight body creates an immediate, clear structure without needing decorative underlines or colors.
