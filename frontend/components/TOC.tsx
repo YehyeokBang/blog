@@ -15,7 +15,6 @@ export default function TOC() {
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    // Find all headings inside article, exclude h3+ and blockquote children
     const elements = Array.from(
       document.querySelectorAll("article h1, article h2")
     ).filter((elem) => !elem.closest("blockquote")) as HTMLElement[];
@@ -33,44 +32,60 @@ export default function TOC() {
     if (items.length === 0) return;
 
     /**
-     * 업계 표준: scroll + 역방향 탐색(reverse iteration) 알고리즘
+     * 알고리즘: 비례 압축(Proportional Threshold Compression) + 역방향 탐색
      *
-     * 동작 원리:
-     *  1. 헤딩들을 역순으로 순회하면서, 현재 scrollY 기준으로
-     *     "이미 지나친 헤딩" 중 가장 마지막 것을 active로 설정.
-     *  2. 스크롤이 페이지 맨 끝에 도달하면 마지막 헤딩을 강제 활성화.
-     *     → 짧은 본문에서 마지막 헤딩 하이라이팅이 멈추는 버그 해결.
+     * 문제 상황:
+     *   짧은 페이지에서 maxScroll이 작으면, 마지막 몇 개의 헤딩은 고정 OFFSET
+     *   기준선을 통과할 만큼 스크롤할 수 없다.
+     *   기존의 isAtBottom 강제 점프는 중간 헤딩을 통째로 건너뛰는 버그를 낳는다.
      *
-     * IntersectionObserver 대신 scroll 이벤트를 쓰는 이유:
-     *  IO는 헤딩이 viewport를 완전히 벗어나면 콜백 발화 자체가 안 되므로
-     *  짧은 페이지의 마지막 섹션 문제를 근본적으로 해결하기 어렵다.
-     *  scroll 이벤트는 requestAnimationFrame으로 스로틀링해 성능을 확보한다.
+     * 해결 방법:
+     *   각 헤딩의 "자연 threshold"(헤딩이 기준선 위치에 도달하는 scrollY)를 계산한다.
+     *   마지막 헤딩의 자연 threshold가 maxScroll을 초과하면,
+     *   모든 threshold를 maxScroll 내에 비례 압축(scale)한다.
+     *   → 짧은 페이지에서도 모든 헤딩이 하나씩 순서대로 활성화된다.
+     *   → isAtBottom 강제 점프 불필요.
      */
-    const OFFSET = 96; // 헤딩이 여기(px, 뷰포트 상단 기준)에 도달하면 active로 판정
+    const NAVBAR_HEIGHT = 96; // 네비바 + 여백 (px)
 
-    function getActiveId(): string {
-      // 페이지 맨 끝 체크: 더 이상 스크롤할 수 없으면 마지막 헤딩 활성화
-      const isAtBottom =
-        window.innerHeight + window.scrollY >= document.body.scrollHeight - 4;
-      if (isAtBottom) {
-        return items[items.length - 1].id;
+    function computeThresholds(): number[] {
+      const maxScroll = Math.max(
+        document.body.scrollHeight - window.innerHeight,
+        0
+      );
+
+      // 각 헤딩의 자연 threshold: 그 헤딩이 NAVBAR_HEIGHT 위치에 오는 scrollY 값
+      const natural = elements.map((el) =>
+        Math.max(0, el.offsetTop - NAVBAR_HEIGHT)
+      );
+
+      // 페이지가 짧아서 마지막 헤딩의 threshold가 maxScroll을 넘으면
+      // 전체를 비례 압축하여 [0, maxScroll] 안에 맞춤
+      const lastNatural = natural[natural.length - 1];
+      if (maxScroll > 0 && lastNatural > maxScroll) {
+        const scale = maxScroll / lastNatural;
+        return natural.map((t) => t * scale);
       }
 
-      // 역방향 탐색: 위에서 OFFSET px 아래 기준점을 이미 지난 헤딩 중 가장 마지막 것
-      for (let i = elements.length - 1; i >= 0; i--) {
-        const top = elements[i].getBoundingClientRect().top;
-        if (top <= OFFSET) {
+      return natural;
+    }
+
+    // thresholds는 resize 때 재계산하므로 let으로 선언
+    let thresholds = computeThresholds();
+
+    function getActiveId(): string {
+      const scrollY = window.scrollY;
+      for (let i = thresholds.length - 1; i >= 0; i--) {
+        if (scrollY >= thresholds[i]) {
           return items[i].id;
         }
       }
-
-      // 아직 아무 헤딩도 지나치지 않았으면(페이지 최상단) 첫 헤딩 활성화
       return items[0].id;
     }
 
     function onScroll() {
       if (clickLockedRef.current) return;
-      if (rafRef.current !== null) return; // 이미 RAF 예약됨
+      if (rafRef.current !== null) return;
 
       rafRef.current = requestAnimationFrame(() => {
         rafRef.current = null;
@@ -78,12 +93,20 @@ export default function TOC() {
       });
     }
 
-    // 초기 렌더 시 한 번 실행
+    function onResize() {
+      // 뷰포트 크기가 바뀌면 threshold 재계산
+      thresholds = computeThresholds();
+      setActiveId(getActiveId());
+    }
+
     setActiveId(getActiveId());
 
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize, { passive: true });
+
     return () => {
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
   }, []);
