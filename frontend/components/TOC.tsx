@@ -15,36 +15,38 @@ export default function TOC() {
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
+    // id가 없는 헤딩은 TOC에 표시하지 않으므로, elements도 동일하게 필터링
+    // → thresholds[i]와 items[i]가 항상 같은 헤딩을 가리키도록 보장
     const elements = Array.from(
       document.querySelectorAll("article h1, article h2")
-    ).filter((elem) => !elem.closest("blockquote")) as HTMLElement[];
+    )
+      .filter((elem) => !elem.closest("blockquote") && (elem as HTMLElement).id)
+      .map((elem) => elem as HTMLElement);
 
-    const items: TOCItem[] = elements
-      .map((elem) => ({
-        id: elem.id,
-        text: elem.textContent || "",
-        level: Number(elem.tagName.charAt(1)),
-      }))
-      .filter((item) => item.id);
+    const items: TOCItem[] = elements.map((elem) => ({
+      id: elem.id,
+      text: elem.textContent || "",
+      level: Number(elem.tagName.charAt(1)),
+    }));
 
     setHeadings(items);
 
     if (items.length === 0) return;
 
     /**
-     * 알고리즘: 비례 압축(Proportional Threshold Compression) + 역방향 탐색
+     * 알고리즘: 선택적 오버플로우 압축(Selective Overflow Compression) + 역방향 탐색
      *
      * 문제 상황:
-     *   짧은 페이지에서 maxScroll이 작으면, 마지막 몇 개의 헤딩은 고정 OFFSET
-     *   기준선을 통과할 만큼 스크롤할 수 없다.
-     *   기존의 isAtBottom 강제 점프는 중간 헤딩을 통째로 건너뛰는 버그를 낳는다.
+     *   짧은 페이지에서는 마지막 몇 개 헤딩이 maxScroll을 넘어 도달 불가능해진다.
+     *   → 이전 "전체 비례 압축"은 모든 threshold를 줄여서, 긴 페이지에서도
+     *     이미 도달 가능한 헤딩들이 너무 일찍 활성화되는 부작용이 있었다.
      *
      * 해결 방법:
-     *   각 헤딩의 "자연 threshold"(헤딩이 기준선 위치에 도달하는 scrollY)를 계산한다.
-     *   마지막 헤딩의 자연 threshold가 maxScroll을 초과하면,
-     *   모든 threshold를 maxScroll 내에 비례 압축(scale)한다.
-     *   → 짧은 페이지에서도 모든 헤딩이 하나씩 순서대로 활성화된다.
-     *   → isAtBottom 강제 점프 불필요.
+     *   1. 각 헤딩의 "자연 threshold"(헤딩이 기준선에 도달하는 scrollY)를 계산한다.
+     *   2. maxScroll 이하 헤딩 → 자연 threshold 그대로 사용 (정확한 위치 유지).
+     *   3. maxScroll 초과 헤딩(도달 불가) → 선행 헤딩의 threshold ~ maxScroll 범위에
+     *      균등하게 배분한다.
+     *   → 정확도(긴 페이지)와 완전성(짧은 페이지) 모두 확보.
      */
     const NAVBAR_HEIGHT = 96; // 네비바 + 여백 (px)
 
@@ -59,15 +61,28 @@ export default function TOC() {
         Math.max(0, el.offsetTop - NAVBAR_HEIGHT)
       );
 
-      // 페이지가 짧아서 마지막 헤딩의 threshold가 maxScroll을 넘으면
-      // 전체를 비례 압축하여 [0, maxScroll] 안에 맞춤
       const lastNatural = natural[natural.length - 1];
-      if (maxScroll > 0 && lastNatural > maxScroll) {
-        const scale = maxScroll / lastNatural;
-        return natural.map((t) => t * scale);
+
+      // 모든 헤딩이 도달 가능하면 자연 threshold 그대로 반환
+      if (maxScroll <= 0 || lastNatural <= maxScroll) {
+        return natural;
       }
 
-      return natural;
+      // maxScroll을 초과하는 첫 번째 헤딩의 인덱스를 찾는다
+      const overflowStart = natural.findIndex((t) => t > maxScroll);
+
+      // overflowStart 이전 헤딩들은 자연 threshold 유지
+      // overflowStart 이후 헤딩들은 [anchorThreshold, maxScroll] 범위에 균등 배분
+      const anchorThreshold =
+        overflowStart > 0 ? natural[overflowStart - 1] : 0;
+      const overflowCount = natural.length - overflowStart;
+      const range = maxScroll - anchorThreshold;
+
+      return natural.map((t, i) => {
+        if (i < overflowStart) return t; // 도달 가능 헤딩: 자연 threshold 유지
+        const fraction = (i - overflowStart + 1) / overflowCount;
+        return anchorThreshold + fraction * range;
+      });
     }
 
     // thresholds는 resize 때 재계산하므로 let으로 선언
