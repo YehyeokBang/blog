@@ -1,6 +1,6 @@
 # 프로젝트 종합 리뷰 리포트 (v2 — 적대적 재검증 반영판)
 
-> 작성일: 2026-07-13 · 리뷰 기준 브랜치: `feature/seo-meta` (커밋 `90bb3dc`, `34f7856` 포함, main 미머지·미배포) · 라이브: https://blog.yehyeok.xyz
+> 작성일: 2026-07-13 · 리뷰 기준 브랜치: `feature/seo-meta` (커밋 `90bb3dc`, `34f7856` 포함, main 미머지·미배포)
 >
 > **v2 안내**: v1 작성 후, 독립된 검증 에이전트 4개(문서/코드/인프라/SEO)가 v1의 모든 주장을 "반박 목적"으로 재검증했습니다.
 > 그 결과 **오류 4건, 과장 6건을 정정**했고, v1이 놓친 **실질 이슈 12건**을 추가했습니다. 상세 판정은 §10 참조.
@@ -34,7 +34,7 @@
 - **콘텐츠**: `content/posts/*.md` 40개 (Velog 이관분 + 이관 이후 신규 작성분 혼재 — 예: `claude-code-rewind.md`는 2026-04-25 신규 글). 이미지는 WebP로 `frontend/public/images/posts/<slug>/`에 존재, 라이브 200 확인.
   - ~~v1의 "Velog 42개 중 40개 이관 완료"는 부정확~~ → 신규 글이 섞여 있어 이관 수는 40 미만. Velog 원본 42개 전부가 옮겨졌는지는 미확인 (§9 Q2와 연관).
 - **배포 파이프라인**: main 푸시 → GitHub-hosted ARM 빌더에서 SSG 빌드 → Nginx 이미지로 GHCR 푸시 → VPS 내 self-hosted runner가 pull & `docker compose up -d`. Traefik이 HTTPS(Let's Encrypt) 자동 처리. **SSH 키를 외부에 두지 않은 것은 잘한 보안 결정.** (참고: 이미지는 arm64 단일 아키텍처 — Oracle ARM 서버에 정합. 커밋 `eec3b0e` 제목의 "멀티 플랫폼"은 최종 상태와 다르니 히스토리를 읽을 때 주의.)
-- **도메인**: `blog.yehyeok.xyz` 운영 중 (문서에는 "도메인 없음"으로 남아 있음 — §3.3).
+- **도메인**: 운영 중 (문서에는 "도메인 없음"으로 남아 있음 — §3.3).
 - **디자인 시스템**: `docs/design.md` 토큰 정의가 `globals.css @theme`으로 충실히 구현됨. 문서→코드 대응이 깔끔한 모범 사례.
 
 > ⚠️ **v1 정정**: v1은 "Fail-fast 빌드 검증 — 잘못된 글이 배포되기 전에 빌드가 죽는 설계"를 완료 항목으로 꼽았으나, **재검증 결과 이 주장은 틀렸습니다.** 검증 로직은 존재하지만 모든 호출부가 예외를 삼켜 빌드는 죽지 않습니다. 상세는 §5.0.
@@ -144,7 +144,7 @@
 
 | 위치 | 문서 내용 | 현실 |
 |------|----------|------|
-| `docs/architecture.md:67` | "도메인: 아직 없음. IP로 우선 운영" | `blog.yehyeok.xyz` 운영 중 |
+| `docs/architecture.md:67` | "도메인: 아직 없음. IP로 우선 운영" | 도메인 운영 중 |
 | `docs/architecture.md:100-103` | 루트 구조도가 `backend/`에 src/, build.gradle.kts, Dockerfile이 있는 것처럼 표기 | `backend/`는 `.gitkeep`뿐인 빈 폴더 — 구조도가 신규 에이전트를 오도 |
 | `docs/architecture.md:86` | "**무중단**으로 컨테이너를 재시작" | `docker compose up -d`는 단일 컨테이너 stop→recreate라 수 초 다운타임 발생. 무중단 아님 (v2 추가) |
 | `docs/feature-roadmap.md:83` | "블로그 이름/브랜드 미정, 우선 IP 운영" | 도메인 확보로 절반 해소 |
