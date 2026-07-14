@@ -17,9 +17,9 @@
   --text-code: 14px;
   --text-tag: 13px;
 
-  --color-primary: #00C896;
-  --color-primary-hover: #00A67C;
-  --color-primary-surface: #E6F9F4;
+  --color-primary: #047857; /* Deep Emerald for readability */
+  --color-primary-hover: #065F46;
+  --color-primary-surface: #ECFDF5;
   --color-canvas: #FFFFFF;
   --color-surface-soft: #F9FAFB;
   --color-surface-muted: #F2F4F6;
