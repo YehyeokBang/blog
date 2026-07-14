@@ -29,9 +29,12 @@ export default function TOC() {
       level: Number(elem.tagName.charAt(1)),
     }));
 
-    setHeadings(items);
-
     if (items.length === 0) return;
+
+    // effect 본문에서 setState를 동기 호출하면 cascading render 경고 발생
+    // (react-hooks/set-state-in-effect 린트 규칙)
+    // → setTimeout 콜백 안에서 호출해 비동기로 처리
+    const headingTimer = setTimeout(() => setHeadings(items), 0);
 
     /**
      * 알고리즘: 자연 threshold + 마지막 헤딩 한정 isAtBottom
@@ -89,6 +92,7 @@ export default function TOC() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
+      clearTimeout(headingTimer);
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
   }, []);
