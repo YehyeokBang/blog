@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { PostMetadata } from "@/lib/markdown";
 
@@ -11,12 +11,15 @@ interface PostListProps {
 }
 
 export default function PostList({ initialPosts }: PostListProps) {
-  const [selectedTag, setSelectedTag] = useState(ALL_TAG);
+  const searchParams = useSearchParams();
+  const tagParam = searchParams?.get("tag");
 
   const uniqueTags = Array.from(
     new Set(initialPosts.flatMap((post) => post.tags || []))
   );
   const tags = [ALL_TAG, ...uniqueTags];
+  
+  const selectedTag = tagParam && uniqueTags.includes(tagParam) ? tagParam : ALL_TAG;
 
   const filteredPosts = selectedTag === ALL_TAG
     ? initialPosts
@@ -26,17 +29,17 @@ export default function PostList({ initialPosts }: PostListProps) {
     <div>
       <div className="flex overflow-x-auto gap-sm mb-xxl border-b border-hairline-soft pb-lg [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         {tags.map((tag) => (
-          <button
+          <Link
             key={tag}
-            onClick={() => setSelectedTag(tag)}
-            className={`whitespace-nowrap shrink-0 px-[12px] py-[6px] text-tag font-semibold rounded-full cursor-pointer transition-colors border-0 focus:outline-none ${
+            href={tag === ALL_TAG ? "/" : `/?tag=${encodeURIComponent(tag)}`}
+            className={`whitespace-nowrap shrink-0 px-[12px] py-[6px] text-tag font-semibold rounded-full transition-colors focus:outline-none ${
               selectedTag === tag
                 ? "bg-color-primary-surface text-primary"
                 : "bg-surface-muted text-body hover:bg-hairline"
             }`}
           >
-            {tag}
-          </button>
+            {tag === ALL_TAG ? tag : `#${tag}`}
+          </Link>
         ))}
       </div>
 
@@ -56,7 +59,11 @@ export default function PostList({ initialPosts }: PostListProps) {
                 </div>
 
                 <h2 className="text-[26px] sm:text-[30px] font-bold text-ink mb-md leading-[1.3] break-keep">
-                  <Link href={`/posts/${post.slug}`} className="hover:underline underline-offset-[6px] decoration-[3px] sm:decoration-[4px] decoration-skip-ink-none transition-all duration-75">
+                  <Link 
+                    href={`/posts/${post.slug}`} 
+                    className="hover:underline dark:hover:text-primary underline-offset-[6px] decoration-[3px] sm:decoration-[4px] transition-all duration-75"
+                    style={{ textDecorationSkipInk: "none", WebkitTextDecorationSkip: "none" }}
+                  >
                     {post.title}
                   </Link>
                 </h2>
@@ -67,13 +74,13 @@ export default function PostList({ initialPosts }: PostListProps) {
 
                 <div className="flex flex-wrap gap-xs">
                   {(post.tags || []).map((tag) => (
-                    <button
+                    <Link
                       key={tag}
-                      onClick={() => setSelectedTag(tag)}
-                      className="px-[12px] py-[6px] text-[13px] font-semibold rounded-full bg-surface-soft text-muted hover:text-ink transition-colors border-0 focus:outline-none cursor-pointer"
+                      href={`/?tag=${encodeURIComponent(tag)}`}
+                      className="px-[12px] py-[6px] text-[13px] font-semibold rounded-full bg-surface-soft text-muted hover:text-ink transition-colors focus:outline-none"
                     >
                       #{tag}
-                    </button>
+                    </Link>
                   ))}
                 </div>
               </div>
