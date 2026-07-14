@@ -17,9 +17,9 @@
   --text-code: 14px;
   --text-tag: 13px;
 
-  --color-primary: #047857; /* Deep Emerald for readability */
-  --color-primary-hover: #065F46;
-  --color-primary-surface: #ECFDF5;
+  --color-primary: #3182F6; /* Vibrant Blue for fresh light mode */
+  --color-primary-hover: #1B64DA;
+  --color-primary-surface: #E8F3FF;
   --color-canvas: #FFFFFF;
   --color-surface-soft: #F9FAFB;
   --color-surface-muted: #F2F4F6;
@@ -165,7 +165,7 @@ html, body {
 
 /* Callout / Blockquote Styling */
 .post-content blockquote {
-  border-left: 4px solid var(--color-primary); /* Mint accent */
+  border-left: 4px solid var(--color-primary); /* Primary accent */
   background-color: var(--color-surface-soft);
   padding: var(--spacing-md) var(--spacing-lg);
   margin: var(--spacing-xl) 0;
