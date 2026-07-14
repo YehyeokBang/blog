@@ -34,67 +34,43 @@ export default function TOC() {
     if (items.length === 0) return;
 
     /**
-     * 알고리즘: 선택적 오버플로우 압축(Selective Overflow Compression) + 역방향 탐색
+     * 알고리즘: 자연 threshold + 마지막 헤딩 한정 isAtBottom
      *
-     * 문제 상황:
-     *   짧은 페이지에서는 마지막 몇 개 헤딩이 maxScroll을 넘어 도달 불가능해진다.
-     *   → 이전 "전체 비례 압축"은 모든 threshold를 줄여서, 긴 페이지에서도
-     *     이미 도달 가능한 헤딩들이 너무 일찍 활성화되는 부작용이 있었다.
+     * 핵심 원칙:
+     *   각 헤딩의 threshold = heading.offsetTop - NAVBAR_HEIGHT
+     *   (그 헤딩이 내비바 아래 기준선에 도달하는 scrollY)
      *
-     * 해결 방법:
-     *   1. 각 헤딩의 "자연 threshold"(헤딩이 기준선에 도달하는 scrollY)를 계산한다.
-     *   2. maxScroll 이하 헤딩 → 자연 threshold 그대로 사용 (정확한 위치 유지).
-     *   3. maxScroll 초과 헤딩(도달 불가) → 선행 헤딩의 threshold ~ maxScroll 범위에
-     *      균등하게 배분한다.
-     *   → 정확도(긴 페이지)와 완전성(짧은 페이지) 모두 확보.
+     *   이 값이 maxScroll보다 작으면 → 자연스럽게 활성화됨 (정확한 위치 추적)
+     *   이 값이 maxScroll보다 크면  → 도달 불가. 마지막 헤딩만 특별 처리.
+     *
+     * 마지막 헤딩 처리:
+     *   페이지 맨 끝(maxScroll)에 도달했을 때 마지막 헤딩을 강제 활성화.
+     *   짧은 본문에서 마지막 헤딩이 기준선까지 올라올 수 없는 경우를 커버.
+     *   단, 이 처리는 마지막 헤딩 하나에만 적용 → 중간 건너뜀 없음.
+     *
+     * 이전 "압축" 방식의 문제:
+     *   도달 불가한 여러 헤딩의 threshold를 좁은 scroll 범위에 밀어넣으면
+     *   조금만 스크롤해도 여러 헤딩이 한꺼번에 활성화되어 건너뛰는 것처럼 보임.
      */
-    const NAVBAR_HEIGHT = 96; // 네비바 + 여백 (px)
-
-    function computeThresholds(): number[] {
-      const maxScroll = Math.max(
-        document.body.scrollHeight - window.innerHeight,
-        0
-      );
-
-      // 각 헤딩의 자연 threshold: 그 헤딩이 NAVBAR_HEIGHT 위치에 오는 scrollY 값
-      const natural = elements.map((el) =>
-        Math.max(0, el.offsetTop - NAVBAR_HEIGHT)
-      );
-
-      const lastNatural = natural[natural.length - 1];
-
-      // 모든 헤딩이 도달 가능하면 자연 threshold 그대로 반환
-      if (maxScroll <= 0 || lastNatural <= maxScroll) {
-        return natural;
-      }
-
-      // maxScroll을 초과하는 첫 번째 헤딩의 인덱스를 찾는다
-      const overflowStart = natural.findIndex((t) => t > maxScroll);
-
-      // overflowStart 이전 헤딩들은 자연 threshold 유지
-      // overflowStart 이후 헤딩들은 [anchorThreshold, maxScroll] 범위에 균등 배분
-      const anchorThreshold =
-        overflowStart > 0 ? natural[overflowStart - 1] : 0;
-      const overflowCount = natural.length - overflowStart;
-      const range = maxScroll - anchorThreshold;
-
-      return natural.map((t, i) => {
-        if (i < overflowStart) return t; // 도달 가능 헤딩: 자연 threshold 유지
-        const fraction = (i - overflowStart + 1) / overflowCount;
-        return anchorThreshold + fraction * range;
-      });
-    }
-
-    // thresholds는 resize 때 재계산하므로 let으로 선언
-    let thresholds = computeThresholds();
+    const NAVBAR_HEIGHT = 96; // 내비바 + 여백 (px)
 
     function getActiveId(): string {
       const scrollY = window.scrollY;
-      for (let i = thresholds.length - 1; i >= 0; i--) {
-        if (scrollY >= thresholds[i]) {
+      const maxScroll = document.body.scrollHeight - window.innerHeight;
+
+      // 페이지 맨 끝: 마지막 헤딩 활성화
+      if (maxScroll > 0 && scrollY >= maxScroll - 4) {
+        return items[items.length - 1].id;
+      }
+
+      // 역방향 탐색: 기준선을 이미 지난 헤딩 중 가장 마지막 것
+      for (let i = elements.length - 1; i >= 0; i--) {
+        if (scrollY >= elements[i].offsetTop - NAVBAR_HEIGHT) {
           return items[i].id;
         }
       }
+
+      // 아직 아무 헤딩도 지나치지 않았으면 첫 헤딩
       return items[0].id;
     }
 
@@ -108,20 +84,11 @@ export default function TOC() {
       });
     }
 
-    function onResize() {
-      // 뷰포트 크기가 바뀌면 threshold 재계산
-      thresholds = computeThresholds();
-      setActiveId(getActiveId());
-    }
-
     setActiveId(getActiveId());
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onResize, { passive: true });
-
     return () => {
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onResize);
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
   }, []);
