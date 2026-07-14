@@ -77,7 +77,7 @@ export default function PostList({ initialPosts }: PostListProps) {
                     <Link
                       key={tag}
                       href={`/?tag=${encodeURIComponent(tag)}`}
-                      className="px-[12px] py-[6px] text-[13px] font-semibold rounded-full bg-surface-soft text-muted hover:text-ink transition-colors focus:outline-none"
+                      className="px-[12px] py-[6px] text-[13px] font-semibold rounded-full bg-surface-soft text-muted hover:text-ink transition-colors focus:outline-none whitespace-nowrap"
                     >
                       #{tag}
                     </Link>

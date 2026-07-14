@@ -66,4 +66,4 @@ Always evaluate UI/UX requests from an adversarial and critical perspective befo
 - **Propose Modern Alternatives**: If a requested design feels dated or obtrusive, propose a more subtle, modern alternative that aligns with standard premium developer blogs.
 
 ### 3.6. Communication & Conventions
-- **Korean Language Requirement**: ALL Git commit messages and Pull Request (PR) titles/bodies MUST be written in Korean. Do not use standard English commit conventions like `feat: ...` unless explicitly requested. Use clear, descriptive Korean (e.g., `기능: ... 추가`, `수정: ... 해결`).
+- **Korean Language Requirement**: ALL Git commit messages and Pull Request (PR) titles/bodies MUST be written in Korean, BUT the commit prefix MUST follow the standard English Conventional Commits (e.g., `feat:`, `fix:`) as defined in `docs/git-strategy.md`. (e.g., `feat: 검색 API 추가`, `fix: 레이아웃 깨짐 해결`).

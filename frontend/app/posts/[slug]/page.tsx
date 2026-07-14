@@ -102,16 +102,18 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           <h1 className="text-display-md font-extrabold text-ink mb-md leading-tight">
             {post.metadata.title}
           </h1>
-          <div className="flex flex-wrap items-center gap-sm text-muted text-body-md">
-            <span>{post.metadata.date}</span>
-            <span>·</span>
-            <span>읽는 시간 {post.metadata.readingTime}분</span>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:flex-wrap gap-y-2 gap-x-sm text-muted text-body-md">
+            <div className="flex items-center gap-sm">
+              <span>{post.metadata.date}</span>
+              <span>·</span>
+              <span>읽는 시간 {post.metadata.readingTime}분</span>
+            </div>
             {post.metadata.tags && post.metadata.tags.length > 0 && (
               <>
-                <span>·</span>
-                <div className="flex gap-xs">
+                <span className="hidden sm:inline">·</span>
+                <div className="flex flex-wrap gap-1.5 mt-1 sm:mt-0">
                   {post.metadata.tags.map((tag) => (
-                    <span key={tag}>#{tag}</span>
+                    <span key={tag} className="whitespace-nowrap px-2 py-0.5 bg-surface-soft text-[13px] rounded-md font-medium text-ink/80">#{tag}</span>
                   ))}
                 </div>
               </>
