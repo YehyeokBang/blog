@@ -56,7 +56,7 @@ export default function PostList({ initialPosts }: PostListProps) {
                 </div>
 
                 <h2 className="text-[26px] sm:text-[30px] font-bold text-ink mb-md leading-[1.3] break-keep">
-                  <Link href={`/posts/${post.slug}`} className="hover:underline dark:hover:text-primary underline-offset-[6px] decoration-[3px] sm:decoration-[4px] decoration-skip-ink-none transition-all duration-75">
+                  <Link href={`/posts/${post.slug}`} className="hover:underline underline-offset-[6px] decoration-[3px] sm:decoration-[4px] decoration-skip-ink-none transition-all duration-75">
                     {post.title}
                   </Link>
                 </h2>
