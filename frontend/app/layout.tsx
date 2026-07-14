@@ -10,12 +10,12 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    template: "%s | Yehyeok",
-    default: "Yehyeok | Backend Dev Blog",
+    template: "%s | Yehyeok's Blog",
+    default: "Yehyeok's Blog",
   },
   description: "배움과 기록을 위한 개인 개발 블로그 및 백엔드 실험실",
   openGraph: {
-    title: "Yehyeok | Backend Dev Blog",
+    title: "Yehyeok's Blog",
     description: "배움과 기록을 위한 개인 개발 블로그 및 백엔드 실험실",
     url: "/",
     siteName: "Yehyeok's Blog",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Yehyeok | Backend Dev Blog",
+    title: "Yehyeok's Blog",
     description: "배움과 기록을 위한 개인 개발 블로그 및 백엔드 실험실",
   },
 };
