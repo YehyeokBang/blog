@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     if (!metadata) return {};
 
     const url = `/posts/${resolvedParams.slug}`;
-    const images = metadata.thumbnail ? [metadata.thumbnail] : ["/images/og-default.webp"];
+    const images = metadata.thumbnail ? [metadata.thumbnail] : ["/images/og-default.png"];
 
     return {
       title: metadata.title,
@@ -77,7 +77,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       name: "Yehyeok"
     }],
     description: post.metadata.description,
-    image: post.metadata.thumbnail ? `${SITE_URL}${post.metadata.thumbnail}` : `${SITE_URL}/images/og-default.webp`,
+    image: post.metadata.thumbnail ? `${SITE_URL}${post.metadata.thumbnail}` : `${SITE_URL}/images/og-default.png`,
     url: `${SITE_URL}/posts/${resolvedParams.slug}`,
   };
 

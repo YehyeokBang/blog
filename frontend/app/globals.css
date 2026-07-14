@@ -2,24 +2,26 @@
 
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-mono: "JetBrains Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
-  --text-display-xl: 48px;
-  --text-display-lg: 36px;
-  --text-display-md: 24px;
-  --text-title-lg: 20px;
-  --text-title-md: 17px;
-  --text-body-lg: 17px;
-  --text-body-md: 15px;
-  --text-caption: 14px;
-  --text-code: 14px;
-  --text-tag: 13px;
+  --text-display-xl: 52px;
+  --text-display-lg: 40px;
+  --text-display-md: 28px;
+  --text-title-lg: 22px;
+  --text-title-md: 20px;
+  --text-body-lg: 18px;
+  --text-body-md: 16px;
+  --text-caption: 15px;
+  --text-code: 15px;
+  --text-tag: 14px;
 
-  --color-primary: #3182F6;
-  --color-primary-hover: #1B64DA;
-  --color-primary-surface: #E8F3FF;
+  --color-primary: #008A63; /* Vibrant Mint-Green for energy */
+  --color-primary-hover: #007050;
+  --color-primary-surface: #E6F9F4;
   --color-canvas: #FFFFFF;
   --color-surface-soft: #F9FAFB;
   --color-surface-muted: #F2F4F6;
@@ -54,9 +56,9 @@
   --color-muted: #9CA3AF;
   --color-muted-soft: #6B7280;
   
-  --color-primary: #3B82F6; /* Slightly brighter blue for dark mode */
-  --color-primary-hover: #60A5FA;
-  --color-primary-surface: rgba(59, 130, 246, 0.1); /* Subtle transparent blue for callouts */
+  --color-primary: #10B981; /* Slightly brighter mint for dark mode */
+  --color-primary-hover: #34D399;
+  --color-primary-surface: rgba(16, 185, 129, 0.1); /* Subtle transparent mint for callouts */
 }
 
 html, body {
@@ -165,7 +167,7 @@ html, body {
 
 /* Callout / Blockquote Styling */
 .post-content blockquote {
-  border-left: 4px solid var(--color-primary); /* Toss-style Blue accent */
+  border-left: 4px solid var(--color-primary); /* Primary accent */
   background-color: var(--color-surface-soft);
   padding: var(--spacing-md) var(--spacing-lg);
   margin: var(--spacing-xl) 0;

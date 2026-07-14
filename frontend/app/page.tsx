@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Metadata } from "next";
 import { getAllPosts } from "@/lib/markdown";
 import PostList from "@/components/PostList";
@@ -21,7 +22,9 @@ export default async function Home() {
         <h1 className="text-display-xl font-extrabold text-ink tracking-tight">아티클</h1>
       </div>
 
-      <PostList initialPosts={posts} />
+      <Suspense fallback={<div className="py-xl text-center text-muted">아티클을 불러오는 중...</div>}>
+        <PostList initialPosts={posts} />
+      </Suspense>
     </div>
   );
 }
