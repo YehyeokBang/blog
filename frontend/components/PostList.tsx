@@ -40,7 +40,7 @@ export default function PostList({ initialPosts }: PostListProps) {
         ))}
       </div>
 
-      <div className="flex flex-col gap-xxl max-w-[700px]">
+      <div className="flex flex-col gap-xxl w-full">
         {filteredPosts.length === 0 ? (
           <div className="py-xl text-center text-muted">
             등록된 아티클이 없습니다.
