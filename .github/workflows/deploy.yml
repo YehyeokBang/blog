@@ -36,6 +36,7 @@ jobs:
       - name: Build Next.js Static Export
         env:
           NEXT_PUBLIC_SITE_URL: https://${{ secrets.DOMAIN }}
+          NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
         run: |
           cd frontend
           npm run build
