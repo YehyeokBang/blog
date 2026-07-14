@@ -100,7 +100,7 @@ export default function TOC() {
   if (headings.length === 0) return null;
 
   return (
-    <nav className="toc-container text-[14px]">
+    <nav className="toc-container text-[14px] max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar pr-2">
       <h3 className="font-bold text-ink mb-4 uppercase text-xs tracking-wider">
         목차
       </h3>

@@ -119,6 +119,10 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           </div>
         </header>
 
+        <div className="block lg:hidden mb-lg p-md bg-surface-soft rounded-lg border border-hairline-soft">
+          <TOC />
+        </div>
+
         <PostContent content={post.content} />
       </article>
 

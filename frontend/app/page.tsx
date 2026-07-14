@@ -4,12 +4,13 @@ import { getAllPosts } from "@/lib/markdown";
 import PostList from "@/components/PostList";
 
 export const metadata: Metadata = {
-  title: "아티클",
+  title: "아티클 | Yehyeok's Blog",
   description: "Yehyeok의 기술 블로그 아티클 목록입니다.",
   openGraph: {
-    title: "아티클",
+    title: "아티클 | Yehyeok's Blog",
     description: "Yehyeok의 기술 블로그 아티클 목록입니다.",
     url: "/",
+    images: ["/images/og-default.png"],
   },
 };
 
