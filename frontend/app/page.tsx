@@ -19,7 +19,7 @@ export default async function Home() {
   return (
     <div className="w-full">
       <div className="py-xl">
-        <h1 className="text-display-xl font-extrabold text-ink tracking-tight">아티클</h1>
+        <h1 className="text-display-lg font-extrabold text-ink tracking-tight">아티클</h1>
       </div>
 
       <Suspense fallback={<div className="py-xl text-center text-muted">아티클을 불러오는 중...</div>}>
