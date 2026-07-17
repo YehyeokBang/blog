@@ -67,3 +67,8 @@ Always evaluate UI/UX requests from an adversarial and critical perspective befo
 
 ### 3.6. Communication & Conventions
 - **Korean Language Requirement**: ALL Git commit messages and Pull Request (PR) titles/bodies MUST be written in Korean, BUT the commit prefix MUST follow the standard English Conventional Commits (e.g., `feat:`, `fix:`) as defined in `docs/git-strategy.md`. (e.g., `feat: 검색 API 추가`, `fix: 레이아웃 깨짐 해결`).
+
+### 3.7. Content Identification & Management (파일명 불변 법칙)
+- **Slug as Primary Key**: The markdown filename (`slug`) acts as the primary key for analytics, view counts, and comments in the backend.
+- **Do NOT Rename Post Files**: AI agents must never rename or delete/recreate post markdown files under `content/posts/` unless explicitly instructed by the user, as renaming breaks external data bindings. Reference `docs/project-overview.md` for details.
+

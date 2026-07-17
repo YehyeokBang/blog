@@ -7,6 +7,7 @@ tags:
   - Backend
   - DELETE
 description: '물리적 삭제와 논리적 삭제를 비교하고, 자원 삭제 시 HTTP DELETE 메서드 사용 및 적절한 응답 상태 코드에 대해 고민해 봅니다.'
+thumbnail: /images/posts/resource-delete-response/thumbnail.webp
 ---
 
 # 자원 삭제 요청?

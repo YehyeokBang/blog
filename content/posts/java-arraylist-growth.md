@@ -7,6 +7,7 @@ tags:
   - ArrayList
   - Backend
 description: 'ArrayList의 구성과 동작 원리를 알아보고, 내부적으로 배열의 크기를 어떻게 동적으로 늘리는지 살펴봅니다.'
+thumbnail: /images/posts/java-arraylist-growth/thumbnail.webp
 ---
 
 프로그래밍을 할 때 데이터를 효율적으로 관리하고 처리하는 것은 매우 중요해요. 여러 프로그래밍 언어에는 다양한 타입의 데이터를 담아두는 자료구조가 존재하며, 그중에서도 배열과 리스트는 가장 기본적이고 널리 사용되는 구조에요. 

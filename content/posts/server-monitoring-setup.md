@@ -3,6 +3,7 @@ title: "서버 모니터링(감시)하기"
 date: "2024-10-16"
 description: "서버의 자원 부족 및 성능 저하 문제를 진단하고 안정적인 서비스를 운영하기 위해 모니터링 환경을 구축하는 방법을 알아봅니다. 메트릭(Metric)의 개념, Prometheus(프로메테우스)와 Spring Boot Actuator 연동, Docker Compose와 Traefik을 활용한 컨테이너 구성, 그리고 Grafana(그라파나) 대시보드로 시각화하는 과정을 공유합니다."
 tags: ["Monitoring", "Prometheus", "Grafana", "Actuator", "DevOps"]
+thumbnail: /images/posts/server-monitoring-setup/thumbnail.webp
 ---
 
 이번 글에서는 모니터링 환경을 구성해보려고 해요.

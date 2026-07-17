@@ -3,6 +3,7 @@ title: "[Java] Enum 사용하시나요?"
 date: "2024-11-05"
 description: "Java 5에서 도입된 Enum(열거형)의 기본적인 특징과 동작 원리, 기존 상수 정의 방식(정수형 열거형)의 한계점 극복, 그리고 싱글톤 보장 메커니즘과 고급 활용법(상태/행위 추가 및 익명 클래스 활용)을 공식 문서를 통해 알아봅니다."
 tags: ["Java", "Enum", "Backend", "Object-Oriented"]
+thumbnail: /images/posts/java-enum-guide/thumbnail.webp
 ---
 
 ![](/images/posts/java-enum-guide/b3e3030d-d958-4a77-b623-1aab4db60563_image.webp)

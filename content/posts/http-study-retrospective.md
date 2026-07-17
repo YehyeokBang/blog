@@ -7,6 +7,7 @@ tags:
   - HTTP
   - Growth
 description: HTTP 웹 기본 지식 강의 수강 후 교내 GDSC에서 HTTP 스터디를 직접 모집하고 진행한 경험에 대한 회고입니다.
+thumbnail: /images/posts/http-study-retrospective/thumbnail.webp
 ---
 
 # HTTP

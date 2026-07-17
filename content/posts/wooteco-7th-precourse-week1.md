@@ -3,6 +3,7 @@ title: "우아한테크코스 7기 프리코스 1주 차 [BE]"
 date: "2024-10-30"
 description: "우아한테크코스 7기 프리코스 1주 차 문자열 덧셈 계산기 미션을 해결하며 진행한 회고입니다. 커스텀 구분자 규칙 설정, 객체지향 관점에서 문자열을 객체(Command, Separator, Expression)로 추상화한 설계, 생성형 AI 활용법 스터디, 그리고 코드 리뷰 및 협력을 통한 성장의 가치를 고민합니다."
 tags: ["우아한테크코스", "프리코스", "회고록", "Backend", "Java"]
+thumbnail: /images/posts/wooteco-7th-precourse-week1/thumbnail.webp
 ---
 
 > 미션을 수행할 때 어떤 접근 방법으로 무엇을 중요하게 생각하며 해결했는지 스스로 돌이켜보는 시간을 가질 계획입니다.

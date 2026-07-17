@@ -6,7 +6,7 @@ tags:
   - Claude
   - AI
   - Productivity
-thumbnail: /images/posts/claude-code-rewind/context-window.webp
+thumbnail: /images/posts/claude-code-rewind/thumbnail.webp
 ---
 
 > “아니 그게 아니라…”
