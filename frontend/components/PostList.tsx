@@ -32,7 +32,7 @@ export default function PostList({ initialPosts }: PostListProps) {
           <Link
             key={tag}
             href={tag === ALL_TAG ? "/" : `/?tag=${encodeURIComponent(tag)}`}
-            className={`whitespace-nowrap shrink-0 px-[12px] py-[6px] text-tag font-semibold rounded-full transition-colors focus:outline-none ${
+            className={`whitespace-nowrap shrink-0 px-[12px] py-[6px] text-[13px] md:text-tag font-semibold rounded-full transition-colors focus:outline-none ${
               selectedTag === tag
                 ? "bg-color-primary-surface text-primary"
                 : "bg-surface-muted text-body hover:bg-hairline"
@@ -52,13 +52,13 @@ export default function PostList({ initialPosts }: PostListProps) {
           filteredPosts.map((post) => (
             <article key={post.slug} className="flex flex-col-reverse sm:flex-row items-start gap-xl w-full">
               <div className="flex-1 flex flex-col items-start min-w-0 w-full">
-                <div className="flex items-center gap-xs text-caption text-muted mb-md">
+                <div className="flex items-center gap-xs text-[13px] md:text-caption text-muted mb-md">
                   <span>{post.date}</span>
                   <span>·</span>
                   <span>읽는 시간 {post.readingTime}분</span>
                 </div>
 
-                <h2 className="text-[26px] sm:text-[30px] font-bold text-ink mb-md leading-[1.3] break-keep">
+                <h2 className="text-[24px] md:text-display-md font-bold text-ink mb-md leading-[1.3] break-keep">
                   <Link 
                     href={`/posts/${post.slug}`} 
                     className="hover:underline dark:hover:text-primary underline-offset-[6px] decoration-[3px] sm:decoration-[4px] transition-all duration-75"
@@ -68,7 +68,7 @@ export default function PostList({ initialPosts }: PostListProps) {
                   </Link>
                 </h2>
 
-                <p className="text-body-md sm:text-[16px] text-body leading-relaxed mb-lg line-clamp-3">
+                <p className="text-[15px] md:text-body-md text-body leading-relaxed mb-lg line-clamp-3">
                   {post.description}
                 </p>
 
@@ -77,7 +77,7 @@ export default function PostList({ initialPosts }: PostListProps) {
                     <Link
                       key={tag}
                       href={`/?tag=${encodeURIComponent(tag)}`}
-                      className="px-[12px] py-[6px] text-[13px] font-semibold rounded-full bg-surface-soft text-muted hover:text-ink transition-colors focus:outline-none whitespace-nowrap"
+                      className="px-[12px] py-[6px] text-[12px] md:text-[13px] font-semibold rounded-full bg-surface-soft text-muted hover:text-ink transition-colors focus:outline-none whitespace-nowrap"
                     >
                       #{tag}
                     </Link>
