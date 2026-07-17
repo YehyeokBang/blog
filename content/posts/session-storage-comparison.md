@@ -3,6 +3,7 @@ title: "어디에 세션을 보관할까?"
 date: "2024-09-12"
 description: "다중 서버(Scale Out) 환경에서 로그인 세션을 일관성 있게 관리하기 위한 아키텍처적 고민을 정리합니다. WAS 메모리 세션, JDBC 기반 DB 세션, 인-메모리 DB(Redis) 세션 저장소의 성능 비교 및 Sticky Session과 Session Clustering 방식의 단점을 분석하고 Redis를 세션 스토리지로 제안합니다."
 tags: ["Redis", "Session", "Scale Out", "Architecture", "Backend"]
+thumbnail: /images/posts/session-storage-comparison/thumbnail.webp
 ---
 
 많은 서비스에 구현된 로그인 기능을 어떻게 구현하면 좋을 지 고민하며 작성하는 글이에요. 또한, 왜 그렇게 하고 싶은가?를 포함하여 프로젝트 팀원에게 제안하기 위한 글이에요.

@@ -3,6 +3,7 @@ title: "[Spring] OSIV 설정하시나요?"
 date: "2024-11-23"
 description: "Spring Boot에서 기본으로 활성화되는 OSIV(Open Session In View)의 동작 방식과 특징, 그리고 활성화/비활성화 시의 트레이드오프와 주의할 점을 정리합니다."
 tags: ["Spring Boot", "JPA", "OSIV", "Backend"]
+thumbnail: /images/posts/spring-jpa-osiv/thumbnail.webp
 ---
 
 ![](/images/posts/spring-jpa-osiv/50d7c42f-161e-499c-9bd9-3398e5877c79_image.webp)

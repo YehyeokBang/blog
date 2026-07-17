@@ -3,6 +3,7 @@ title: "배포 자동화가 필요해요"
 date: "2024-09-21"
 description: "개발 환경의 배포 자동화를 구축하게 된 계기와 AWS EC2 기반의 서버 배포, Docker를 활용한 컨테이너화 결정, GitHub Actions와 보안성이 높은 Self-Hosted Runner를 활용한 안전한 배포 파이프라인 구성 방법, 그리고 리버스 프록시 및 로드밸런서로 도입한 Traefik(트래픽)의 자동 구성 실무를 정리합니다."
 tags: ["CI/CD", "AWS", "Docker", "GitHub Actions", "Traefik", "Infrastructure"]
+thumbnail: /images/posts/deployment-automation-setup/thumbnail.webp
 ---
 
 이번 글에서는 상황에 맞게 선택한 자동 배포 파이프라인에 대해 기록하려고 해요.

@@ -3,6 +3,7 @@ title: "우아한테크코스 7기 프리코스 3주 차 [BE]"
 date: "2024-11-06"
 description: "우아한테크코스 7기 프리코스 3주 차 로또 미션을 해결하며 겪은 고민을 공유합니다. 객체 설계와 협력, 검증 책임(Validator)의 위치 분석, 함수형 인터페이스를 활용한 예외 자동 재시도 패턴 구현, 그리고 함수와 메서드의 개념적 차이를 정리합니다."
 tags: ["우아한테크코스", "프리코스", "회고록", "Backend", "Java"]
+thumbnail: /images/posts/wooteco-7th-precourse-week3/thumbnail.webp
 ---
 
 약 3주 간 재밌게 몰입한 나에게 칭찬하며, 회고를 작성하려고 합니다.

@@ -4,6 +4,7 @@ import PostContent from "@/components/PostContent";
 import TOC from "@/components/TOC";
 import { Metadata } from "next";
 import Link from "next/link";
+import PostThumbnail from "@/components/PostThumbnail";
 import { SITE_URL } from "@/lib/constants";
 
 export async function generateStaticParams() {
@@ -120,6 +121,10 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             )}
           </div>
         </header>
+
+        {post.metadata.thumbnail && (
+          <PostThumbnail src={post.metadata.thumbnail} alt={post.metadata.title} type="detail" priority />
+        )}
 
         <div className="block lg:hidden mb-lg p-md bg-surface-soft rounded-lg border border-hairline-soft">
           <TOC />

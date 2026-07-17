@@ -3,6 +3,7 @@ title: "[Java] Record 사용하시나요?"
 date: "2024-10-19"
 description: "Java 14에서 도입되어 Java 16에 정식 추가된 record(레코드)의 개념과 탄생 배경, 장황한 Boilerplate 코드 문제 해결, record의 특징 및 컴팩트 생성자(Compact Constructor) 사용법, 그리고 사용 시 주의해야 할 상속 불가 및 JPA 엔티티 적용 등의 한계를 정리합니다."
 tags: ["Java", "Record", "Backend", "Boilerplate"]
+thumbnail: /images/posts/java-record-guide/thumbnail.webp
 ---
 
 ![](/images/posts/java-record-guide/e60d22fc-affd-43ef-82ca-61f020494b81_image.webp)

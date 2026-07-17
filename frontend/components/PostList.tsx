@@ -2,6 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import PostThumbnail from "./PostThumbnail";
 import { PostMetadata } from "@/lib/markdown";
 
 const ALL_TAG = "전체";
@@ -86,13 +87,8 @@ export default function PostList({ initialPosts }: PostListProps) {
               </div>
 
               {post.thumbnail && (
-                <Link href={`/posts/${post.slug}`} className="group shrink-0 w-full sm:w-[200px] h-[130px] overflow-hidden rounded-lg bg-surface-muted">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={post.thumbnail}
-                    alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
+                <Link href={`/posts/${post.slug}`} className="group shrink-0 block">
+                  <PostThumbnail src={post.thumbnail} alt={post.title} type="list" />
                 </Link>
               )}
             </article>

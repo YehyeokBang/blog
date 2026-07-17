@@ -3,6 +3,7 @@ title: "우아한테크코스 7기 프리코스 2주 차 [BE]"
 date: "2024-10-30"
 description: "우아한테크코스 7기 프리코스 2주 차 자동차 경주 미션을 해결하며 진행한 회고입니다. 코드 리뷰를 통한 생각의 확장, 검증 책임 위치(객체 내부 vs 외부)에 대한 고민, 단일 책임 원칙(SRP)과 상태 필드의 복잡성 해결, 그리고 테스트 코드 작성이 설계 개선에 미치는 영향에 대해 정리합니다."
 tags: ["우아한테크코스", "프리코스", "회고록", "Backend", "Java"]
+thumbnail: /images/posts/wooteco-7th-precourse-week2/thumbnail.webp
 ---
 
 # 2주 차 공통 피드백
