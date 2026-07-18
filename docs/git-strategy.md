@@ -64,6 +64,17 @@ git config core.hooksPath .githooks
 
 활성화하면 push 전에 `.githooks/pre-push`가 `scripts/validate-openspec.sh`를 실행한다. 훅 설정은 clone에 포함되지 않으므로 OpenSpec 작업자는 설정 여부와 관계없이 같은 스크립트를 직접 실행해야 한다.
 
+## 문서 검사
+
+문서·아카이브·인덱스를 변경한 PR 전에는 다음 명령을 직접 실행한다.
+
+```bash
+node --test scripts/check-documentation.test.mjs
+node scripts/check-documentation.mjs
+```
+
+이 검사는 Markdown 상대 링크, 활성 문서와 base spec의 인덱스 도달성, 일반 문서 archive의 상태 메타데이터를 확인한다. OpenSpec 요구사항 검증은 별도이므로 `./scripts/validate-openspec.sh`도 함께 실행한다.
+
 ## Pull Request와 merge
 
 - PR 제목도 `<prefix>: <한국어 설명>` 형식을 따른다.

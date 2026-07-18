@@ -24,7 +24,7 @@ As the project grows, avoid cramming all instructions into this single file. Use
 - `docs/roadmap.md` — 제품 우선순위와 운영 방식
 - `docs/git-strategy.md` — 브랜치/커밋/PR 규칙 (gh 계정 규칙 포함)
 - `docs/design.md` — 디자인 토큰 정의 (frontend/app/globals.css와 1:1)
-- `docs/backend-convention.md` — Kotlin/Spring 백엔드 구현·리뷰 규칙 (백엔드 작업 전 필독)
+- `docs/backend/README.md` — Kotlin/Spring 백엔드 구현·리뷰 규칙의 역할별 진입점 (백엔드 작업 전 필독)
 - `openspec/README.md` — base spec, 진행 중 change, archive 인덱스
 
 ### OpenSpec Workflow
