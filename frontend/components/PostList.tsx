@@ -44,7 +44,7 @@ export default function PostList({ initialPosts }: PostListProps) {
         ))}
       </div>
 
-      <div className="flex flex-col gap-[80px] w-full">
+      <div className="flex flex-col gap-[48px] md:gap-[80px] w-full">
         {filteredPosts.length === 0 ? (
           <div className="py-xl text-center text-muted">
             등록된 아티클이 없습니다.
@@ -87,7 +87,7 @@ export default function PostList({ initialPosts }: PostListProps) {
               </div>
 
               {post.thumbnail && (
-                <Link href={`/posts/${post.slug}`} className="group shrink-0 block">
+                <Link href={`/posts/${post.slug}`} className="group shrink-0 block w-full sm:w-auto">
                   <PostThumbnail src={post.thumbnail} alt={post.title} type="list" />
                 </Link>
               )}
