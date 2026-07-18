@@ -69,7 +69,7 @@ PR CI는 manifest를 생성한 뒤 backend `./gradlew ktlintCheck test build`와
 ## 운영 사전 조건
 
 - Oracle self-hosted runner에 Docker와 Docker Compose v2 (`docker compose up --wait`)가 설치되어 있어야 한다.
-- Oracle runner에는 `self-hosted`와 `oracle` label이 있어야 한다.
+- Oracle runner에는 `self-hosted`와 `ARM64` label이 있어야 한다.
 - runner에 `sqlite3`, `flock`, 그리고 `/opt/blog`와 Docker daemon 접근 권한이 있어야 한다.
 - runner의 `GITHUB_TOKEN`은 GHCR package read 권한이 있어야 한다. 이미지 build job은 package write 권한이 필요하다.
 - `/opt/blog/data`와 `blog.db`는 backend runtime UID/GID `10001:10001`이 쓸 수 있어야 한다. `/opt/blog/backups`와 `/opt/blog/scripts`는 self-hosted runner 사용자가 쓸 수 있어야 한다.
