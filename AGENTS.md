@@ -23,6 +23,7 @@ As the project grows, avoid cramming all instructions into this single file. Use
 - `docs/feature-roadmap.md` — 단계별 로드맵
 - `docs/git-strategy.md` — 브랜치/커밋/PR 규칙 (gh 계정 규칙 포함)
 - `docs/design.md` — 디자인 토큰 정의 (frontend/app/globals.css와 1:1)
+- `docs/backend-convention.md` — Kotlin/Spring 백엔드 구현·리뷰 규칙 (백엔드 작업 전 필독)
 - `openspec/` — 스펙 주도 변경 관리 (아래 Workflow 참조)
 
 ### OpenSpec Workflow
@@ -71,4 +72,3 @@ Always evaluate UI/UX requests from an adversarial and critical perspective befo
 ### 3.7. Content Identification & Management (파일명 불변 법칙)
 - **Slug as Primary Key**: The markdown filename (`slug`) acts as the primary key for analytics, view counts, and comments in the backend.
 - **Do NOT Rename Post Files**: AI agents must never rename or delete/recreate post markdown files under `content/posts/` unless explicitly instructed by the user, as renaming breaks external data bindings. Reference `docs/project-overview.md` for details.
-

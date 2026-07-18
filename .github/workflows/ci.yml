@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  frontend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -36,3 +36,32 @@ jobs:
         run: |
           cd frontend
           npm run build
+
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Generate post manifest
+        run: node scripts/generate-posts-manifest.mjs
+
+      - name: Test SQLite backup script
+        run: bash scripts/backup-sqlite.test.sh
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: gradle
+
+      - name: Check and build backend
+        run: |
+          cd backend
+          ./gradlew ktlintCheck test build

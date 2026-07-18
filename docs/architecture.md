@@ -2,108 +2,95 @@
 
 ## 기술 스택
 
-| 계층 | 기술 | 선택 이유 |
-|------|------|-----------|
-| **Frontend** | Next.js (TypeScript, React) | SSR/SSG로 SEO 최강. 프론트엔드 처음이지만 가장 실용적 |
-| **Backend** | Kotlin + Spring Boot | 가장 익숙한 기술 스택. 백엔드 실험실 목적 |
-| **Database** | SQLite (MVP) → PostgreSQL (확장 시) | 4GB 메모리 제약. SQLite는 별도 프로세스 불필요 |
-| **배포** | Docker Compose | 프론트/백엔드/DB 컨테이너 분리 |
-| **트래킹** | GA4 + Firebase Analytics | 이벤트, 이탈률, 스크롤 깊이 등 분석 |
-| **CI/CD** | GitHub Actions (Self-hosted Runner) | 보안을 위한 SSH 키 제거 및 배포 자동화 |
+| 계층 | 기술 | 역할 |
+|---|---|---|
+| Frontend | Next.js 정적 export + Nginx | Markdown 본문과 정적 사이트 제공 |
+| Backend | Kotlin + Spring Boot | 댓글과 이후 실험 기능의 API |
+| Database | SQLite | 동적 데이터의 read model 및 댓글 보존 |
+| Edge | Traefik | TLS, same-origin routing, 댓글 쓰기 rate limit |
+| 배포 | Docker Compose + GitHub Actions | arm64 이미지 배포와 health 확인 |
 
-## 전체 구조
+## 운영 컨테이너 구조
 
-```
-┌──────────────────────────────────────────────────────┐
-│                    Docker Host (4GB)                  │
-│                                                      │
-│  ┌──────────────┐  ┌──────────────┐  ┌────────────┐ │
-│  │  Frontend    │  │  Backend     │  │  DB         │ │
-│  │  (Next.js)   │  │  (Kotlin +   │  │  (SQLite/   │ │
-│  │              │←→│  Spring Boot)│←→│  PostgreSQL)│ │
-│  │  SSR/SSG     │  │              │  │             │ │
-│  └──────────────┘  └──────────────┘  └────────────┘ │
-│         ↑                  ↑                         │
-│    Markdown 파일      메타데이터/조회수/검색           │
-│    (Git 정본)         (Read Model)                   │
-└──────────────────────────────────────────────────────┘
-         ↑
-    git push → Webhook/CI로 빌드 트리거
+Oracle Cloud host에서 Traefik, frontend Nginx, backend Spring Boot는 하나의 `blog-network` bridge network를 공유한다.
+
+```text
+Internet
+  │ https://blog.yehyeok.xyz
+  ▼
+Traefik
+  ├─ /api/* ───────────────────► backend:8080
+  │                               └─ /data/blog.db
+  │                                  ▲ bind mount
+  └─ 그 외 요청 ────────────────► frontend Nginx:80
+                                     ▲
+                               /opt/blog/data/blog.db
 ```
 
-## 콘텐츠 관리: 하이브리드 CQRS 패턴
+backend의 8080 포트와 Actuator health endpoint는 host에 publish하지 않는다. public API는 Traefik이 `/api/*`만 backend로 보낸다. `POST /api/posts/{slug}/comments`는 다른 API보다 우선순위가 높은 router에서 RemoteAddr 기준 평균 분당 5회, burst 3회로 제한한다.
 
-**핵심 결정**: Markdown 파일이 정본(Source of Truth), DB는 메타데이터/조회수/검색 인덱스 전용.
+frontend는 같은 origin의 `/api/*`를 호출하므로 브라우저 CORS 설정이 필요 없다. Next.js native development에서만 rewrite가 `http://localhost:8080/api/*`로 proxy한다.
 
-백엔드 비유:
-- MD 파일 = Write Model (SSoT). `git`으로 관리하는 설정 파일처럼.
-- DB = Read Model. 검색/조회수/좋아요 등 동적 데이터 전용.
-- `git push` 시 웹훅으로 DB 동기화.
+## 콘텐츠와 read model
 
-### 데이터 흐름
+Markdown 파일은 정본이며 `content/posts/<slug>.md` filename은 외부 데이터 식별자다. 배포 build는 `scripts/generate-posts-manifest.mjs`로 `backend/src/main/resources/posts.json`을 만든다. backend JAR는 이 classpath manifest를 읽어 `Post(id, slug, active)` read model을 시작 시 동기화한다.
 
+manifest에 있는 slug는 active가 되고, 사라진 slug는 inactive가 된다. comment row는 삭제하지 않으므로 기존 댓글은 inactive post에서도 조회할 수 있다. Markdown 파일을 rename/delete하면 이 연결이 끊기므로 명시적 데이터 마이그레이션 없이는 금지한다.
+
+## 이미지와 영속 데이터
+
+backend Docker image는 build된 Boot JAR와 classpath `posts.json`만 실행한다. root `.dockerignore`는 실행 JAR만 예외로 허용하고 SQLite DB, WAL/SHM sidecar, Gradle cache, 그 밖의 backend build output을 context에서 제외한다. runtime user는 UID/GID `10001`이며, 운영 DB는 image가 아닌 `/opt/blog/data/blog.db`를 `/data/blog.db`로 bind mount한다.
+
+backend image에는 `curl`이 있어 Compose가 내부 `/actuator/health`를 검사한다. healthcheck는 10초 간격, 3초 timeout, 6회 retry, 30초 start period를 사용한다.
+
+## CI/CD
+
+PR CI는 manifest를 생성한 뒤 backend `./gradlew ktlintCheck test build`와 frontend lint/static build를 각각 실행한다.
+
+`main` deploy workflow는 arm64 runner에서 이미지 build/push를 수행하고 Oracle self-hosted runner가 GHCR에서 `latest`를 pull해 Compose를 적용한다.
+
+| 변경 경로 | frontend image | backend image | deploy |
+|---|---:|---:|---:|
+| `frontend/**` | build/push | 유지 | 실행 |
+| `backend/**` | 유지 | build/push | 실행 |
+| `content/posts/**` | build/push | manifest 생성 후 build/push | 실행 |
+| `docker-compose.yml`, `scripts/**`, deploy workflow | 유지 | 유지 | 실행 |
+
+수동 dispatch는 두 이미지를 모두 build/push한다. production deploy는 `blog-production` concurrency group으로 직렬화되며 cancel하지 않는다. deploy는 compose와 backup script를 `/opt/blog`, `/opt/blog/scripts`에 배치하고 `docker compose up -d --wait --wait-timeout 120`으로 health를 기다린다. 실패하면 `docker compose ps` 및 backend 최근 로그를 출력한다.
+
+이 방식은 container restart deployment다. 무중단 배포나 자동 롤백을 보장하지 않으며 health 실패 시 workflow만 실패한다.
+
+## SQLite backup
+
+매일 02:00 KST (`0 17 * * *` UTC)에 같은 Oracle self-hosted runner가 `scripts/backup-sqlite.sh`를 실행한다. 스크립트는 `flock -n`으로 중첩을 건너뛰고, `/opt/blog/data/blog.db`를 SQLite `.backup`으로 임시 파일에 복사한다. `integrity_check`가 `ok`일 때만 `/opt/blog/backups`의 최종 파일로 atomic rename한다. KST timestamp log와 backup은 최근 7일만 유지한다.
+
+로컬 backup은 서버 디스크 장애까지 막지 못한다. 원격 backup은 별도 변경으로 검토한다.
+
+## 운영 사전 조건
+
+- Oracle self-hosted runner에 Docker와 Docker Compose v2 (`docker compose up --wait`)가 설치되어 있어야 한다.
+- Oracle runner에는 `self-hosted`와 `oracle` label이 있어야 한다.
+- runner에 `sqlite3`, `flock`, 그리고 `/opt/blog`와 Docker daemon 접근 권한이 있어야 한다.
+- runner의 `GITHUB_TOKEN`은 GHCR package read 권한이 있어야 한다. 이미지 build job은 package write 권한이 필요하다.
+- `/opt/blog/data`와 `blog.db`는 backend runtime UID/GID `10001:10001`이 쓸 수 있어야 한다. `/opt/blog/backups`와 `/opt/blog/scripts`는 self-hosted runner 사용자가 쓸 수 있어야 한다.
+
+## 배포 전 검증 절차
+
+```bash
+# Compose의 Traefik router, healthcheck, bind mount를 해석한다.
+docker compose config
+
+# backend JAR에는 manifest가 있고 SQLite 파일은 없다.
+jar tf backend/build/libs/blog-backend-0.0.1-SNAPSHOT.jar | grep 'BOOT-INF/classes/posts.json'
+! jar tf backend/build/libs/blog-backend-0.0.1-SNAPSHOT.jar | grep -E '(^|/)blog\.db(-wal|-shm)?$'
+
+# Docker daemon이 있는 Linux 환경에서 실행 image의 파일을 확인한다.
+docker build -f backend/Dockerfile -t blog-backend-local .
+! docker run --rm --entrypoint sh blog-backend-local -c 'find / -name "*.db" -o -name "*.db-wal" -o -name "*.db-shm"' | grep .
+docker run --rm --entrypoint sh blog-backend-local -c 'jar tf /app/app.jar | grep BOOT-INF/classes/posts.json'
+
+# Linux runner에서 backup의 성공, 중첩 skip, 7일 보존을 확인한다.
+bash scripts/backup-sqlite.test.sh
 ```
-[Write Path]
-작성자: IDE/에디터에서 MD 작성
-  → Git Push
-  → CI/CD: 빌드 트리거
-  → Next.js: MD 파싱 + SSG 생성
-  → Backend: MD 메타데이터 DB 동기화
 
-[Read Path]
-사용자 요청
-  → Next.js: SSG 페이지 서빙 (글 본문)
-  → Backend API: 조회수/좋아요 처리 (동적 데이터)
-```
-
-### 글 작성 워크플로우
-
-MVP에서는 IDE(또는 노션 등)에서 Markdown을 작성하고 Git push로 배포한다.
-웹 에디터는 Phase 3에서 고려한다.
-
-## 인프라 제약
-
-- **클라우드 인스턴스**: 약 4GB 메모리
-- **도메인**: 아직 없음. 클라우드 인스턴스 IP로 우선 운영
-
-### 메모리 배분 전략
-| 컴포넌트 | 할당 | 비고 |
-|----------|------|------|
-| Spring Boot (JVM) | 512MB~768MB | `-Xmx768m`으로 제한 |
-| Frontend (Nginx) | ~50MB | Next.js SSG 빌드 결과물을 정적 서빙 |
-| Traefik | ~50MB | 리버스 프록시 및 자동 HTTPS (Let's Encrypt) |
-| DB (SQLite) | 별도 프로세스 없음 | 라이브러리로 동작 |
-| OS + 기타 | ~512MB | |
-| **여유분** | ~2GB | |
-
-> **결정 사항**: 서버 메모리 절약과 배포 속도 최적화를 위해 Next.js 서버를 띄우지 않고, **SSG(정적 사이트 생성) + Nginx** 방식을 채택했습니다. 앞단에는 **Traefik**을 두어 라우팅과 HTTPS 인증서 갱신을 완전히 자동화했습니다.
-
-## 배포 파이프라인 (CI/CD)
-
-보안을 강화하기 위해 외부(GitHub)에서 서버로 접근하는 SSH 방식을 폐기하고, 서버가 직접 작업을 가져가는 **GitHub Self-hosted Runner**를 도입했습니다.
-
-1. **Build & Push (GitHub-hosted)**: 코드가 `main`에 머지되면 GitHub 환경에서 Next.js를 빌드하고 Nginx가 포함된 도커 이미지를 만들어 GHCR에 푸시합니다.
-2. **Deploy (Self-hosted)**: Oracle Cloud VPS 내부에 상주하는 러너가 동작하여, 스스로 GHCR에서 이미지를 풀(Pull)하고 무중단으로 컨테이너를 재시작(`docker compose up -d`)합니다.
-
-
-```
-blog/ (Repository Root)
-├── content/           ← Markdown 글 (정본)
-│   └── posts/
-├── frontend/          ← Next.js 앱
-│   ├── app/           ← 라우트 (App Router)
-│   ├── components/    ← 공통 컴포넌트
-│   ├── lib/           ← 유틸리티 (markdown 파싱 등)
-│   ├── public/        ← 정적 에셋 (이미지 등)
-│   ├── package.json
-│   └── Dockerfile
-├── backend/           ← Kotlin + Spring Boot
-│   ├── src/
-│   ├── build.gradle.kts
-│   └── Dockerfile
-├── docker-compose.yml ← 전체 서비스 오케스트레이션
-├── docs/              ← 프로젝트 문서
-├── .github/           ← CI/CD, PR 템플릿
-├── .agents/           ← AI Agent 가이드라인
-└── AGENTS.md
-```
+실제 Oracle 배포 후에는 같은 IP에서 댓글 POST를 연속 요청해 Traefik이 backend 도달 전 `429`를 반환하는지, `docker compose ps`에서 backend health가 `healthy`인지 확인한다. actuator URL은 public router로 노출하지 않는다.
