@@ -1,7 +1,7 @@
 ## ADDED Requirements
 
 ### Requirement: Deterministic build-time post manifest
-시스템은 `content/posts`의 일반 Markdown 파일명에서 slug를 생성해 backend JAR classpath `posts.json`으로 패키징해야 한다. manifest는 UTF-8 JSON string 배열이며, 정렬된 유효 slug만 포함해야 한다.
+시스템은 `content/posts`의 일반 Markdown 파일명에서 slug를 생성해 backend JAR classpath `posts.json`으로 패키징해야 한다(MUST). manifest는 UTF-8 JSON string 배열이며, 정렬된 유효 slug만 포함해야 한다.
 
 #### Scenario: 유효한 Markdown 목록 생성
 - **WHEN** CI 또는 backend build 준비 단계가 실행된다
@@ -18,7 +18,7 @@
 - **THEN** backend startup은 실패한다
 
 ### Requirement: Idempotent post read-model synchronization
-시스템은 backend 시작 시 classpath manifest로 SQLite `Post(id: Long, slug unique, active)` read model을 멱등 동기화해야 한다. manifest에서 사라진 post와 그 댓글은 삭제하면 안 된다.
+시스템은 backend 시작 시 classpath manifest로 SQLite `Post(id: Long, slug unique, active)` read model을 멱등 동기화해야 한다(MUST). manifest에서 사라진 post와 그 댓글은 삭제하면 안 된다(MUST NOT).
 
 #### Scenario: Manifest의 active slug 동기화
 - **WHEN** backend가 유효한 manifest로 시작한다
@@ -30,7 +30,7 @@
 - **AND** 연결된 comment row는 유지된다
 
 ### Requirement: Isolated manifest synchronization tests
-시스템의 Gradle 테스트는 고정 test manifest와 test-only SQLite datasource를 사용해야 한다.
+시스템의 Gradle 테스트는 고정 test manifest와 test-only SQLite datasource를 사용해야 한다(MUST).
 
 #### Scenario: Standalone Gradle test
 - **WHEN** 개발자 또는 CI가 `./gradlew test`를 실행한다
