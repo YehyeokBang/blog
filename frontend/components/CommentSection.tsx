@@ -225,11 +225,11 @@ export default function CommentSection({ slug }: { slug: string }) {
                 height={36}
                 className="rounded-full bg-surface-muted"
               />
-              <div className="flex flex-col">
+              <div className="flex items-center gap-2">
                 <span className="text-body-md font-bold text-ink">
                   {comment.authorName}
                 </span>
-                <span className="text-body-sm text-muted">
+                <span className="text-sm font-medium text-muted">
                   {formatTimeAgo(comment.createdAt)}
                 </span>
               </div>
