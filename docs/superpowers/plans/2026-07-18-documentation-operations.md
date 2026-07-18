@@ -97,7 +97,7 @@ Commit: `docs: 문서 인덱스와 아카이브 구조 정리`
 
 - [ ] **Step 5: 활성 문서 단위를 검증하고 커밋한다**
 
-Run: `git diff --check && rg -n "docs/feature-roadmap\\.md|\\.agents/" AGENTS.md docs --glob '*.md'`
+Run: `git diff --check && ! rg -n "docs/feature-roadmap\\.md" AGENTS.md docs/*.md && ! rg -n "\\.agents/" docs/git-strategy.md`
 
 Expected: 아카이브의 역사 기록 외 활성 문서에 이전 로드맵·잘못된 에이전트 경로가 없다.
 
