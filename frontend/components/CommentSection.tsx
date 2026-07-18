@@ -13,6 +13,40 @@ interface Comment {
 const ADJECTIVES = ["활기찬", "명랑한", "재미있는", "용감한", "지혜로운", "신비로운", "즐거운", "행복한"];
 const NOUNS = ["다람쥐", "펭귄", "사슴", "나비", "고양이", "강아지", "여우", "부엉이"];
 
+function formatTimeAgo(dateInput: string | number) {
+  if (!dateInput) return "";
+  
+  // Spring Boot에서 Float 타임스탬프로 주는 경우 방어 로직
+  let timestamp = typeof dateInput === "number" ? dateInput : Number(dateInput);
+  if (isNaN(timestamp)) {
+    timestamp = new Date(dateInput).getTime();
+  } else if (timestamp < 10000000000) {
+    // 초 단위인 경우 밀리초로 변환 (예: 1784308431.488000000)
+    timestamp = timestamp * 1000;
+  }
+
+  const date = new Date(timestamp);
+  if (isNaN(date.getTime())) return "";
+
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffSec / 60);
+  const diffHour = Math.floor(diffMin / 60);
+  const diffDay = Math.floor(diffHour / 24);
+
+  if (diffSec < 60) return "방금 전";
+  if (diffMin < 60) return `${diffMin}분 전`;
+  if (diffHour < 24) return `${diffHour}시간 전`;
+  if (diffDay < 7) return `${diffDay}일 전`;
+
+  return new Intl.DateTimeFormat("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+}
+
 function getRandomItem<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
@@ -191,9 +225,14 @@ export default function CommentSection({ slug }: { slug: string }) {
                 height={36}
                 className="rounded-full bg-surface-muted"
               />
-              <span className="text-body-md font-bold text-ink">
-                {comment.authorName}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-body-md font-bold text-ink">
+                  {comment.authorName}
+                </span>
+                <span className="text-sm font-medium text-muted">
+                  {formatTimeAgo(comment.createdAt)}
+                </span>
+              </div>
             </div>
             <p className="text-body-md text-body whitespace-pre-wrap leading-relaxed">
               {comment.content}
