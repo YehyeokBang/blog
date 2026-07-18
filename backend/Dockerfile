@@ -2,7 +2,9 @@ FROM eclipse-temurin:25-jre-alpine
 
 RUN apk add --no-cache curl \
     && addgroup -S -g 10001 blog \
-    && adduser -S -D -H -u 10001 -G blog blog
+    && adduser -S -D -H -u 10001 -G blog blog \
+    && mkdir -p /data \
+    && chown 10001:10001 /data
 
 WORKDIR /app
 
