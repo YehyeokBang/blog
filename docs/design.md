@@ -1,131 +1,108 @@
-## Overview
+# 디자인 시스템
 
-Toss Tech (toss.tech) is the canonical example of a highly readable, typography-led, and minimalist engineering blog in South Korea. The base canvas is **pure white** (`{colors.canvas}` — #ffffff) with deep slate-gray ink (`{colors.ink}` — #191F28) for headlines, and a softer, highly legible gray (`{colors.body}` — #333D4B) for body text. The brand's signature **Toss Blue** (`{colors.primary}` — #3182F6) is used exclusively and sparingly for primary text links, active tags, and key interactive moments.
+이 문서는 현재 UI의 디자인 원칙과 사용법을 설명한다. 토큰의 실제 값은 [`frontend/app/globals.css`](../frontend/app/globals.css)가 단일 출처이며, 문서와 CSS가 다르면 CSS를 기준으로 이 문서를 갱신한다.
 
-The design is devoid of heavy lines, rigid boxes, or unnecessary visual noise. It relies on generous whitespace, large typography, and subtle off-white backgrounds (`{colors.surface-soft}` — #F9FAFB) to separate content. 
+## 방향
 
-Type runs **Pretendard** (closely matching Toss Product Sans), a highly legible, neutral, and modern geometric neo-grotesque sans-serif. The hierarchy is unmistakable: massive, bold headlines (weight 700+) combined with comfortable, highly readable body text (17px at weight 400 with a generous 1.6 line-height).
+- 깔끔하고 전문적이되 지나치게 무겁지 않은 개발자 블로그를 지향한다.
+- 여백과 타이포그래피를 주요 구조로 사용하고 장식 요소는 최소화한다.
+- 긴 기술 글의 가독성, 모바일 사용성, 명확한 상호작용을 시각적 화려함보다 우선한다.
+- 색상 accent는 mint 계열 하나를 중심으로 사용한다.
+- 과한 shadow나 카드 중첩을 피하고, border와 surface 색은 구획이 필요할 때만 사용한다.
 
-**Key Characteristics:**
-- **Extreme Minimalism**: No unnecessary borders, no complex backgrounds. Whitespace is the primary structural element.
-- **Toss Blue Accent**: `{colors.primary}` (#3182F6) is the only pop of color, providing a sharp, trustworthy tech vibe.
-- **Pretendard-first Typography**: Unapologetically sans-serif. The system trusts weight and size for hierarchy, never serif fonts.
-- **Soft Geometry**: When containers, image placeholders, or buttons are used, they have smooth, generous border radii (`{rounded.md}` — 8px to 14px, `{rounded.full}` — 9999px for tags).
-- **High Readability**: Body text uses `#333D4B` (not pure black) to reduce eye strain, maximizing reading comfort for long technical essays.
+초기 시안은 [피드](feed.png)와 [글 상세](details.png)를 참고하되 현재 구현 계약은 아니다.
 
-## Colors
+## 테마
 
-### Brand & Accent
-- **Toss Blue** (`{colors.primary}` — #3182F6): The signature brand color. Used for active text links, primary buttons, and selected states. It is a vibrant, highly trustworthy blue.
-- **Toss Blue Hover** (`{colors.primary-hover}` — #1B64DA): A slightly darker shade used for hover states on primary elements.
-- **Light Blue Background** (`{colors.primary-surface}` — #E8F3FF): A very pale blue used for tag backgrounds or highlighted text blocks.
+`next-themes`의 `defaultTheme="system"`을 사용한다. 첫 방문은 운영체제 설정을 따르고, header의 토글로 light/dark를 바꾸면 선택이 local storage에 저장된다.
 
-### Surface
-- **Canvas** (`{colors.canvas}` — #FFFFFF): The default page floor. Pure white.
-- **Surface Soft** (`{colors.surface-soft}` — #F9FAFB): A very subtle off-white/gray used for secondary cards or subtle section banding. (코드 블록은 예외적으로 다크 테마 적용)
-- **Surface Muted** (`{colors.surface-muted}` — #F2F4F6): Slightly darker gray for input backgrounds, inactive tags, or hover states on list items.
+### 색상 토큰
 
-*(Note for Dark Mode: Light Mode is the default. For Dark Mode, Toss perfectly inverts this using `#191F28` for Canvas, `#242A32` for Surface Soft, and text becomes `#F9FAFB`.)*
+| 토큰 | Light | Dark | 용도 |
+|---|---|---|---|
+| `primary` | `#008A63` | `#10B981` | 링크, 선택 상태, 주요 버튼 |
+| `primary-hover` | `#007050` | `#34D399` | primary hover |
+| `primary-surface` | `#E6F9F4` | `rgba(16, 185, 129, 0.1)` | 선택 tag와 callout 배경 |
+| `canvas` | `#FFFFFF` | `#0B0F19` | 페이지 배경 |
+| `surface-soft` | `#F9FAFB` | `#151A26` | 보조 배경, comment, inline code |
+| `surface-muted` | `#F2F4F6` | `#1F2937` | 비활성 tag, hover surface |
+| `hairline` | `#E5E8EB` | `#374151` | 입력과 표의 경계 |
+| `hairline-soft` | `#F2F4F6` | `#1F2937` | header·footer·본문의 약한 경계 |
+| `ink` | `#191F28` | `#F9FAFB` | 제목과 강한 본문 |
+| `body` | `#333D4B` | `#D1D5DB` | 기본 본문 |
+| `muted` | `#8B95A1` | `#9CA3AF` | 날짜와 보조 정보 |
+| `muted-soft` | `#B0B8C1` | `#6B7280` | 더 약한 정보와 scrollbar |
+| `on-primary` | `#FFFFFF` | `#FFFFFF` | primary 버튼 위 글자 |
 
-### Hairlines & Borders
-- **Hairline** (`{colors.hairline}` — #E5E8EB): Used incredibly sparingly. Occasionally used for a very subtle bottom border on the top navigation or between list items.
-- **Hairline Soft** (`{colors.hairline-soft}` — #F2F4F6): Barely visible divider.
+## 타이포그래피
 
-### Text
-- **Ink / Headline** (`{colors.ink}` — #191F28): The darkest text color, used for h1, h2, h3, and post titles. Almost black but with a cool slate undertone.
-- **Body** (`{colors.body}` — #333D4B): Default running-text color. Soft enough to read for 10 minutes without eye strain.
-- **Muted** (`{colors.muted}` — #8B95A1): Used for post dates, author names, read times, and placeholder text.
-- **Muted Soft** (`{colors.muted-soft}` — #B0B8C1): Very subtle text used for disabled states or minor captions.
-- **On Primary** (`{colors.on-primary}` — #FFFFFF): White text on Toss Blue buttons.
+본문과 UI는 Pretendard를 우선하고 시스템 sans-serif로 fallback한다. 코드는 JetBrains Mono와 시스템 monospace를 사용한다.
 
-## Typography
+| 토큰 | 크기 | 대표 용도 |
+|---|---:|---|
+| `display-xl` | 52px | 큰 display가 필요한 경우 |
+| `display-lg` | 40px | desktop 페이지 제목 |
+| `display-md` | 28px | mobile 페이지 제목, 본문 h2 |
+| `title-lg` | 22px | 큰 item 제목 |
+| `title-md` | 20px | 소제목 |
+| `body-lg` | 18px | 글 본문, desktop 소개 본문 |
+| `body-md` | 16px | 목록 설명과 기본 UI 본문 |
+| `caption` | 15px | 날짜와 읽기 시간 |
+| `code` | 15px | code block |
+| `tag` | 14px | tag와 작은 action |
 
-### Font Family
-The system exclusively runs **Pretendard** (or Toss Product Sans / Apple SD Gothic Neo fallback) for everything — display, body, navigation, and microcopy. Code blocks use **JetBrains Mono** or a system monospace font.
+제목은 크기와 weight로 위계를 만들고, 본문은 `line-height: 1.6`을 기본으로 긴 문장도 읽기 편하게 유지한다. 순수 검정 대신 `ink`를 사용한다.
 
-### Hierarchy
+## 간격과 형태
 
-| Token | Size | Weight | Line Height | Letter Spacing | Use |
-|---|---|---|---|---|---|
-| `{typography.display-xl}` | 52px | 800 | 1.3 | -0.02em | Hero headline on main page ("개발" / "디자인") |
-| `{typography.display-lg}` | 40px | 700 | 1.4 | -0.01em | Post Detail h1 (Article Title) |
-| `{typography.display-md}` | 28px | 700 | 1.4 | 0 | Section heads inside article (h2) |
-| `{typography.title-lg}` | 22px | 600 | 1.5 | 0 | Article feed card titles |
-| `{typography.title-md}` | 20px | 600 | 1.5 | 0 | Sub-section heads (h3) |
-| `{typography.body-lg}` | 18px | 400 | 1.6 | 0 | Default running-text inside listing copy (Highly legible) |
-| `{typography.body-md}` | 16px | 400 | 1.5 | 0 | Short descriptions on feed cards |
-| `{typography.caption}` | 15px | 500 | 1.5 | 0 | Author names, dates, read times |
-| `{typography.code}` | 15px | 400 | 1.5 | 0 | Code blocks — JetBrains Mono |
-| `{typography.tag}` | 14px | 600 | 1.4 | 0 | Category tags ("Spring Boot", "Architecture") |
+- 간격은 4px 단위를 기준으로 `4, 8, 16, 24, 32, 48, 80px` 토큰을 사용한다.
+- 공통 shell의 최대 너비는 1000px이고 좌우 padding은 mobile 24px, desktop 24px이다.
+- 글 상세의 article은 최대 800px, desktop TOC 열은 250px이다.
+- 기본 radius는 12px, 큰 surface는 14px 이상을 사용한다. tag는 pill 형태다.
+- 목록 항목은 mobile 48px, desktop 80px 간격으로 분리한다.
 
-### Principles
-Size and weight do all the heavy lifting. Toss does not use all-caps or small-caps for hierarchy. The transition from a massive 36px/700 weight title down to a 17px/400 weight body creates an immediate, clear structure without needing decorative underlines or colors.
+## 현재 컴포넌트 동작
 
-## Layout
+### Header와 footer
 
-### Spacing System
-- **Base unit:** 4px.
-- **Tokens:** `{spacing.xs}` 4px · `{spacing.sm}` 8px · `{spacing.md}` 16px · `{spacing.lg}` 24px · `{spacing.xl}` 32px · `{spacing.xxl}` 48px · `{spacing.section}` 80px.
-- **Section padding:** `{spacing.section}` (80px) between major architectural blocks.
-- **Paragraph spacing:** `{spacing.xl}` (32px) between paragraphs in an article to let the text breathe.
-- **Card spacing:** `{spacing.xxl}` (48px) between articles in the feed list.
+- Header는 높이 60px의 sticky surface이며 약한 blur와 bottom hairline을 사용한다.
+- 왼쪽에는 `Yehyeok`, 오른쪽에는 아티클·소개 navigation과 theme toggle이 있다.
+- Footer는 GitHub와 소개 링크를 제공한다.
 
-### Grid & Container
-- **Max content width (Feed):** ~1000px centered.
-- **Max content width (Article Detail):** ~700px. This is a strict constraint. Reading width is kept narrow so the eye doesn't have to travel too far horizontally.
-- **Alignment:** Almost exclusively left-aligned. Center alignment is rarely used except for standalone hero images or empty states.
+### 아티클 피드
 
-### Whitespace Philosophy
-"Whitespace is a component." Instead of using a `<hr />` or a border to separate a section, Toss uses 80px of vertical whitespace. The page feels incredibly light, fast, and open. 
+- 최신순 목록과 URL query 기반 tag filter를 제공한다.
+- 제목, 설명, 날짜, 읽기 시간, tag를 표시한다.
+- thumbnail이 있으면 desktop에서는 우측 고정 비율 이미지로, mobile에서는 글 정보 위의 가로 이미지로 노출한다.
+- 제목과 thumbnail이 상세 페이지 링크이며 tag는 filter 링크로 독립 동작한다.
 
-## Elevation & Depth
+### 글 상세
 
-The system is virtually **flat**. 
-- **Flat (no shadow):** 99% of surfaces. Body, headers, cards, footer.
-- **Subtle Float:** `box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04)` — Used extremely sparingly, perhaps on a sticky top-nav when scrolling, or a floating TOC (Table of Contents) on desktop.
-- No heavy drop shadows. Depth is achieved through `{colors.surface-soft}` backgrounds vs `{colors.canvas}` white.
+- 제목, 날짜, 읽기 시간, tag, 선택적 thumbnail을 표시한다.
+- 본문은 Markdown을 HTML로 변환하며 h1~h6, 목록, 표, 인용문, inline code를 공통 토큰으로 스타일링한다.
+- code block은 테마와 관계없이 GitHub Dark 계열 배경과 복사 버튼을 사용한다.
+- Desktop `lg` 이상에서는 오른쪽 sticky TOC를 표시하고, 작은 화면에서는 본문 위의 inline TOC를 표시한다.
+- TOC는 본문의 h1·h2를 추적하며 현재 section을 mint 색으로 강조한다.
+- 본문 아래에는 익명 profile 기반 댓글 작성과 댓글 목록이 있다.
 
-## Components
+### 소개
 
-### Top Navigation
-**`top-nav`** — Pure white surface `{colors.canvas}`, sticky at top. Height 60px. Contains a simple text logo ("Yehyeok") on the left in `{colors.ink}` (weight 700), and simple text links ("아티클", "소개") on the right in `{colors.body}`. Active links turn `{colors.ink}`. No bottom border unless scrolled.
+소개, 연락처, 경력, 활동을 같은 1000px shell 안에서 제공한다. mobile과 desktop의 글자 크기만 조정하고 별도 좁은 column을 만들지 않는다.
 
-### Article Feed Card
-![Feed 디자인 시안](./feed.png)
+## 반응형 기준
 
-**`article-feed-item`** — A flat, borderless block. Contains a thumbnail image (optional) with `{rounded.md}` (12px radius). Below or beside it: Title in `{typography.title-lg}`, a short 2-line description in `{typography.body-md}` (`{colors.body}`), and a meta line (e.g. `2024. 03. 15 · 조회수 1,240 · 좋아요 82`) in `{typography.caption}` (`{colors.muted}`). Separated from the next item purely by `{spacing.xxl}` (48px) whitespace.
+- 기본 mobile-first layout을 사용한다.
+- `sm`(640px)부터 feed가 텍스트와 thumbnail의 가로 배치로 바뀐다.
+- `md`(768px)부터 페이지 제목과 본문 일부의 typography가 커진다.
+- `lg`(1024px)부터 글 상세의 desktop TOC가 나타나고 mobile inline TOC는 숨긴다.
 
-### Tags / Badges
-**`tag-inactive`** — Background `{colors.surface-muted}`, text `{colors.body}`, padding 6px × 12px, `{rounded.full}` (pill shape).
-**`tag-active`** — Background `{colors.primary-surface}`, text `{colors.primary}`, same padding and shape. Used to indicate the currently filtered category.
+## 아직 현재 기능이 아닌 항목
 
-### Article Detail (Post Page)
-![Article Detail 디자인 시안](./details.png)
+스크롤 progress bar, MDX custom component, 시리즈 이전·다음, 관련 글, 조회수·좋아요 표시는 현재 구현되어 있지 않다. 필요 시 [로드맵](roadmap.md) 우선순위와 OpenSpec change를 먼저 확정한다.
 
-**`article-header`** — Massive left-aligned Title in `{typography.display-lg}`. Below it, meta info (Date · 읽기 시간 · 조회수 · 좋아요) in `{typography.caption}`.
-**`article-body`** — Constrained to 700px. Paragraphs in `{typography.body-lg}`. Links inside text are strictly `{colors.primary}` with no underline, underlining only on hover. 본문 하단에는 작성자 프로필 정보가 포함됩니다.
-**`code-block`** — Background is consistently Dark Theme (e.g., `#1E1E1E` or `{colors.ink}`), padding 24px, `{rounded.md}` (8px radius). Text uses syntax highlighting optimized for dark backgrounds. Includes a simple "복사" (Copy) button on the top right.
+## 변경 체크
 
-### MDX Custom Components
-**`metric-highlight-card`** — 커스텀 MDX 컴포넌트(React). 주요 지표 개선(예: API 응답 속도, CPU 점유율 등)을 시각적으로 강조하기 위해 사용. 연한 파란색 배경(`{colors.primary-surface}`)과 둥근 모서리(`{rounded.lg}`)를 적용.
-
-### Table of Contents (TOC)
-**`sticky-toc`** — Sits to the right of the 700px content column on desktop. Font size `{typography.caption}`. Inactive links are `{colors.muted}`, active section link turns `{colors.primary}` and weight 600. No borders, just floating text perfectly aligned.
-
-## Responsive Behavior
-- **Mobile (< 768px):** Content width takes 100% with 24px horizontal padding. TOC disappears completely.
-- **Desktop (> 1024px):** Content centers at 700px. TOC appears in the right margin.
-
-## Do's and Don'ts
-### Do
-- Use **Pretendard** and trust its weight for hierarchy.
-- Use generous line-heights (1.6) for body text.
-- Use whitespace (`margin-bottom: 80px`) to separate sections instead of borders.
-- Keep the reading column narrow (~700px).
-
-### Don't
-- Don't use serif fonts.
-- Don't use pure black (`#000000`). Always use `{colors.ink}` (#191F28).
-- Don't use heavy drop shadows.
-- Don't use boxes or borders to group content; use proximity and whitespace.
-- Don't use any accent color other than `{colors.primary}` Toss Blue.
+- 새 색이나 간격을 추가하기 전에 기존 CSS token으로 표현 가능한지 확인한다.
+- light/dark 양쪽에서 대비와 hover·focus 상태를 확인한다.
+- UI 변경은 mobile과 desktop을 모두 확인하고 keyboard 접근성과 label을 점검한다.
+- 문서 예시보다 실제 component와 `globals.css`를 먼저 대조한다.

@@ -1,19 +1,25 @@
 ## Context & Scope
-<!-- 작업에 대한 한 줄 요약(Summary)을 작성해주세요. -->
 
-
-<!-- 어떤 문제를 해결하고자 하는지(Why), 무엇을 변경했는지(What), 그리고 어떻게 해결했는지(How) 간략히 설명해주세요. -->
-- **Why**: 
-- **What**: 
-- **How**: 
-
-## AS-IS -> TO-BE
-<!-- 변경 전과 변경 후의 구조나 동작 방식이 어떻게 달라졌는지 설명해주세요. -->
-- **AS-IS**: 
-- **TO-BE**: 
-
-## Trade-offs (optional)
-<!-- 이 해결책을 선택한 이유는 무엇인가요? 대안들 중에서 왜 이 방식을 선택했는지(성능, 유지보수성, 단순함 등) 적어주세요. -->
+- **Why**:
+- **What**:
+- **How**:
 
 ## Test / Verification
-<!-- 로컬이나 실험실 환경에서 어떻게 테스트했는지 간략히 적어주세요. -->
+
+<!-- 실행한 테스트 또는 수동 검증과 결과를 짧게 적어주세요. -->
+
+## Conditional checklist
+
+<!-- 변경과 관련 있는 항목만 확인하세요. 관련 없는 항목에는 설명을 추가하지 않아도 됩니다. -->
+
+- [ ] 테스트 또는 수동 검증 결과를 기록했다.
+- [ ] build-time/runtime 환경변수의 주입 시점과 기본값 영향을 확인했다.
+- [ ] DB schema·mount·UID/GID·backup·restore 영향을 확인했다.
+- [ ] runner label·CPU architecture·container health 영향을 확인했다.
+- [ ] 실패 시 rollback 또는 기능 비활성화 방법을 확인했다.
+- [ ] 관련 문서·OpenSpec을 갱신하고 완료 change를 archive했다.
+- [ ] UI 변경은 mobile·desktop·keyboard 접근성과 label을 확인했다.
+
+## Trade-offs (optional)
+
+<!-- 선택한 방식의 유지보수성, 단순성, 포기한 대안을 필요한 경우에만 적어주세요. -->

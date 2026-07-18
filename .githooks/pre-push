@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -u
+
+readonly REPOSITORY_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+exec "$REPOSITORY_ROOT/scripts/validate-openspec.sh"

@@ -14,22 +14,26 @@ This file serves as the top-level common operational guidelines for all AI agent
 As the project grows, avoid cramming all instructions into this single file. Use a modular approach for efficiency.
 - **Global Guidelines**: Core rules and overall project direction are maintained in this `AGENTS.md` file.
 - **Domain-Specific Guidelines**: Maintain separate Markdown files for specific tech stacks, planning documents, or architecture designs under `docs/`.
-  - *Note: Do NOT use `.agents/` (plural) to avoid confusion with `.agent/` (singular) which contains OpenSpec tools.*
+- **OpenSpec Artifacts**: 기능 요구사항과 change 기록은 `openspec/`에 두고 별도의 agent instruction 디렉터리를 만들지 않습니다.
 - **Agent Workflow**: Before starting a task, agents MUST actively check for and read any relevant detailed reference documents.
 
 ### Document Map (read what's relevant before starting)
+- `docs/README.md` — 활성 문서와 아카이브 인덱스
 - `docs/project-overview.md` — 목표/가치 (SSoT)
 - `docs/architecture.md` — 기술 스택/배포 구조
-- `docs/feature-roadmap.md` — 단계별 로드맵
+- `docs/roadmap.md` — 제품 우선순위와 운영 방식
 - `docs/git-strategy.md` — 브랜치/커밋/PR 규칙 (gh 계정 규칙 포함)
 - `docs/design.md` — 디자인 토큰 정의 (frontend/app/globals.css와 1:1)
 - `docs/backend-convention.md` — Kotlin/Spring 백엔드 구현·리뷰 규칙 (백엔드 작업 전 필독)
-- `openspec/` — 스펙 주도 변경 관리 (아래 Workflow 참조)
+- `openspec/README.md` — base spec, 진행 중 change, archive 인덱스
 
 ### OpenSpec Workflow
 - **새 기능 및 동작 변경**: 반드시 OpenSpec change를 먼저 제안하고, 스펙과 아티팩트가 승인된 후 작업에 착수합니다.
 - **버그 수정, 오타 교정, 단순 리팩토링**: 스펙 제안 없이 바로 브랜치를 파서 작업합니다.
-- **작업 완료 후**: 완료된 OpenSpec change는 배포와 검증을 확인한 뒤 archive 처리합니다.
+- **근거 기반 완료 처리**: tasks는 실제 구현과 테스트 근거가 확인된 항목만 완료로 표시합니다.
+- **필수 로컬 검증**: OpenSpec 아티팩트를 수정하거나 delta를 base spec에 동기화하고, change를 완료·archive하기 전에 저장소 루트에서 `./scripts/validate-openspec.sh`를 실행합니다.
+- **종료 순서**: 구현·테스트 대조 → strict validation → delta의 base spec 동기화 → 배포·운영 검증 확인 → archive 순서를 지킵니다.
+- **Archive 조건**: base spec과 실제 동작이 일치하고 필요한 배포·운영 검증이 끝난 change만 archive합니다.
 
 ## 3. Behavioral Guidelines
 These guidelines aim to reduce common AI coding mistakes. Prioritize **stability, simplicity, and accuracy** over speed.

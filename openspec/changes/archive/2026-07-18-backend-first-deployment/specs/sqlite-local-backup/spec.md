@@ -1,7 +1,7 @@
 ## ADDED Requirements
 
 ### Requirement: Scheduled SQLite local backup
-시스템은 GitHub Actions의 Oracle self-hosted runner에서 매일 02:00 KST(`0 17 * * *`)에 `/opt/blog/data/blog.db`의 SQLite `.backup`을 `/opt/blog/backups`에 생성해야 한다. runner에는 `sqlite3`와 `flock`이 설치되어 있어야 한다.
+시스템은 GitHub Actions의 `[self-hosted, ARM64]` Oracle runner에서 매일 02:00 KST(`0 17 * * *`)에 `/opt/blog/data/blog.db`의 SQLite `.backup`을 `/opt/blog/backups`에 생성해야 한다(MUST). runner에는 `sqlite3`와 `flock`이 설치되어 있어야 한다.
 
 #### Scenario: 정상 백업
 - **WHEN** scheduled backup workflow가 실행된다
@@ -9,7 +9,7 @@
 - **AND** 실행 로그를 남긴다
 
 ### Requirement: Backup overlap prevention and retention
-시스템은 `flock -n`으로 동시에 두 backup이 실행되지 않게 하고, 실패를 KST log에 남기며 최근 7일 backup과 log만 보관해야 한다. backup은 5초 SQLite busy timeout, temporary file, integrity check, 같은 filesystem의 atomic rename을 사용해야 한다.
+시스템은 `flock -n`으로 동시에 두 backup이 실행되지 않게 하고, 실패를 KST log에 남기며 최근 7일 backup과 log만 보관해야 한다(MUST). backup은 5초 SQLite busy timeout, temporary file, integrity check, 같은 filesystem의 atomic rename을 사용해야 한다.
 
 #### Scenario: 중첩 실행
 - **WHEN** 이전 backup이 실행 중인 상태에서 두 번째 backup이 시작된다

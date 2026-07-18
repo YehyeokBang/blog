@@ -1,34 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blog frontend
 
-## Getting Started
+Markdown 콘텐츠를 정적 HTML로 빌드하고 Nginx로 제공하는 Next.js frontend다. 콘텐츠 정본은 저장소 루트의 [`content/posts/`](../content/posts/)이며, frontend는 빌드 시 해당 파일을 읽는다.
 
-First, run the development server:
+## 요구 환경
+
+- Node.js 22
+- npm
+- 댓글 API를 함께 개발할 때는 `localhost:8080`의 backend
+
+## 로컬 실행
 
 ```bash
+cd frontend
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+브라우저에서 `http://localhost:3000`을 연다. 개발 모드의 `/api/*` 요청은 `next.config.ts` rewrite를 통해 `http://localhost:8080/api/*`로 전달된다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 검증과 정적 빌드
 
-## Learn More
+```bash
+cd frontend
+npm run lint
+NEXT_PUBLIC_SITE_URL=http://localhost:3000 npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+`output: "export"`를 사용하므로 결과는 `frontend/out/`에 생성된다. `NEXT_PUBLIC_*` 값은 런타임이 아니라 build-time에 정적 산출물에 포함된다.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| 환경변수 | 용도 | 필수 시점 |
+|---|---|---|
+| `NEXT_PUBLIC_SITE_URL` | canonical URL, sitemap, robots, Open Graph 기준 URL | production build 필수 |
+| `NEXT_PUBLIC_GA_ID` | GA4 측정 ID | 분석을 활성화하는 build |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 관련 문서
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [디자인 시스템](../docs/design.md)
+- [기술 아키텍처](../docs/architecture.md)
+- [프론트엔드 개발 규칙](AGENTS.md)
