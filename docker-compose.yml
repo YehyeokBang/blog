@@ -33,10 +33,42 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.frontend.rule=Host(`blog.yehyeok.xyz`)"
+      - "traefik.http.routers.frontend.priority=1"
       - "traefik.http.routers.frontend.entrypoints=websecure"
       - "traefik.http.routers.frontend.tls.certresolver=myresolver"
       - "traefik.http.services.frontend.loadbalancer.server.port=80"
+    networks:
+      - blog-network
+
+  backend:
+    image: ghcr.io/yehyeokbang/blog-backend:latest
+    container_name: blog-backend
+    restart: always
+    volumes:
+      - "/opt/blog/data/blog.db:/data/blog.db"
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent http://localhost:8080/actuator/health | grep -q '\"status\":\"UP\"'"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+      start_period: 30s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`blog.yehyeok.xyz`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.api.priority=100"
+      - "traefik.http.routers.api.entrypoints=websecure"
+      - "traefik.http.routers.api.tls.certresolver=myresolver"
+      - "traefik.http.routers.comment-write.rule=Host(`blog.yehyeok.xyz`) && Method(`POST`) && PathRegexp(`^/api/posts/[^/]+/comments/?$`)"
+      - "traefik.http.routers.comment-write.priority=200"
+      - "traefik.http.routers.comment-write.entrypoints=websecure"
+      - "traefik.http.routers.comment-write.tls.certresolver=myresolver"
+      - "traefik.http.routers.comment-write.middlewares=comment-write-rate-limit"
+      - "traefik.http.middlewares.comment-write-rate-limit.ratelimit.average=5"
+      - "traefik.http.middlewares.comment-write-rate-limit.ratelimit.period=1m"
+      - "traefik.http.middlewares.comment-write-rate-limit.ratelimit.burst=3"
+      - "traefik.http.middlewares.comment-write-rate-limit.ratelimit.sourcecriterion.ipstrategy.depth=0"
+      - "traefik.http.services.backend.loadbalancer.server.port=8080"
     networks:
       - blog-network
 

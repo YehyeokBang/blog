@@ -1,0 +1,16 @@
+.git
+.github
+.DS_Store
+
+backend/*.db
+backend/*.db-*
+backend/.gradle
+backend/build/*
+!backend/build/libs/
+!backend/build/libs/blog-backend-0.0.1-SNAPSHOT.jar
+
+frontend/node_modules
+frontend/.next
+frontend/out
+
+*.log

@@ -1,4 +1,4 @@
-name: Deploy MVP Frontend to Oracle Cloud VPS
+name: Deploy Blog to Oracle Cloud VPS
 
 on:
   push:
@@ -6,94 +6,158 @@ on:
       - main
   workflow_dispatch:
 
+concurrency:
+  group: blog-production
+  cancel-in-progress: false
+
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: yehyeokbang/blog-frontend
+  FRONTEND_IMAGE: yehyeokbang/blog-frontend
+  BACKEND_IMAGE: yehyeokbang/blog-backend
 
 jobs:
-  build-and-push:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      frontend: ${{ steps.filter.outputs.frontend }}
+      backend: ${{ steps.filter.outputs.backend }}
+      deploy: ${{ steps.filter.outputs.deploy }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            frontend:
+              - 'frontend/**'
+              - 'content/posts/**'
+            backend:
+              - 'backend/**'
+              - 'content/posts/**'
+            deploy:
+              - 'frontend/**'
+              - 'backend/**'
+              - 'content/posts/**'
+              - 'docker-compose.yml'
+              - 'scripts/**'
+              - '.github/workflows/deploy.yml'
+
+  build-frontend:
+    needs: changes
+    if: github.event_name == 'workflow_dispatch' || needs.changes.outputs.frontend == 'true'
     runs-on: ubuntu-24.04-arm
     permissions:
       contents: read
       packages: write
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: 'npm'
-          cache-dependency-path: './frontend/package-lock.json'
-
-      - name: Install dependencies
-        run: |
-          cd frontend
-          npm ci
-
-      - name: Build Next.js Static Export
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+        working-directory: frontend
+      - name: Build Next.js static export
         env:
-          NEXT_PUBLIC_SITE_URL: https://${{ secrets.DOMAIN }}
+          NEXT_PUBLIC_SITE_URL: https://blog.yehyeok.xyz
           NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
-        run: |
-          cd frontend
-          npm run build
+        run: npm run build
+        working-directory: frontend
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: frontend
+          file: frontend/Dockerfile
+          push: true
+          platforms: linux/arm64
+          tags: ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-      - name: Log in to GitHub Container Registry (GHCR)
+  build-backend:
+    needs: changes
+    if: github.event_name == 'workflow_dispatch' || needs.changes.outputs.backend == 'true'
+    runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - name: Generate post manifest and build backend JAR
+        run: |
+          node scripts/generate-posts-manifest.mjs
+          cd backend
+          ./gradlew bootJar
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: backend/Dockerfile
+          push: true
+          platforms: linux/arm64
+          tags: ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    needs: [changes, build-frontend, build-backend]
+    if: >-
+      always() &&
+      (github.event_name == 'workflow_dispatch' || needs.changes.outputs.deploy == 'true') &&
+      (needs.build-frontend.result == 'success' || needs.build-frontend.result == 'skipped') &&
+      (needs.build-backend.result == 'success' || needs.build-backend.result == 'skipped')
+    runs-on: [self-hosted, oracle]
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify Docker Compose and host prerequisites
+        run: |
+          docker compose up --help | grep -- '--wait'
+          command -v sqlite3
+          command -v flock
+      - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build and Push frontend Docker Image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./frontend
-          file: ./frontend/Dockerfile
-          push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Upload docker-compose.yml
-        uses: actions/upload-artifact@v4
-        with:
-          name: compose-file
-          path: docker-compose.yml
-
-  deploy:
-    runs-on: self-hosted
-    needs: build-and-push
-
-    steps:
-      - name: Download docker-compose.yml
-        uses: actions/download-artifact@v4
-        with:
-          name: compose-file
-          path: /opt/blog
-
-      - name: Deploy to VPS
-        env:
-          DOMAIN: ${{ secrets.DOMAIN }}
+      - name: Install deployment files and prepare SQLite mount
         run: |
-          # Ensure the deployment directory exists
-          mkdir -p /opt/blog
+          sudo install -d -m 0755 /opt/blog /opt/blog/data /opt/blog/backups /opt/blog/scripts
+          sudo install -m 0644 docker-compose.yml /opt/blog/docker-compose.yml
+          sudo install -m 0755 scripts/backup-sqlite.sh /opt/blog/scripts/backup-sqlite.sh
+          sudo touch /opt/blog/data/blog.db
+          sudo chown -R 10001:10001 /opt/blog/data
+          sudo chown -R "$USER":"$(id -gn)" /opt/blog/backups /opt/blog/scripts
+      - name: Deploy and wait for health checks
+        run: |
           cd /opt/blog
-          
-          # GitHub Secret으로 넘겨받은 DOMAIN을 서버의 .env 파일로 저장
-          echo "DOMAIN=$DOMAIN" > .env
-          
-          # Pull the newly pushed frontend docker image
-          docker compose pull frontend
-          
-          # Restart/Deploy containers in background
-          docker compose up -d
-          
-          # Clean up old dangling unused images to save disk space
-          docker image prune -f
+          docker compose pull
+          if ! docker compose up -d --wait --wait-timeout 120; then
+            docker compose ps
+            docker compose logs --tail=200 backend
+            exit 1
+          fi

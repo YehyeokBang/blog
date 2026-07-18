@@ -5,6 +5,7 @@ import TOC from "@/components/TOC";
 import { Metadata } from "next";
 import Link from "next/link";
 import PostThumbnail from "@/components/PostThumbnail";
+import CommentSection from "@/components/CommentSection";
 import { SITE_URL } from "@/lib/constants";
 
 export async function generateStaticParams() {
@@ -131,6 +132,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         </div>
 
         <PostContent content={post.content} />
+
+        <CommentSection slug={resolvedParams.slug} />
       </article>
 
       <aside className="hidden lg:block w-[250px] shrink-0">

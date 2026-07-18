@@ -1,0 +1,16 @@
+name: SQLite Backup
+
+on:
+  schedule:
+    - cron: '0 17 * * *'
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: [self-hosted, oracle]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run SQLite backup
+        run: /bin/bash scripts/backup-sqlite.sh

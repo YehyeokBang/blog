@@ -42,3 +42,4 @@ temp/
 # Framework/Language specific ignores (e.g. node_modules, build/, target/) 
 # should be managed in `frontend/.gitignore` and `backend/.gitignore` respectively.
 # =========================================================================
+.gstack/
