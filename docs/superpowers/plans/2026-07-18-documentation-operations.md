@@ -35,13 +35,13 @@
 - Consumes: 승인된 이동 목록과 현재 저장소 경로
 - Produces: 활성 문서, OpenSpec, 아카이브를 각각 찾을 수 있는 세 개의 인덱스
 
-- [ ] **Step 1: 이동 전 링크 영향을 다시 고정한다**
+- [x] **Step 1: 이동 전 링크 영향을 다시 고정한다**
 
 Run: `rg -n "PROJECT-REVIEW\\.md|project-proposal\\.md|design-direction\\.md|feature-roadmap\\.md|backend-convention\\.md" --glob '*.md' --glob '!content/posts/**' .`
 
 Expected: 활성 경로 수정 대상은 `AGENTS.md`, `docs/project-proposal.md`, `openspec/changes/backend-first-deployment/tasks.md`이며 과거 리뷰의 경로 언급은 기록으로 보존한다.
 
-- [ ] **Step 2: 과거 문서를 이동하고 상태 배너를 추가한다**
+- [x] **Step 2: 과거 문서를 이동하고 상태 배너를 추가한다**
 
 각 문서 첫머리에 다음 세 필드를 둔다.
 
@@ -53,11 +53,11 @@ Expected: 활성 경로 수정 대상은 `AGENTS.md`, `docs/project-proposal.md`
 
 디자인 방향 문서의 대체 링크는 `../../design.md`, 초기 기획서는 `../../project-overview.md`, `../../architecture.md`, `../../roadmap.md`를 함께 가리킨다. 이동한 디자인 문서의 시안 링크는 `../../feed.png`, `../../details.png`로 고친다.
 
-- [ ] **Step 3: 인덱스와 frontend 안내를 작성한다**
+- [x] **Step 3: 인덱스와 frontend 안내를 작성한다**
 
 `docs/README.md`는 프로젝트 개요, 아키텍처, 로드맵, 디자인, Git 전략, 페르소나, 백엔드 규칙, 현재 구현 계획, OpenSpec, 아카이브를 링크한다. `openspec/README.md`는 base spec, 진행 중 change, archive와 검증·종료 순서를 설명한다. `frontend/README.md`는 저장소 루트 기준 설치·개발·lint·build 명령과 build-time 환경변수 및 정적 export 특성을 설명한다.
 
-- [ ] **Step 4: 문서 이동 단위를 검증하고 커밋한다**
+- [x] **Step 4: 문서 이동 단위를 검증하고 커밋한다**
 
 Run: `git status --short && git diff --check`
 
@@ -79,23 +79,23 @@ Commit: `docs: 문서 인덱스와 아카이브 구조 정리`
 - Consumes: `frontend/app/globals.css`, 현재 UI 컴포넌트, 승인된 로드맵 인터뷰 결과
 - Produces: 현재 코드와 충돌하지 않는 활성 문서와 실제 경로를 가리키는 에이전트 문서 맵
 
-- [ ] **Step 1: pull 방식 로드맵으로 교체한다**
+- [x] **Step 1: pull 방식 로드맵으로 교체한다**
 
 `docs/roadmap.md`에 북극성, 운영 원칙, Now/Next/Later, 기술 우선순위, 출시·검증 방식, 최상위 위험을 기록한다. Now는 GA4·Search Console 측정 기반, 의미 있는 읽기 이벤트, 조회수 API이고 Next는 소유자 대시보드와 댓글 관리, Later는 검색·콘텐츠 탐색과 작은 AI 실험이다.
 
-- [ ] **Step 2: 디자인 문서를 실제 CSS와 UI에 맞춘다**
+- [x] **Step 2: 디자인 문서를 실제 CSS와 UI에 맞춘다**
 
 `docs/design.md`는 Pretendard, mint accent, light/dark token 값, system 기본 테마, 1000px shell, 800px article, desktop 250px TOC와 mobile inline TOC, 현재 feed/tag/thumbnail/comment UI를 설명한다. 구현되지 않은 스크롤 진행도, MDX 카드, 시리즈, 조회수·좋아요는 현재 기능처럼 적지 않는다.
 
-- [ ] **Step 3: 운영 문서의 불일치만 최소 수정한다**
+- [x] **Step 3: 운영 문서의 불일치만 최소 수정한다**
 
 `docs/git-strategy.md`의 `.agents/`를 실제 `AGENTS.md`, `docs/`, `openspec/` 구조로 바꾸고 OpenSpec branch→change→검증→base 동기화→배포 확인→archive 흐름과 `git config core.hooksPath .githooks`를 기록한다. `docs/architecture.md`에는 backend `/data` 디렉터리의 UID/GID `10001:10001` 소유와 정확한 bind mount를 반영하고, `docs/project-overview.md`의 분석 목표를 GA4·Search Console 기준으로 좁힌다.
 
-- [ ] **Step 4: AGENTS 문서 맵과 종료 규칙을 갱신한다**
+- [x] **Step 4: AGENTS 문서 맵과 종료 규칙을 갱신한다**
 
 `AGENTS.md`의 로드맵 경로를 `docs/roadmap.md`로 바꾸되 P1인 backend 문서 분할 전까지 `docs/backend-convention.md`는 유지한다. OpenSpec 수정·동기화·완료·archive 전 `scripts/validate-openspec.sh` 실행, base 동기화와 배포·운영 확인 후 archive한다는 규칙을 명시한다.
 
-- [ ] **Step 5: 활성 문서 단위를 검증하고 커밋한다**
+- [x] **Step 5: 활성 문서 단위를 검증하고 커밋한다**
 
 Run: `git diff --check && ! rg -n "docs/feature-roadmap\\.md" AGENTS.md docs/*.md && ! rg -n "\\.agents/" docs/git-strategy.md`
 
@@ -120,37 +120,37 @@ Commit: `docs: 활성 프로젝트 문서 최신화`
 - Consumes: PR #19 구현, #20 `[self-hosted, ARM64]`, #21 runtime `/data` ownership, 로컬 검증 결과
 - Produces: strict-valid base specs와 `openspec/changes/archive/2026-07-18-backend-first-deployment/`
 
-- [ ] **Step 1: 작업표를 구현 근거와 대조한다**
+- [x] **Step 1: 작업표를 구현 근거와 대조한다**
 
 각 작업은 관련 source, test, workflow 또는 문서가 현재 HEAD에 있을 때만 `[x]`로 바꾼다. `5.4`의 Linux `flock`, image-negative/isolated health/live rate-limit처럼 현재 환경이나 기록으로 확인할 수 없는 항목은 `[ ]`로 유지하고 확인된 하위 결과와 미확인 이유를 적는다.
 
-- [ ] **Step 2: 후속 운영 수정을 delta에 반영한다**
+- [x] **Step 2: 후속 운영 수정을 delta에 반영한다**
 
 `design.md`와 delta spec에 self-hosted runner label `[self-hosted, ARM64]`, backend image의 `/data` 생성 및 `10001:10001` 소유, host `/opt/blog/data` 권한 준비를 반영한다.
 
-- [ ] **Step 3: strict validator가 한국어 요구사항을 인식하게 한다**
+- [x] **Step 3: strict validator가 한국어 요구사항을 인식하게 한다**
 
 모든 Requirement 본문에 한국어 문장과 함께 영문 규범 키워드 `MUST`를 일관되게 넣는다. 짧은 `Purpose`는 현재 기능 범위를 50자 이상으로 설명한다.
 
-- [ ] **Step 4: archive 전 strict validation을 실행한다**
+- [x] **Step 4: archive 전 strict validation을 실행한다**
 
 Run: `openspec validate --all --strict`
 
 Expected: 현재 4개 base spec과 `backend-first-deployment` change가 모두 통과한다.
 
-- [ ] **Step 5: CLI로 base spec 동기화와 archive를 수행한다**
+- [x] **Step 5: CLI로 base spec 동기화와 archive를 수행한다**
 
 Run: `openspec archive backend-first-deployment --yes`
 
 Expected: 4개 신규 base spec이 생성되고 deployment delta가 기존 base에 합쳐지며 change가 `openspec/changes/archive/2026-07-18-backend-first-deployment/`로 이동한다. 미완료 task 경고가 있으면 숨기지 않고 최종 보고한다.
 
-- [ ] **Step 6: archive 후 전체 strict validation과 관련 테스트를 실행한다**
+- [x] **Step 6: archive 후 전체 strict validation과 관련 테스트를 실행한다**
 
 Run: `openspec validate --all --strict && node --test scripts/generate-posts-manifest.test.mjs && (cd backend && ./gradlew ktlintCheck test build)`
 
 Expected: OpenSpec 전 항목 통과, manifest 1개 테스트 통과, Gradle build 성공.
 
-- [ ] **Step 7: OpenSpec 단위를 커밋한다**
+- [x] **Step 7: OpenSpec 단위를 커밋한다**
 
 Commit: `docs: 백엔드 배포 OpenSpec 동기화 및 아카이브`
 
@@ -167,25 +167,25 @@ Commit: `docs: 백엔드 배포 OpenSpec 동기화 및 아카이브`
 - Consumes: repository root와 `openspec` executable
 - Produces: root-relative strict validator command와 이를 호출하는 pre-push gate
 
-- [ ] **Step 1: validator wrapper를 작성한다**
+- [x] **Step 1: validator wrapper를 작성한다**
 
 스크립트는 자신의 위치에서 저장소 루트를 계산해 `cd`하고, `command -v openspec` 실패 시 공식 npm 설치 명령을 포함한 오류를 stderr로 출력한 뒤 `127`로 끝낸다. 성공 경로에서는 `openspec validate --all --strict`를 직접 실행해 종료 코드를 보존한다.
 
-- [ ] **Step 2: pre-push 훅을 작성하고 실행 권한을 준다**
+- [x] **Step 2: pre-push 훅을 작성하고 실행 권한을 준다**
 
 훅은 저장소 루트의 `scripts/validate-openspec.sh`를 `exec`로 호출한다. `chmod +x scripts/validate-openspec.sh .githooks/pre-push`로 두 파일의 실행 bit를 설정한다.
 
-- [ ] **Step 3: 짧은 조건부 PR 체크리스트를 추가한다**
+- [x] **Step 3: 짧은 조건부 PR 체크리스트를 추가한다**
 
 테스트/수동 검증, build-time/runtime 환경변수, DB·mount·UID/GID·backup/restore, runner label·CPU architecture·container health, rollback/disable, 문서·OpenSpec·archive, UI의 mobile/desktop/accessibility를 “관련 있는 경우” 확인하도록 한다.
 
-- [ ] **Step 4: 훅을 직접 실행해 검증한다**
+- [x] **Step 4: 훅을 직접 실행해 검증한다**
 
 Run: `./scripts/validate-openspec.sh && ./.githooks/pre-push`
 
 Expected: 두 실행 모두 OpenSpec 전체 통과와 exit 0.
 
-- [ ] **Step 5: 운영 도구 단위를 커밋한다**
+- [x] **Step 5: 운영 도구 단위를 커밋한다**
 
 Commit: `chore: OpenSpec 로컬 검증과 PR 체크리스트 추가`
 
