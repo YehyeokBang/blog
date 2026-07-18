@@ -30,3 +30,16 @@
 - 완료되거나 대체된 문서: [아카이브 인덱스](archive/README.md)
 
 활성 문서와 아카이브가 충돌하면 활성 문서와 실제 코드·설정을 우선한다.
+
+## 문서 검사
+
+문서 변경 또는 PR 전에는 저장소 루트에서 다음을 실행한다.
+
+```bash
+node --test scripts/check-documentation.test.mjs
+node scripts/check-documentation.mjs
+```
+
+검사 대상은 `AGENTS.md`, `docs/`, `openspec/`의 코드 펜스 밖 상대 Markdown·이미지 링크다. 또한 `docs/README.md`가 지정한 활성 문서와 `openspec/README.md`가 지정한 base spec의 발견 가능성을 확인한다.
+
+`깨진 상대 링크`는 링크 대상 생성·수정이, `활성 문서 인덱스 오류`는 해당 인덱스 링크 추가가 필요하다는 뜻이다. `아카이브 상태 오류`와 `아카이브 위치 오류`는 [아카이브 규칙](archive/README.md#아카이브-규칙)을 따른다. OpenSpec 요구사항의 의미 검증은 이 검사와 별개로 `./scripts/validate-openspec.sh`를 실행한다.
