@@ -149,9 +149,15 @@ jobs:
           sudo install -d -m 0755 /opt/blog /opt/blog/data /opt/blog/backups /opt/blog/scripts
           sudo install -m 0644 docker-compose.yml /opt/blog/docker-compose.yml
           sudo install -m 0755 scripts/backup-sqlite.sh /opt/blog/scripts/backup-sqlite.sh
+          sudo install -m 0755 scripts/migrate-sqlite.sh /opt/blog/scripts/migrate-sqlite.sh
+          sudo cp -R backend/src/main/resources/db /opt/blog/migrations
           sudo touch /opt/blog/data/blog.db
           sudo chown -R 10001:10001 /opt/blog/data
           sudo chown -R "$USER":"$(id -gn)" /opt/blog/backups /opt/blog/scripts
+      - name: Backup and migrate SQLite before backend replacement
+        run: |
+          sudo env DATABASE=/opt/blog/data/blog.db BACKUP_DIRECTORY=/opt/blog/backups /opt/blog/scripts/backup-sqlite.sh
+          sudo env DATABASE=/opt/blog/data/blog.db MIGRATION_DIRECTORY=/opt/blog/migrations/migration /opt/blog/scripts/migrate-sqlite.sh
       - name: Deploy and wait for health checks
         run: |
           cd /opt/blog
