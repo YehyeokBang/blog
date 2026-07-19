@@ -50,7 +50,7 @@ production frontend는 Next.js static export로 Markdown metadata와 본문을 H
 }
 ```
 
-frontend는 정적 목록 조회를 API로 반복하지 않는다. 현재 목록에 필요한 projection page를 각각 한 번만 요청하고, 모든 응답을 slug map으로 만든 뒤 각 `PostMetadata` item에 `likeCount`와 `commentCount`를 결합한다. 개별 slug API를 반복 호출하지 않는다. projection을 기다리는 동안에는 미확인 count를 `0`으로 표시하지 않고 반응 지표 한 줄에만 고정 크기 skeleton을 표시한다. 모든 page fetch가 완료되면 좋아요와 댓글 count를 한 번에 공개한다. projection 실패 시 count를 성공한 것처럼 조작하지 않고 지표 영역에 재시도 가능한 비성공 상태를 표시한다. 정적 article 순서와 tag filtering은 기존 Markdown metadata가 계속 담당한다.
+frontend는 정적 목록 조회를 API로 반복하지 않는다. 현재 목록에 필요한 projection page를 각각 한 번만 요청하고, 모든 응답을 slug map으로 만든 뒤 각 `PostMetadata` item에 `likeCount`와 `commentCount`를 결합한다. 개별 slug API를 반복 호출하지 않는다. projection을 기다리는 동안에는 미확인 count를 `0`으로 표시하지 않고 `♡ {likeCount} 댓글 {commentCount}` 전체와 같은 높이·너비를 예약한 단일 skeleton bar를 표시한다. 모든 page fetch가 완료되면 좋아요와 댓글 count를 한 번에 공개한다. projection 실패 시 count를 성공한 것처럼 조작하지 않고 같은 높이의 지표 영역에 재시도 가능한 비성공 상태를 표시한다. 정적 article 순서와 tag filtering은 기존 Markdown metadata가 계속 담당한다.
 
 잘못된 page/size는 `400 ProblemDetail(code=INVALID_REQUEST)`다. 빈 page는 `200`과 빈 `content`를 반환한다.
 
@@ -134,7 +134,9 @@ migration은 additive이므로 이전 backend image는 새 table을 무시하고
 
 피드 지표는 클릭 동작 없는 `♡ {likeCount} 댓글 {commentCount}`다. 상세 native button은 본문 끝과 댓글 사이 한 번만 두고 최소 48px, 기본 외곽선 `♡ 이 글이 도움됐어요 {count}`, 선택 mint `♥ 이 글이 도움됐어요 {count}`, `aria-pressed`와 보이는 keyboard focus를 유지한다.
 
-피드 projection 로딩 UI는 실제로 대기 중인 반응 지표 영역에만 적용한다. 이미 정적 HTML에 있는 제목, 설명, 날짜, tag와 thumbnail은 가리지 않는다. skeleton은 기존 지표 줄의 높이와 숫자 영역 폭을 예약해 layout shift를 만들지 않고, light/dark의 기존 surface token만 사용한 절제된 shimmer로 대기 상태를 표현한다. `prefers-reduced-motion`에서는 shimmer를 제거한다. 지표 컨테이너는 로딩 중 `aria-busy=true`이며 skeleton 장식은 보조기기에서 숨긴다. 로딩 중에는 실제 count를 뜻하는 label을 제공하지 않는다.
+피드 projection 로딩 UI는 실제로 대기 중인 반응 지표 영역에만 적용한다. 이미 정적 HTML에 있는 제목, 설명, 날짜, tag와 thumbnail은 가리지 않는다. skeleton은 지표 한 줄 전체의 높이와 너비를 예약해 layout shift를 만들지 않고, light/dark의 기존 surface token만 사용한 절제된 shimmer로 대기 상태를 표현한다. `prefers-reduced-motion`에서는 shimmer를 제거한다. 지표 컨테이너는 로딩 중 `aria-busy=true`이며 skeleton 장식은 보조기기에서 숨긴다. 로딩 중에는 실제 count를 뜻하는 label을 제공하지 않는다.
+
+최초 렌더의 typography와 chrome도 동일한 geometry를 유지한다. Pretendard는 외부 CDN `@import` 대신 frontend dependency에서 self-host해 최초 HTML과 hydration 이후 같은 font metric을 사용한다. Theme toggle은 hydration 전 placeholder와 실제 native button에 동일한 고정 크기를 사용한다. 목록 thumbnail은 mobile·desktop에서 기존 aspect ratio와 너비를 로딩 전부터 예약하고, 이미지가 준비될 때 동일한 box 안에서 skeleton을 제거하며 fade-in한다. font, theme control과 thumbnail의 준비 상태가 article 또는 header의 위치를 바꾸면 안 된다.
 
 하트는 고정 폭을 예약한다. 숫자 span은 `max(1, decimal digit count) * 1.01ch` 폭과 tabular numerals를 사용해 `0–9`, `10–99`, `100–999` 안에서 버튼 폭이 같고 자릿수 경계에서만 넓어진다. `됐어요`와 count 사이에는 별도의 렌더링 공백을 유지한다. mobile·desktop, light·dark에서 기존 mint token만 사용한다.
 
