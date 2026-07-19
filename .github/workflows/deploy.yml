@@ -170,8 +170,8 @@ jobs:
           sudo env DATABASE=/opt/blog/data/blog.db MIGRATION_DIRECTORY=/opt/blog/migrations/migration /opt/blog/scripts/migrate-sqlite.sh
       - name: Deploy and wait for health checks
         env:
-          FRONTEND_IMAGE_TAG: sha-${{ github.sha }}
-          BACKEND_IMAGE_TAG: ${{ inputs.backend_image_tag || format('sha-{0}', github.sha) }}
+          FRONTEND_IMAGE_TAG: ${{ needs.build-frontend.result == 'success' && format('sha-{0}', github.sha) || 'latest' }}
+          BACKEND_IMAGE_TAG: ${{ inputs.backend_image_tag || (needs.build-backend.result == 'success' && format('sha-{0}', github.sha) || 'latest') }}
         run: |
           cd /opt/blog
           printf 'FRONTEND_IMAGE_TAG=%s\nBACKEND_IMAGE_TAG=%s\n' "$FRONTEND_IMAGE_TAG" "$BACKEND_IMAGE_TAG" | sudo tee /opt/blog/.env >/dev/null

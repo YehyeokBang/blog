@@ -66,9 +66,10 @@ class EngagementService(
         tokenHash: String,
     ): EngagementMutation {
         val post = findActivePost(slug)
+        anonymousVisitorRepository.insertIfAbsent(tokenHash)
         val visitor =
             anonymousVisitorRepository.findByTokenHash(tokenHash)
-                ?: anonymousVisitorRepository.saveAndFlush(AnonymousVisitor(tokenHash))
+                ?: throw IllegalStateException("저장된 anonymous visitor를 찾을 수 없습니다")
         val changed = postLikeRepository.insertIfAbsent(post.idOrThrow(), visitor.idOrThrow()) == 1
         return EngagementMutation(snapshot(post, tokenHash), changed)
     }
