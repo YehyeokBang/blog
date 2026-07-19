@@ -15,17 +15,18 @@ import java.time.Instant
     uniqueConstraints = [UniqueConstraint(name = "uk_post_like_post_visitor", columnNames = ["post_id", "visitor_id"])],
 )
 class PostLike(
-    @Column(name = "post_id", nullable = false, updatable = false)
+    @Column(name = "post_id", nullable = false, updatable = false, columnDefinition = "INTEGER")
     var postId: Long,
-    @Column(name = "visitor_id", nullable = false, updatable = false)
+    @Column(name = "visitor_id", nullable = false, updatable = false, columnDefinition = "INTEGER")
     var visitorId: Long,
 ) {
     @Id
+    @Column(columnDefinition = "INTEGER")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
         protected set
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, columnDefinition = "TEXT")
     var createdAt: Instant = Instant.now()
         protected set
 }

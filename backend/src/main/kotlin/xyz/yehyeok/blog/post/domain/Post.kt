@@ -14,6 +14,7 @@ class Post(
     var active: Boolean = true,
 ) {
     @Id
+    @Column(columnDefinition = "INTEGER")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
         protected set

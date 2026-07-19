@@ -15,11 +15,12 @@ class AnonymousVisitor(
     var tokenHash: String,
 ) {
     @Id
+    @Column(columnDefinition = "INTEGER")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
         protected set
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, columnDefinition = "TEXT")
     var createdAt: Instant = Instant.now()
         protected set
 }
