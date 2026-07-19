@@ -8,6 +8,20 @@
 - **THEN** 각 article은 클릭 동작 없는 `♡ {likeCount} 댓글 {commentCount}`를 표시한다
 - **AND** frontend는 해당 page에 한 projection 요청만 사용하고 글별 요청을 만들지 않는다
 
+#### Scenario: Feed projection loading
+- **WHEN** feed projection 요청이 진행 중이고 count가 아직 확인되지 않았다
+- **THEN** 시스템은 실제 반응 지표 전체와 같은 높이·너비를 예약한 단일 skeleton bar를 표시하고 count를 `0`으로 가장하지 않는다
+- **AND** 제목, 설명, 날짜, tag, thumbnail과 navigation은 즉시 사용할 수 있다
+- **AND** 모든 projection page가 완료되면 좋아요와 댓글 count를 함께 표시한다
+- **AND** skeleton은 layout shift를 만들지 않고 `prefers-reduced-motion`에서 shimmer를 제거하며 보조기기에서 장식으로 숨겨진다
+
+#### Scenario: Stable first render geometry
+- **WHEN** 정적 feed HTML이 표시되고 font, theme hydration과 thumbnail image가 준비된다
+- **THEN** 시스템은 self-host Pretendard를 사용해 fallback font swap에 의한 줄바꿈과 article 이동을 만들지 않는다
+- **AND** theme toggle의 hydration 전후 box 크기는 동일하다
+- **AND** thumbnail은 기존 aspect ratio 공간 안에서 skeleton에서 image로 전환되고 article 위치를 바꾸지 않는다
+- **AND** image fade와 skeleton shimmer는 `prefers-reduced-motion`에서 제거된다
+
 #### Scenario: Feed projection failure
 - **WHEN** projection 요청 또는 응답 검증이 실패한다
 - **THEN** 시스템은 count를 0이나 성공 값으로 가장하지 않고 비성공 상태와 재시도 수단을 표시한다
@@ -15,7 +29,7 @@
 
 #### Scenario: Detail like selection and cancellation
 - **WHEN** 상세 engagement 조회가 완료된다
-- **THEN** 버튼은 본문 끝과 댓글 사이에 외곽선 `♡ 이 글이 도움됐어요 {count}` 또는 mint `♥ 이 글이 도움됐어요 {count}` 상태를 표시한다
+- **THEN** 버튼은 본문 끝과 댓글 사이에서 실제 article 본문 column을 기준으로 가운데에 외곽선 `♡ 이 글이 도움됐어요 {count}` 또는 mint `♥ 이 글이 도움됐어요 {count}` 상태를 표시한다
 - **AND** 최소 높이 48px, `aria-pressed`, native keyboard 동작과 보이는 focus를 제공한다
 
 #### Scenario: Mutation pending and failure

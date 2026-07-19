@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import Link from "next/link";
 import "./globals.css";
 import { Providers } from "./providers";
@@ -6,6 +7,12 @@ import ThemeToggle from "@/components/ThemeToggle";
 import NavLinks from "@/components/NavLinks";
 import { SITE_URL } from "@/lib/constants";
 import { GoogleAnalytics } from '@next/third-parties/google';
+
+const pretendard = localFont({
+  src: "../node_modules/pretendard/dist/web/variable/woff2/PretendardVariable.woff2",
+  display: "swap",
+  variable: "--font-pretendard",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -38,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col bg-canvas text-body">
+      <body className={`${pretendard.variable} min-h-screen flex flex-col bg-canvas text-body`}>
         <Providers>
           <header className="sticky top-0 z-50 w-full bg-canvas/80 backdrop-blur-md border-b border-hairline-soft">
             <div className="max-w-[1000px] mx-auto h-[60px] px-6 md:px-lg flex items-center justify-between">
