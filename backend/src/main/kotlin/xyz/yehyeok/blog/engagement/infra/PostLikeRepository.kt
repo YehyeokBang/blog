@@ -17,11 +17,8 @@ interface PostLikeRepository : JpaRepository<PostLike, Long> {
     @Modifying(flushAutomatically = true)
     @Query(
         value = """
-            INSERT INTO post_like(post_id, visitor_id, created_at)
-            SELECT :postId, :visitorId, CURRENT_TIMESTAMP
-            WHERE NOT EXISTS (
-                SELECT 1 FROM post_like WHERE post_id = :postId AND visitor_id = :visitorId
-            )
+            INSERT OR IGNORE INTO post_like(post_id, visitor_id, created_at)
+            VALUES (:postId, :visitorId, CURRENT_TIMESTAMP)
             """,
         nativeQuery = true,
     )
