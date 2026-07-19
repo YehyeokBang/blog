@@ -51,7 +51,7 @@ export default function PostList({ initialPosts }: PostListProps) {
             href={tag === ALL_TAG ? "/" : `/?tag=${encodeURIComponent(tag)}`}
             className={`whitespace-nowrap shrink-0 px-[12px] py-[6px] text-[13px] md:text-tag font-semibold rounded-full transition-colors focus:outline-none ${
               selectedTag === tag
-                ? "bg-color-primary-surface text-primary"
+                ? "bg-primary-surface text-primary"
                 : "bg-surface-muted text-body hover:bg-hairline"
             }`}
           >
