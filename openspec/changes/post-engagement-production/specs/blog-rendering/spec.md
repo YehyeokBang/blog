@@ -8,6 +8,13 @@
 - **THEN** 각 article은 클릭 동작 없는 `♡ {likeCount} 댓글 {commentCount}`를 표시한다
 - **AND** frontend는 해당 page에 한 projection 요청만 사용하고 글별 요청을 만들지 않는다
 
+#### Scenario: Feed projection loading
+- **WHEN** feed projection 요청이 진행 중이고 count가 아직 확인되지 않았다
+- **THEN** 시스템은 반응 지표 한 줄에만 공간을 예약한 skeleton을 표시하고 count를 `0`으로 가장하지 않는다
+- **AND** 제목, 설명, 날짜, tag, thumbnail과 navigation은 즉시 사용할 수 있다
+- **AND** 모든 projection page가 완료되면 좋아요와 댓글 count를 함께 표시한다
+- **AND** skeleton은 layout shift를 만들지 않고 `prefers-reduced-motion`에서 shimmer를 제거하며 보조기기에서 장식으로 숨겨진다
+
 #### Scenario: Feed projection failure
 - **WHEN** projection 요청 또는 응답 검증이 실패한다
 - **THEN** 시스템은 count를 0이나 성공 값으로 가장하지 않고 비성공 상태와 재시도 수단을 표시한다

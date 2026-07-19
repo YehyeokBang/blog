@@ -19,6 +19,7 @@
 - [ ] 3.3 운영 상세 좋아요 버튼을 구현하고 서버 응답 전 성공 상태를 표시하지 않으며 실패 안내·재시도를 제공한다.
 - [ ] 3.4 prototype engagement localStorage helper와 prototype-only state가 운영 bundle·코드 경로에 없음을 검사한다.
 - [ ] 3.5 승인된 문구, 배치, 48px, `aria-pressed`, focus, 보이는 공백과 자릿수별 폭을 자동 helper test와 browser 측정으로 검증한다.
+- [ ] 3.6 피드의 미확인 count와 실제 0을 구분하고 지표 영역 skeleton, count 동시 공개, layout shift 방지, reduced motion과 접근성 상태를 검증한다.
 
 ## 4. Deployment and operations
 
