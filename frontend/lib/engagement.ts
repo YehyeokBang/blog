@@ -7,6 +7,11 @@ export type Engagement = {
 
 type FeedEngagement = Omit<Engagement, "liked">;
 
+export type FeedEngagementState =
+  | { status: "loading" }
+  | { status: "error" }
+  | { status: "ready"; likeCount: number; commentCount: number };
+
 export type EngagementPage = {
   content: Map<string, Omit<FeedEngagement, "slug">>;
   page: number;
@@ -69,6 +74,18 @@ export async function fetchAllEngagements(): Promise<Map<string, Omit<FeedEngage
     pageNumber += 1;
   }
   return all;
+}
+
+export function resolveFeedEngagementState(
+  engagements: Map<string, Omit<FeedEngagement, "slug">> | null,
+  slug: string,
+  hasError: boolean,
+): FeedEngagementState {
+  if (hasError) return { status: "error" };
+  if (engagements === null) return { status: "loading" };
+  const engagement = engagements.get(slug);
+  if (!engagement) return { status: "error" };
+  return { status: "ready", ...engagement };
 }
 
 export async function fetchEngagement(slug: string): Promise<Engagement> {

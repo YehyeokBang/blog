@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import PostThumbnail from "./PostThumbnail";
 import { PostMetadata } from "@/lib/markdown";
-import { fetchAllEngagements } from "@/lib/engagement";
+import { fetchAllEngagements, resolveFeedEngagementState } from "@/lib/engagement";
 
 const ALL_TAG = "전체";
 
@@ -15,7 +15,7 @@ interface PostListProps {
 
 export default function PostList({ initialPosts }: PostListProps) {
   const searchParams = useSearchParams();
-  const [engagements, setEngagements] = useState<Map<string, { likeCount: number; commentCount: number }>>(new Map());
+  const [engagements, setEngagements] = useState<Map<string, { likeCount: number; commentCount: number }> | null>(null);
   const [engagementError, setEngagementError] = useState(false);
 
   useEffect(() => {
@@ -66,8 +66,11 @@ export default function PostList({ initialPosts }: PostListProps) {
             등록된 아티클이 없습니다.
           </div>
         ) : (
-          filteredPosts.map((post) => (
-            <article key={post.slug} className="flex flex-col-reverse sm:flex-row items-start gap-xl w-full">
+          filteredPosts.map((post) => {
+            const engagementState = resolveFeedEngagementState(engagements, post.slug, engagementError);
+
+            return (
+              <article key={post.slug} className="flex flex-col-reverse sm:flex-row items-start gap-xl w-full">
               <div className="flex-1 flex flex-col items-start min-w-0 w-full">
                 <div className="flex items-center gap-xs text-[13px] md:text-caption text-muted mb-md">
                   <span>{post.date}</span>
@@ -89,11 +92,27 @@ export default function PostList({ initialPosts }: PostListProps) {
                   {post.description}
                 </p>
 
-                {engagementError ? (
+                {engagementState.status === "loading" ? (
+                  <p
+                    className="mb-lg flex h-[20px] items-center gap-xs text-[13px] text-muted md:text-caption"
+                    aria-busy="true"
+                  >
+                    <span className="sr-only">반응 정보 불러오는 중</span>
+                    <span aria-hidden="true" className="flex items-center gap-xs">
+                      <span>♡</span>
+                      <span className="engagement-skeleton h-[0.75em] w-[1.5em] rounded-full" />
+                      <span>댓글</span>
+                      <span className="engagement-skeleton h-[0.75em] w-[1.5em] rounded-full" />
+                    </span>
+                  </p>
+                ) : engagementState.status === "error" ? (
                   <p className="mb-lg text-[13px] text-muted">반응 정보를 불러오지 못했습니다.</p>
                 ) : (
-                  <p className="mb-lg text-[13px] md:text-caption text-muted" aria-label={`좋아요 ${engagements.get(post.slug)?.likeCount ?? 0}, 댓글 ${engagements.get(post.slug)?.commentCount ?? 0}`}>
-                    ♡ {engagements.get(post.slug)?.likeCount ?? 0} 댓글 {engagements.get(post.slug)?.commentCount ?? 0}
+                  <p
+                    className="mb-lg text-[13px] text-muted md:text-caption"
+                    aria-label={`좋아요 ${engagementState.likeCount}, 댓글 ${engagementState.commentCount}`}
+                  >
+                    ♡ {engagementState.likeCount} 댓글 {engagementState.commentCount}
                   </p>
                 )}
 
@@ -115,8 +134,9 @@ export default function PostList({ initialPosts }: PostListProps) {
                   <PostThumbnail src={post.thumbnail} alt={post.title} type="list" />
                 </Link>
               )}
-            </article>
-          ))
+              </article>
+            );
+          })
         )}
       </div>
     </div>
