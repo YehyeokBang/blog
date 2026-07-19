@@ -27,6 +27,7 @@ class Comment(
     }
 
     @Id
+    @Column(columnDefinition = "INTEGER")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
         protected set
