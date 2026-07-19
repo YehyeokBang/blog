@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       backend_image_tag:
-        description: '배포 또는 rollback할 backend image tag (비우면 sha-${{ github.sha }})'
+        description: 'rollback할 backend image tag (일반 배포에서는 비워 둠)'
         required: false
         type: string
 
