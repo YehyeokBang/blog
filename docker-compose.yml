@@ -28,7 +28,7 @@ services:
       - blog-network
 
   frontend:
-    image: ghcr.io/yehyeokbang/blog-frontend:latest
+    image: ghcr.io/yehyeokbang/blog-frontend:${FRONTEND_IMAGE_TAG:-latest}
     container_name: blog-frontend
     restart: always
     labels:
@@ -42,7 +42,7 @@ services:
       - blog-network
 
   backend:
-    image: ghcr.io/yehyeokbang/blog-backend:latest
+    image: ghcr.io/yehyeokbang/blog-backend:${BACKEND_IMAGE_TAG:-latest}
     container_name: blog-backend
     restart: always
     volumes:
@@ -68,6 +68,15 @@ services:
       - "traefik.http.middlewares.comment-write-rate-limit.ratelimit.period=1m"
       - "traefik.http.middlewares.comment-write-rate-limit.ratelimit.burst=3"
       - "traefik.http.middlewares.comment-write-rate-limit.ratelimit.sourcecriterion.ipstrategy.depth=0"
+      - "traefik.http.routers.like-write.rule=Host(`blog.yehyeok.xyz`) && (Method(`PUT`) || Method(`DELETE`)) && PathRegexp(`^/api/posts/[^/]+/like/?$`)"
+      - "traefik.http.routers.like-write.priority=200"
+      - "traefik.http.routers.like-write.entrypoints=websecure"
+      - "traefik.http.routers.like-write.tls.certresolver=myresolver"
+      - "traefik.http.routers.like-write.middlewares=like-write-rate-limit"
+      - "traefik.http.middlewares.like-write-rate-limit.ratelimit.average=10"
+      - "traefik.http.middlewares.like-write-rate-limit.ratelimit.period=1m"
+      - "traefik.http.middlewares.like-write-rate-limit.ratelimit.burst=5"
+      - "traefik.http.middlewares.like-write-rate-limit.ratelimit.sourcecriterion.ipstrategy.depth=0"
       - "traefik.http.services.backend.loadbalancer.server.port=8080"
     networks:
       - blog-network

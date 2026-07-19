@@ -1,9 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import PostThumbnail from "./PostThumbnail";
 import { PostMetadata } from "@/lib/markdown";
+import { fetchAllEngagements } from "@/lib/engagement";
 
 const ALL_TAG = "전체";
 
@@ -13,6 +15,20 @@ interface PostListProps {
 
 export default function PostList({ initialPosts }: PostListProps) {
   const searchParams = useSearchParams();
+  const [engagements, setEngagements] = useState<Map<string, { likeCount: number; commentCount: number }>>(new Map());
+  const [engagementError, setEngagementError] = useState(false);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        setEngagements(await fetchAllEngagements());
+        setEngagementError(false);
+      } catch {
+        setEngagementError(true);
+      }
+    };
+    void load();
+  }, []);
   const tagParam = searchParams?.get("tag");
 
   const uniqueTags = Array.from(
@@ -35,7 +51,7 @@ export default function PostList({ initialPosts }: PostListProps) {
             href={tag === ALL_TAG ? "/" : `/?tag=${encodeURIComponent(tag)}`}
             className={`whitespace-nowrap shrink-0 px-[12px] py-[6px] text-[13px] md:text-tag font-semibold rounded-full transition-colors focus:outline-none ${
               selectedTag === tag
-                ? "bg-color-primary-surface text-primary"
+                ? "bg-primary-surface text-primary"
                 : "bg-surface-muted text-body hover:bg-hairline"
             }`}
           >
@@ -72,6 +88,14 @@ export default function PostList({ initialPosts }: PostListProps) {
                 <p className="text-[15px] md:text-body-md text-body leading-relaxed mb-lg line-clamp-3">
                   {post.description}
                 </p>
+
+                {engagementError ? (
+                  <p className="mb-lg text-[13px] text-muted">반응 정보를 불러오지 못했습니다.</p>
+                ) : (
+                  <p className="mb-lg text-[13px] md:text-caption text-muted" aria-label={`좋아요 ${engagements.get(post.slug)?.likeCount ?? 0}, 댓글 ${engagements.get(post.slug)?.commentCount ?? 0}`}>
+                    ♡ {engagements.get(post.slug)?.likeCount ?? 0} 댓글 {engagements.get(post.slug)?.commentCount ?? 0}
+                  </p>
+                )}
 
                 <div className="flex flex-wrap gap-xs">
                   {(post.tags || []).map((tag) => (

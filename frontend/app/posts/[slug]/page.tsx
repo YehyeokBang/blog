@@ -7,6 +7,7 @@ import Link from "next/link";
 import PostThumbnail from "@/components/PostThumbnail";
 import CommentSection from "@/components/CommentSection";
 import { SITE_URL } from "@/lib/constants";
+import PostLikeButton from "@/components/PostLikeButton";
 
 export async function generateStaticParams() {
   const slugs = await getPostSlugs();
@@ -132,6 +133,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         </div>
 
         <PostContent content={post.content} />
+
+        <PostLikeButton slug={resolvedParams.slug} />
 
         <CommentSection slug={resolvedParams.slug} />
       </article>

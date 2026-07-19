@@ -5,6 +5,11 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      backend_image_tag:
+        description: 'rollback할 backend image tag (일반 배포에서는 비워 둠)'
+        required: false
+        type: string
 
 concurrency:
   group: blog-production
@@ -79,7 +84,9 @@ jobs:
           file: frontend/Dockerfile
           push: true
           platforms: linux/arm64
-          tags: ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE }}:latest
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE }}:latest
+            ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE }}:sha-${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -116,7 +123,9 @@ jobs:
           file: backend/Dockerfile
           push: true
           platforms: linux/arm64
-          tags: ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE }}:latest
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE }}:latest
+            ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE }}:sha-${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -149,12 +158,23 @@ jobs:
           sudo install -d -m 0755 /opt/blog /opt/blog/data /opt/blog/backups /opt/blog/scripts
           sudo install -m 0644 docker-compose.yml /opt/blog/docker-compose.yml
           sudo install -m 0755 scripts/backup-sqlite.sh /opt/blog/scripts/backup-sqlite.sh
+          sudo install -m 0755 scripts/migrate-sqlite.sh /opt/blog/scripts/migrate-sqlite.sh
+          sudo install -d -m 0755 /opt/blog/migrations/migration
+          sudo install -m 0644 backend/src/main/resources/db/migration/*.sql /opt/blog/migrations/migration/
           sudo touch /opt/blog/data/blog.db
           sudo chown -R 10001:10001 /opt/blog/data
           sudo chown -R "$USER":"$(id -gn)" /opt/blog/backups /opt/blog/scripts
+      - name: Backup and migrate SQLite before backend replacement
+        run: |
+          sudo env DATABASE=/opt/blog/data/blog.db BACKUP_DIRECTORY=/opt/blog/backups /opt/blog/scripts/backup-sqlite.sh
+          sudo env DATABASE=/opt/blog/data/blog.db MIGRATION_DIRECTORY=/opt/blog/migrations/migration /opt/blog/scripts/migrate-sqlite.sh
       - name: Deploy and wait for health checks
+        env:
+          FRONTEND_IMAGE_TAG: ${{ needs.build-frontend.result == 'success' && format('sha-{0}', github.sha) || 'latest' }}
+          BACKEND_IMAGE_TAG: ${{ inputs.backend_image_tag || (needs.build-backend.result == 'success' && format('sha-{0}', github.sha) || 'latest') }}
         run: |
           cd /opt/blog
+          printf 'FRONTEND_IMAGE_TAG=%s\nBACKEND_IMAGE_TAG=%s\n' "$FRONTEND_IMAGE_TAG" "$BACKEND_IMAGE_TAG" | sudo tee /opt/blog/.env >/dev/null
           docker compose pull
           if ! docker compose up -d --wait --wait-timeout 120; then
             docker compose ps

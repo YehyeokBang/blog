@@ -43,6 +43,12 @@ backend Docker image는 build된 Boot JAR와 classpath `posts.json`만 실행한
 
 backend image에는 `curl`이 있어 Compose가 내부 `/actuator/health`를 검사한다. healthcheck는 10초 간격, 3초 timeout, 6회 retry, 30초 start period를 사용한다.
 
+## SQLite migration과 rollback
+
+운영 schema 변경은 backend image 교체 전에 `scripts/migrate-sqlite.sh`가 versioned SQL을 SQLite transaction으로 적용한다. runner는 `schema_migration`으로 적용 version을 기록하고, SQL 오류 시 `.bail on`으로 중단되어 transaction과 version 기록이 함께 rollback된다. migration 전에는 기존 backup script로 integrity-checked SQLite `.backup`을 만든다.
+
+`anonymous_visitor`와 `post_like`는 이 방식으로 추가되며, backend datasource는 `ddl-auto: validate`와 connection별 `PRAGMA foreign_keys=ON`을 사용한다. migration은 additive여야 하므로 이전 backend image는 새 table을 무시하고 동작할 수 있다. deploy workflow는 frontend/backend image를 `sha-<commit>`과 `latest`로 publish하며 workflow dispatch의 `backend_image_tag`로 이전 backend SHA를 선택해 application rollback할 수 있다. production Traefik smoke test와 실제 rollback rehearsal은 배포 후 운영 검증 항목이다.
+
 ## CI/CD
 
 PR CI는 manifest를 생성한 뒤 backend `./gradlew ktlintCheck test build`와 frontend lint/static build를 각각 실행한다.

@@ -5,4 +5,6 @@ import xyz.yehyeok.blog.comment.domain.Comment
 
 interface CommentRepository : JpaRepository<Comment, Long> {
     fun findAllByPostSlugOrderByCreatedAtAsc(postSlug: String): List<Comment>
+
+    fun countByPostSlug(postSlug: String): Long
 }
