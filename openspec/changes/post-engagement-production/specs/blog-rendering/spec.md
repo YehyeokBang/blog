@@ -29,7 +29,7 @@
 
 #### Scenario: Detail like selection and cancellation
 - **WHEN** 상세 engagement 조회가 완료된다
-- **THEN** 버튼은 본문 끝과 댓글 사이에 외곽선 `♡ 이 글이 도움됐어요 {count}` 또는 mint `♥ 이 글이 도움됐어요 {count}` 상태를 표시한다
+- **THEN** 버튼은 본문 끝과 댓글 사이에서 실제 article 본문 column을 기준으로 가운데에 외곽선 `♡ 이 글이 도움됐어요 {count}` 또는 mint `♥ 이 글이 도움됐어요 {count}` 상태를 표시한다
 - **AND** 최소 높이 48px, `aria-pressed`, native keyboard 동작과 보이는 focus를 제공한다
 
 #### Scenario: Mutation pending and failure

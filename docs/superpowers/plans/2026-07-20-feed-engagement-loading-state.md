@@ -10,7 +10,7 @@
 
 ## Global Constraints
 
-- 상세 `PostLikeButton`, backend API와 `content/posts/` 파일은 변경하지 않는다.
+- 상세 `PostLikeButton`은 article 본문 column 기준 가운데 배치만 조정하고, backend API와 `content/posts/` 파일은 변경하지 않는다.
 - 미확인 count를 `0` 또는 성공 값으로 표시하지 않는다.
 - 제목, 설명, 날짜, tag, thumbnail과 navigation은 projection을 기다리지 않고 즉시 표시한다.
 - 모든 projection page가 완료된 뒤 좋아요와 댓글 count를 함께 표시한다.

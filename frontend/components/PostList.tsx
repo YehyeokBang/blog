@@ -94,22 +94,19 @@ export default function PostList({ initialPosts }: PostListProps) {
 
                 {engagementState.status === "loading" ? (
                   <p
-                    className="mb-lg flex h-[20px] items-center gap-xs text-[13px] text-muted md:text-caption"
+                    className="mb-lg flex h-5 w-[6.5rem] items-center text-[13px] leading-5 text-muted md:text-caption"
                     aria-busy="true"
                   >
                     <span className="sr-only">반응 정보 불러오는 중</span>
-                    <span aria-hidden="true" className="flex items-center gap-xs">
-                      <span>♡</span>
-                      <span className="engagement-skeleton h-[0.75em] w-[1.5em] rounded-full" />
-                      <span>댓글</span>
-                      <span className="engagement-skeleton h-[0.75em] w-[1.5em] rounded-full" />
-                    </span>
+                    <span aria-hidden="true" className="loading-shimmer block h-5 w-full rounded-md" />
                   </p>
                 ) : engagementState.status === "error" ? (
-                  <p className="mb-lg text-[13px] text-muted">반응 정보를 불러오지 못했습니다.</p>
+                  <p className="mb-lg flex h-5 items-center text-[13px] leading-5 text-muted">
+                    반응 정보를 불러오지 못했습니다.
+                  </p>
                 ) : (
                   <p
-                    className="mb-lg text-[13px] text-muted md:text-caption"
+                    className="mb-lg flex h-5 w-[6.5rem] items-center whitespace-nowrap text-[13px] leading-5 text-muted md:text-caption"
                     aria-label={`좋아요 ${engagementState.likeCount}, 댓글 ${engagementState.commentCount}`}
                   >
                     ♡ {engagementState.likeCount} 댓글 {engagementState.commentCount}

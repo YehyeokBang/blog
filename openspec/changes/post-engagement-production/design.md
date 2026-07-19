@@ -132,7 +132,7 @@ migration은 additive이므로 이전 backend image는 새 table을 무시하고
 
 ## UI contract
 
-피드 지표는 클릭 동작 없는 `♡ {likeCount} 댓글 {commentCount}`다. 상세 native button은 본문 끝과 댓글 사이 한 번만 두고 최소 48px, 기본 외곽선 `♡ 이 글이 도움됐어요 {count}`, 선택 mint `♥ 이 글이 도움됐어요 {count}`, `aria-pressed`와 보이는 keyboard focus를 유지한다.
+피드 지표는 클릭 동작 없는 `♡ {likeCount} 댓글 {commentCount}`다. 상세 native button은 본문 끝과 댓글 사이에서 실제 article 본문 column 기준으로 가운데에 한 번만 두고 최소 48px, 기본 외곽선 `♡ 이 글이 도움됐어요 {count}`, 선택 mint `♥ 이 글이 도움됐어요 {count}`, `aria-pressed`와 보이는 keyboard focus를 유지한다.
 
 피드 projection 로딩 UI는 실제로 대기 중인 반응 지표 영역에만 적용한다. 이미 정적 HTML에 있는 제목, 설명, 날짜, tag와 thumbnail은 가리지 않는다. skeleton은 지표 한 줄 전체의 높이와 너비를 예약해 layout shift를 만들지 않고, light/dark의 기존 surface token만 사용한 절제된 shimmer로 대기 상태를 표현한다. `prefers-reduced-motion`에서는 shimmer를 제거한다. 지표 컨테이너는 로딩 중 `aria-busy=true`이며 skeleton 장식은 보조기기에서 숨긴다. 로딩 중에는 실제 count를 뜻하는 label을 제공하지 않는다.
 
