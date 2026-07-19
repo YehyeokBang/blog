@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import PostThumbnail from "./PostThumbnail";
 import { PostMetadata } from "@/lib/markdown";
-import { fetchEngagementPage } from "@/lib/engagement";
+import { fetchAllEngagements } from "@/lib/engagement";
 
 const ALL_TAG = "전체";
 
@@ -21,8 +21,7 @@ export default function PostList({ initialPosts }: PostListProps) {
   useEffect(() => {
     const load = async () => {
       try {
-        const page = await fetchEngagementPage(0, 100);
-        setEngagements(page.content);
+        setEngagements(await fetchAllEngagements());
         setEngagementError(false);
       } catch {
         setEngagementError(true);

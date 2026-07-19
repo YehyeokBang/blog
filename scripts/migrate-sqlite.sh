@@ -24,7 +24,7 @@ if [[ "${#migration_files[@]}" -eq 0 ]]; then
     exit 1
 fi
 
-for migration_file in "${migration_files[@]}"; do
+while IFS= read -r migration_file; do
     migration_name="$(basename "$migration_file")"
     migration_version="${migration_name#V}"
     migration_version="${migration_version%%__*}"
@@ -40,7 +40,7 @@ for migration_file in "${migration_files[@]}"; do
     fi
 
     migration_sql="$(<"$migration_file")"
-    sqlite3 "$DATABASE" <<SQL
+    sqlite3 -bail "$DATABASE" <<SQL
 PRAGMA foreign_keys = ON;
 BEGIN IMMEDIATE;
 CREATE TABLE IF NOT EXISTS schema_migration (
@@ -51,7 +51,7 @@ $migration_sql
 INSERT INTO schema_migration(version, applied_at) VALUES ($migration_version, strftime('%Y-%m-%dT%H:%M:%fZ', 'now'));
 COMMIT;
 SQL
-done
+done < <(printf '%s\n' "${migration_files[@]}" | sort -t_ -k1.1n)
 
 if [[ "$(sqlite3 "$DATABASE" 'PRAGMA integrity_check;')" != "ok" ]]; then
     printf '%s\n' 'SQLite integrity_check가 실패했습니다.' >&2

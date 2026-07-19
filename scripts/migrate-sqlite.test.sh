@@ -45,4 +45,19 @@ run_migration
 [[ "$(sqlite3 "$DATABASE" 'SELECT COUNT(*) FROM schema_migration WHERE version = 1;')" == "1" ]]
 [[ "$(sqlite3 "$DATABASE" 'PRAGMA integrity_check;')" == "ok" ]]
 
+readonly BROKEN_MIGRATION_DIRECTORY="$TEST_DIRECTORY/broken-migrations"
+mkdir -p "$BROKEN_MIGRATION_DIRECTORY"
+cp "$REPOSITORY_ROOT/backend/src/main/resources/db/migration/V1__post_engagement.sql" "$BROKEN_MIGRATION_DIRECTORY/"
+cat >"$BROKEN_MIGRATION_DIRECTORY/V2__broken.sql" <<'SQL'
+CREATE TABLE should_rollback (id INTEGER PRIMARY KEY);
+CREATE TABLE should_rollback (id INTEGER PRIMARY KEY);
+SQL
+
+if env DATABASE="$DATABASE" MIGRATION_DIRECTORY="$BROKEN_MIGRATION_DIRECTORY" bash "$REPOSITORY_ROOT/scripts/migrate-sqlite.sh"; then
+    printf '%s\n' 'broken migration unexpectedly succeeded.' >&2
+    exit 1
+fi
+[[ "$(sqlite3 "$DATABASE" "SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name = 'should_rollback';")" == "0" ]]
+[[ "$(sqlite3 "$DATABASE" 'SELECT COUNT(*) FROM schema_migration WHERE version = 2;')" == "0" ]]
+
 printf '%s\n' 'SQLite engagement migration checks passed.'

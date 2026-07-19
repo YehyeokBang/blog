@@ -58,6 +58,19 @@ export async function fetchEngagementPage(page: number, size: number): Promise<E
   return parseEngagementPage(await request(`/api/post-engagements?page=${page}&size=${size}`));
 }
 
+export async function fetchAllEngagements(): Promise<Map<string, Omit<FeedEngagement, "slug">>> {
+  const all = new Map<string, Omit<FeedEngagement, "slug">>();
+  let pageNumber = 0;
+  let last = false;
+  while (!last) {
+    const page = await fetchEngagementPage(pageNumber, 100);
+    page.content.forEach((value, slug) => all.set(slug, value));
+    last = page.last;
+    pageNumber += 1;
+  }
+  return all;
+}
+
 export async function fetchEngagement(slug: string): Promise<Engagement> {
   return parseEngagementResponse(await request(`/api/posts/${slug}/engagement`));
 }

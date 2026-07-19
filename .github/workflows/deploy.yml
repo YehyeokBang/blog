@@ -150,7 +150,8 @@ jobs:
           sudo install -m 0644 docker-compose.yml /opt/blog/docker-compose.yml
           sudo install -m 0755 scripts/backup-sqlite.sh /opt/blog/scripts/backup-sqlite.sh
           sudo install -m 0755 scripts/migrate-sqlite.sh /opt/blog/scripts/migrate-sqlite.sh
-          sudo cp -R backend/src/main/resources/db /opt/blog/migrations
+          sudo install -d -m 0755 /opt/blog/migrations/migration
+          sudo install -m 0644 backend/src/main/resources/db/migration/*.sql /opt/blog/migrations/migration/
           sudo touch /opt/blog/data/blog.db
           sudo chown -R 10001:10001 /opt/blog/data
           sudo chown -R "$USER":"$(id -gn)" /opt/blog/backups /opt/blog/scripts
