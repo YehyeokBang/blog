@@ -65,7 +65,7 @@
 
 ### Header와 footer
 
-- Header는 높이 60px의 sticky surface이며 약한 blur와 bottom hairline을 사용한다.
+- Header는 높이 60px의 fixed surface이며 약한 blur와 bottom hairline을 사용한다. 지원되는 coarse touch browser의 당김 새로고침은 header를 움직이지 않고 main·footer content surface에만 적용하며, 상태는 text와 SVG progress ring으로 전달한다.
 - 왼쪽에는 `Yehyeok`, 오른쪽에는 아티클·소개 navigation과 theme toggle이 있다.
 - Footer는 GitHub와 소개 링크를 제공한다.
 
@@ -81,8 +81,9 @@
 - 제목, 날짜, 읽기 시간, tag, 선택적 thumbnail을 표시한다.
 - 본문은 Markdown을 HTML로 변환하며 h1~h6, 목록, 표, 인용문, inline code를 공통 토큰으로 스타일링한다.
 - code block은 테마와 관계없이 GitHub Dark 계열 배경과 복사 버튼을 사용한다.
-- Desktop `lg` 이상에서는 오른쪽 sticky TOC를 표시하고, 작은 화면에서는 본문 위의 inline TOC를 표시한다.
+- Desktop `lg` 이상에서는 실제 높이가 viewport 높이에서 120px을 뺀 값 이하일 때만 오른쪽 TOC를 sticky로 표시하고, 긴 TOC는 내부 scrollbar 없이 document flow에 둔다. 작은 화면의 inline TOC도 모든 item을 document flow에 표시한다.
 - TOC는 본문의 h1·h2를 추적하며 현재 section을 mint 색으로 강조한다.
+- 게시글 header가 fixed header 위로 사라진 뒤에만, viewport 상단 중앙(`top: 68px`)에 44×44px icon-only `ArrowUp` top control을 표시한다. control은 native button의 `맨 위로 이동` accessible name, visible focus indicator, motion preference를 따르는 top scroll과 절제된 glass/fallback surface를 유지한다.
 - 본문 아래에는 익명 profile 기반 댓글 작성과 댓글 목록이 있다.
 
 ### 소개
@@ -98,7 +99,7 @@
 
 ## 아직 현재 기능이 아닌 항목
 
-스크롤 progress bar, MDX custom component, 시리즈 이전·다음, 관련 글, 조회수·좋아요 표시는 현재 구현되어 있지 않다. 필요 시 [로드맵](roadmap.md) 우선순위와 OpenSpec change를 먼저 확정한다.
+MDX custom component, 시리즈 이전·다음, 관련 글, 조회수·좋아요 표시는 현재 구현되어 있지 않다. 필요 시 [로드맵](roadmap.md) 우선순위와 OpenSpec change를 먼저 확정한다.
 
 ## 변경 체크
 

@@ -97,11 +97,11 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             href="/"
             className="inline-flex items-center text-[14px] font-semibold text-muted hover:text-ink transition-colors"
           >
-            ← 아티클 목록
+            {"< 목록"}
           </Link>
         </div>
 
-        <header className="mb-xl pb-lg border-b border-hairline-soft">
+        <header id="article-header" className="mb-xl pb-lg border-b border-hairline-soft">
           <h1 className="text-display-md font-extrabold text-ink mb-md leading-tight">
             {post.metadata.title}
           </h1>
@@ -129,7 +129,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         )}
 
         <div className="block lg:hidden mb-lg p-md bg-surface-soft rounded-lg border border-hairline-soft">
-          <TOC />
+          <TOC variant="inline" />
         </div>
 
         <PostContent content={post.content} />
@@ -140,9 +140,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       </article>
 
       <aside className="hidden lg:block w-[250px] shrink-0">
-        <div className="sticky top-[100px]">
-          <TOC />
-        </div>
+        <TOC variant="sidebar" />
       </aside>
     </div>
     </>

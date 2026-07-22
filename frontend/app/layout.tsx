@@ -5,6 +5,9 @@ import "./globals.css";
 import { Providers } from "./providers";
 import ThemeToggle from "@/components/ThemeToggle";
 import NavLinks from "@/components/NavLinks";
+import PullToRefresh from "@/components/PullToRefresh";
+import BackToTopButton from "@/components/BackToTopButton";
+import HeaderHomeLink from "@/components/HeaderHomeLink";
 import { SITE_URL } from "@/lib/constants";
 import { GoogleAnalytics } from '@next/third-parties/google';
 
@@ -45,41 +48,40 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={`${pretendard.variable} min-h-screen flex flex-col bg-canvas text-body`}>
+      <body className={`${pretendard.variable} min-h-screen bg-canvas text-body`}>
         <Providers>
-          <header className="sticky top-0 z-50 w-full bg-canvas/80 backdrop-blur-md border-b border-hairline-soft">
+          <header className="fixed inset-x-0 top-0 z-50 h-[60px] bg-canvas/80 backdrop-blur-md border-b border-hairline-soft">
             <div className="max-w-[1000px] mx-auto h-[60px] px-6 md:px-lg flex items-center justify-between">
-            <Link href="/" className="text-[20px] font-bold text-ink hover:opacity-80 transition-opacity">
-              Yehyeok
-            </Link>
-            <nav className="flex items-center gap-lg">
-              <NavLinks />
-              <ThemeToggle />
-            </nav>
-          </div>
-        </header>
-
-
-        <main className="flex-1 w-full max-w-[1000px] mx-auto px-6 md:px-lg py-xl">
-          {children}
-        </main>
-
-
-        <footer className="w-full mt-section border-t border-hairline-soft py-xl bg-canvas">
-          <div className="max-w-[1000px] mx-auto px-6 md:px-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-sm">
-            <div className="text-[14px] text-muted">
-              © {new Date().getFullYear()} Yehyeok. All rights reserved.
+              <HeaderHomeLink />
+              <nav className="flex items-center gap-lg">
+                <NavLinks />
+                <ThemeToggle />
+              </nav>
             </div>
-            <div className="flex gap-md text-[14px] text-muted">
-              <a href="https://github.com/YehyeokBang" target="_blank" rel="noopener noreferrer" className="hover:text-ink transition-colors">
-                GitHub
-              </a>
-              <Link href="/about" className="hover:text-ink transition-colors">
-                소개
-              </Link>
+          </header>
+          <BackToTopButton />
+          <PullToRefresh>
+            <div className="flex min-h-[calc(100vh-60px)] flex-col">
+              <main className="flex-1 w-full max-w-[1000px] mx-auto px-6 md:px-lg py-xl">
+                {children}
+              </main>
+              <footer className="w-full mt-section border-t border-hairline-soft py-xl bg-canvas">
+                <div className="max-w-[1000px] mx-auto px-6 md:px-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-sm">
+                  <div className="text-[14px] text-muted">
+                    © {new Date().getFullYear()} Yehyeok. All rights reserved.
+                  </div>
+                  <div className="flex gap-md text-[14px] text-muted">
+                    <a href="https://github.com/YehyeokBang" target="_blank" rel="noopener noreferrer" className="hover:text-ink transition-colors">
+                      GitHub
+                    </a>
+                    <Link href="/about" className="hover:text-ink transition-colors">
+                      소개
+                    </Link>
+                  </div>
+                </div>
+              </footer>
             </div>
-          </div>
-        </footer>
+          </PullToRefresh>
         </Providers>
         {process.env.NEXT_PUBLIC_GA_ID ? <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} /> : null}
       </body>
