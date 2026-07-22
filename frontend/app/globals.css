@@ -116,15 +116,14 @@ html[data-pull-refresh="enabled"] {
 .back-to-top-button {
   position: fixed;
   top: 68px;
-  left: calc(50% - 44px);
+  left: 50%;
   z-index: 40;
   display: inline-flex;
-  width: 88px;
+  width: 44px;
   height: 44px;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 0 14px;
+  padding: 0;
   color: var(--color-ink);
   font-size: var(--text-tag);
   font-weight: 500;
@@ -133,6 +132,7 @@ html[data-pull-refresh="enabled"] {
   border: 1px solid color-mix(in srgb, var(--color-hairline) 90%, transparent);
   border-radius: 999px;
   box-shadow: 0 1px 2px rgb(25 31 40 / 8%), inset 0 1px 0 rgb(255 255 255 / 55%);
+  transform: translateX(-50%);
   transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
 }
 
@@ -152,7 +152,7 @@ html[data-pull-refresh="enabled"] {
 
 .back-to-top-button:active {
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 55%);
-  transform: translateY(1px);
+  transform: translateX(-50%) translateY(1px);
 }
 
 .dark .back-to-top-button:active {
@@ -231,7 +231,7 @@ html[data-pull-refresh="enabled"] {
   .back-to-top-button,
   .back-to-top-button:active {
     transition: none;
-    transform: none;
+    transform: translateX(-50%);
   }
 }
 

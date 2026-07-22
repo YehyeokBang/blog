@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { ArrowUp } from "lucide-react";
 import { getScrollBehavior, shouldShowBackToTop } from "@/lib/scroll-ux";
 
 export default function BackToTopButton() {
@@ -78,7 +79,7 @@ export default function BackToTopButton() {
       aria-label="맨 위로 이동"
       onClick={handleClick}
     >
-      ↑ 위로
+      <ArrowUp aria-hidden="true" size={18} strokeWidth={2} />
     </button>
   );
 }
