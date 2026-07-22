@@ -18,7 +18,7 @@ export function getPullRefreshPhase(rawDistance: number): "pulling" | "armed" {
   return rawDistance >= PULL_REFRESH_THRESHOLD_PX ? "armed" : "pulling";
 }
 
-export function getScrollBehavior(reducedMotion: boolean): ScrollBehavior {
+export function getScrollBehavior(reducedMotion = false): ScrollBehavior {
   return reducedMotion ? "auto" : "smooth";
 }
 

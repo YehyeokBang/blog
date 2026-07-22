@@ -28,6 +28,7 @@ test("당김 위치는 0.55 저항을 적용하고 96px로 제한한다", () => 
 });
 
 test("스크롤 이동은 reduced motion에서 즉시 이동한다", () => {
+  assert.equal(getScrollBehavior(), "smooth");
   assert.equal(getScrollBehavior(false), "smooth");
   assert.equal(getScrollBehavior(true), "auto");
 });

@@ -47,3 +47,32 @@ npm run test:engagement
 ## Self-review
 
 `git diff --check`를 통과했고 변경은 Task 2 파일과 이 보고서로 한정됐다. `MODULE_TYPELESS_PACKAGE_JSON` Node warning은 기존 `engagement` suite에서도 동일하게 발생하는 package module-type 경고이며, Task 2 범위를 벗어나므로 변경하지 않았다.
+
+## Follow-up: no-argument scroll behavior contract
+
+리뷰 지적에 따라 `getScrollBehavior()`를 인자 없이 호출하는 assertion을 추가했다.
+
+### RED 시도
+
+```bash
+cd frontend
+npm run test:scroll-ux
+```
+
+명령은 exit code 0으로 4개 test를 모두 통과했다. 기존 JavaScript 삼항식은 `undefined`를 falsy로 취급하므로 런타임 결과가 이미 `"smooth"`였다. 따라서 이번 follow-up에서는 요구된 RED 실패를 재현할 수 없었다.
+
+### 최소 수정과 GREEN
+
+`getScrollBehavior(reducedMotion = false)`로 기본값을 명시해 TypeScript 호출 계약도 no-argument 호출을 허용하도록 수정했다. 이후 다음을 실행했다.
+
+```bash
+cd frontend
+npm run test:scroll-ux
+npm run test:engagement
+```
+
+두 명령 모두 exit code 0이었다. `test:scroll-ux`는 4 passed, `test:engagement`는 5 passed다.
+
+### Follow-up self-review
+
+변경은 no-argument assertion, 기본 파라미터, 본 보고서 append로 한정했다. 기존 true/false 동작과 다른 scroll UX helper에는 영향을 주지 않는다.
