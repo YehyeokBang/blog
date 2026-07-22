@@ -7,6 +7,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import NavLinks from "@/components/NavLinks";
 import PullToRefresh from "@/components/PullToRefresh";
 import BackToTopButton from "@/components/BackToTopButton";
+import HeaderHomeLink from "@/components/HeaderHomeLink";
 import { SITE_URL } from "@/lib/constants";
 import { GoogleAnalytics } from '@next/third-parties/google';
 
@@ -51,9 +52,7 @@ export default function RootLayout({
         <Providers>
           <header className="fixed inset-x-0 top-0 z-50 h-[60px] bg-canvas/80 backdrop-blur-md border-b border-hairline-soft">
             <div className="max-w-[1000px] mx-auto h-[60px] px-6 md:px-lg flex items-center justify-between">
-              <Link href="/" className="text-[20px] font-bold text-ink hover:opacity-80 transition-opacity">
-                Yehyeok
-              </Link>
+              <HeaderHomeLink />
               <nav className="flex items-center gap-lg">
                 <NavLinks />
                 <ThemeToggle />

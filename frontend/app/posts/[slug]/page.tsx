@@ -101,7 +101,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           </Link>
         </div>
 
-        <header className="mb-xl pb-lg border-b border-hairline-soft">
+        <header id="article-header" className="mb-xl pb-lg border-b border-hairline-soft">
           <h1 className="text-display-md font-extrabold text-ink mb-md leading-tight">
             {post.metadata.title}
           </h1>

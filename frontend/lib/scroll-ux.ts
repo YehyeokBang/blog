@@ -26,6 +26,14 @@ export function getScrollBehavior(reducedMotion = false): ScrollBehavior {
   return reducedMotion ? "auto" : "smooth";
 }
 
+export function shouldShowBackToTop(
+  headerIsIntersecting: boolean,
+  headerBottom: number,
+  scrollY: number,
+): boolean {
+  return !headerIsIntersecting && headerBottom <= 60 && scrollY > 0;
+}
+
 export function shouldStickToc(contentHeight: number, viewportHeight: number): boolean {
   return contentHeight <= viewportHeight - 120;
 }

@@ -7,6 +7,7 @@ import {
   isPullActivationMove,
   PULL_REFRESH_MAX_OFFSET_PX,
   PULL_REFRESH_THRESHOLD_PX,
+  shouldShowBackToTop,
   shouldStickToc,
 } from "./scroll-ux.ts";
 
@@ -40,6 +41,13 @@ test("스크롤 이동은 reduced motion에서 즉시 이동한다", () => {
   assert.equal(getScrollBehavior(), "smooth");
   assert.equal(getScrollBehavior(false), "smooth");
   assert.equal(getScrollBehavior(true), "auto");
+});
+
+test("상세 top control은 article header가 fixed header 위로 사라진 뒤에만 표시한다", () => {
+  assert.equal(shouldShowBackToTop(true, 59, 100), false);
+  assert.equal(shouldShowBackToTop(false, 61, 100), false);
+  assert.equal(shouldShowBackToTop(false, 60, 0), false);
+  assert.equal(shouldShowBackToTop(false, 60, 1), true);
 });
 
 test("TOC는 viewport 높이에서 120px를 뺀 경계까지 sticky로 유지한다", () => {
