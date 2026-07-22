@@ -97,7 +97,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             href="/"
             className="inline-flex items-center text-[14px] font-semibold text-muted hover:text-ink transition-colors"
           >
-            ← 아티클 목록
+            {"< 목록"}
           </Link>
         </div>
 
