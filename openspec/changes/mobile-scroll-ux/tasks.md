@@ -11,12 +11,12 @@
 
 ## 3. Fixed header and progressive pull-to-refresh
 
-- [ ] 3.1 `frontend/components/PullToRefresh.tsx`를 추가해 `CSS.supports("overscroll-behavior-y", "contain")`, `matchMedia("(pointer: coarse)")`와 `navigator.maxTouchPoints > 0`을 모두 만족할 때만 root data attribute와 gesture listener를 활성화한다.
-- [ ] 3.2 같은 component에 native `touchstart/touchmove/touchend/touchcancel` lifecycle을 구현하고, activation 전 upward·horizontal·multi-touch는 native에 위임하며 root top·single downward vertical·non-interactive start에서만 pulling한다. activation 후 방향 변경·multi-touch는 reload 없이 current custom gesture를 종료하고 다음 gesture부터 native를 허용한다.
-- [ ] 3.3 move update를 단일 `requestAnimationFrame`으로 coalesce하고 active content에 resistance가 적용된 `translate3d`만 사용하며, incomplete/cancel은 idle 복귀 후 inline transform·will-change를 제거한다. armed release는 `refreshing` DOM commit 후 effect가 예약한 animation-frame callback에서 `reloadStartedRef`를 설정하고 `window.location.reload()`를 호출하며 cleanup으로 Strict Mode 중복 frame을 취소한다.
-- [ ] 3.4 `PullRefreshIndicator`의 `idle → pulling → armed → refreshing` text, `role="status"`, polite live region, busy state와 focus 비간섭을 구현하고 reduced motion에서 spring·spinner·transition만 제거한다.
-- [ ] 3.5 `frontend/app/layout.tsx`에서 header를 viewport top의 fixed 60px layer로 바꾸고 global `BackToTopButton`을 비변환 sibling으로, `<main>`·`<footer>`만 `PullToRefresh`의 transformable surface로 조립해 기존 flex footer layout과 정확한 60px content offset을 유지한다.
-- [ ] 3.6 `frontend/app/globals.css`에 enabled root의 `overscroll-behavior-y: contain`, pull surface/indicator와 reduced-motion rule을 추가하고 header 조상에는 fixed containing block을 바꾸는 transform/filter/will-change가 없음을 검사한다.
+- [x] 3.1 `frontend/components/PullToRefresh.tsx`를 추가해 `CSS.supports("overscroll-behavior-y", "contain")`, `matchMedia("(pointer: coarse)")`와 `navigator.maxTouchPoints > 0`을 모두 만족할 때만 root data attribute와 gesture listener를 활성화한다.
+- [x] 3.2 같은 component에 native `touchstart/touchmove/touchend/touchcancel` lifecycle을 구현하고, activation 전 upward·horizontal·multi-touch는 native에 위임하며 root top·single downward vertical·non-interactive start에서만 pulling한다. activation 후 방향 변경·multi-touch는 reload 없이 current custom gesture를 종료하고 다음 gesture부터 native를 허용한다.
+- [x] 3.3 move update를 단일 `requestAnimationFrame`으로 coalesce하고 active content에 resistance가 적용된 `translate3d`만 사용하며, incomplete/cancel은 idle 복귀 후 inline transform·will-change를 제거한다. armed release는 `refreshing` DOM commit 후 effect가 예약한 animation-frame callback에서 `reloadStartedRef`를 설정하고 `window.location.reload()`를 호출하며 cleanup으로 Strict Mode 중복 frame을 취소한다.
+- [x] 3.4 `PullRefreshIndicator`의 `idle → pulling → armed → refreshing` text, `role="status"`, polite live region, busy state와 focus 비간섭을 구현하고 reduced motion에서 spring·spinner·transition만 제거한다.
+- [x] 3.5 `frontend/app/layout.tsx`에서 header를 viewport top의 fixed 60px layer로 바꾸고 global `BackToTopButton`을 비변환 sibling으로, `<main>`·`<footer>`만 `PullToRefresh`의 transformable surface로 조립해 기존 flex footer layout과 정확한 60px content offset을 유지한다.
+- [x] 3.6 `frontend/app/globals.css`에 enabled root의 `overscroll-behavior-y: contain`, pull surface/indicator와 reduced-motion rule을 추가하고 header 조상에는 fixed containing block을 바꾸는 transform/filter/will-change가 없음을 검사한다.
 - [ ] 3.7 touch-capable local browser automation에서 71px cancel, 72px armed, 단일 document navigation reload, header geometry, activation 전후 multi-touch/cancel, interactive target와 code scroll 제외를 재현하고 phase/offset DOM 상태와 console/network 근거를 기록한다.
 
 ## 4. Brand home and detail top navigation
