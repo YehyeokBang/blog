@@ -2,7 +2,7 @@
 
 ## 상태
 
-완료. OpenSpec Task 3.9 범위에서 `PullToRefresh`의 프레임별 React 렌더링을 제거했다.
+구현 완료, browser 검증 대기. OpenSpec Task 3.9 범위에서 `PullToRefresh`의 프레임별 React 렌더링을 제거했다. 반복 pull/release와 reduced-motion browser 근거가 확인되기 전까지 이 task를 완료 처리하지 않는다.
 
 ## 근본 원인
 
