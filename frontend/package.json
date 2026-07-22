@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:engagement": "node --test --experimental-strip-types lib/engagement.test.ts"
+    "test:engagement": "node --test --experimental-strip-types lib/engagement.test.ts",
+    "test:scroll-ux": "node --test --experimental-strip-types lib/scroll-ux.test.ts"
   },
   "dependencies": {
     "@next/third-parties": "^16.2.10",
