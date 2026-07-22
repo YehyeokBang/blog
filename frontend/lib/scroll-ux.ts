@@ -14,6 +14,10 @@ export function getPullVisualOffset(rawDistance: number): number {
   return Math.min(Math.max(rawDistance, 0) * 0.55, PULL_REFRESH_MAX_OFFSET_PX);
 }
 
+export function getPullProgress(rawDistance: number): number {
+  return Math.min(Math.max(rawDistance / PULL_REFRESH_THRESHOLD_PX, 0), 1);
+}
+
 export function getPullRefreshPhase(rawDistance: number): "pulling" | "armed" {
   return rawDistance >= PULL_REFRESH_THRESHOLD_PX ? "armed" : "pulling";
 }

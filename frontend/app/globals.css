@@ -88,13 +88,29 @@ html[data-pull-refresh="enabled"] {
   white-space: nowrap;
 }
 
-.pull-refresh-indicator-spinner {
-  width: 14px;
-  height: 14px;
-  border: 2px solid var(--color-hairline);
-  border-top-color: var(--color-primary);
-  border-radius: 999px;
-  animation: pull-refresh-spin 700ms linear infinite;
+.pull-refresh-indicator-ring {
+  flex: none;
+  transform: rotate(-90deg);
+}
+
+.pull-refresh-indicator-ring-track,
+.pull-refresh-indicator-ring-progress {
+  fill: none;
+  stroke-width: 2.5;
+}
+
+.pull-refresh-indicator-ring-track {
+  stroke: var(--color-hairline);
+}
+
+.pull-refresh-indicator-ring-progress {
+  stroke: var(--color-primary);
+  stroke-linecap: round;
+  transition: stroke-dasharray 120ms ease;
+}
+
+.pull-refresh-indicator[data-pull-refresh-indicator="refreshing"] .pull-refresh-indicator-ring {
+  animation: pull-refresh-ring-spin 700ms linear infinite;
 }
 
 .back-to-top-button {
@@ -167,7 +183,7 @@ html[data-pull-refresh="enabled"] {
   }
 }
 
-@keyframes pull-refresh-spin {
+@keyframes pull-refresh-ring-spin {
   to {
     transform: rotate(360deg);
   }
@@ -203,7 +219,12 @@ html[data-pull-refresh="enabled"] {
     transition: none;
   }
 
-  .pull-refresh-indicator-spinner {
+  .pull-refresh-indicator-ring,
+  .pull-refresh-indicator-ring-progress {
+    transition: none;
+  }
+
+  .pull-refresh-indicator[data-pull-refresh-indicator="refreshing"] .pull-refresh-indicator-ring {
     animation: none;
   }
 

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import {
+  getPullProgress,
   getPullRefreshPhase,
   getPullVisualOffset,
   isPullActivationMove,
@@ -89,7 +90,13 @@ function subscribeToPullRefreshCapability(onStoreChange: () => void): () => void
   return () => window.cancelAnimationFrame(frame);
 }
 
-function PullRefreshIndicator({ phase }: { phase: Exclude<PullRefreshPhase, "idle"> }) {
+function PullRefreshIndicator({
+  phase,
+  progress,
+}: {
+  phase: Exclude<PullRefreshPhase, "idle">;
+  progress: number;
+}) {
   const text = phase === "pulling"
     ? "아래로 당겨 새로고침"
     : phase === "armed"
@@ -104,7 +111,24 @@ function PullRefreshIndicator({ phase }: { phase: Exclude<PullRefreshPhase, "idl
       aria-live="polite"
       aria-busy={phase === "refreshing" ? true : undefined}
     >
-      <span className="pull-refresh-indicator-spinner" aria-hidden="true" />
+      <svg
+        className="pull-refresh-indicator-ring"
+        width="28"
+        height="28"
+        viewBox="0 0 28 28"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <circle className="pull-refresh-indicator-ring-track" cx="14" cy="14" r="11" />
+        <circle
+          className="pull-refresh-indicator-ring-progress"
+          cx="14"
+          cy="14"
+          r="11"
+          pathLength="1"
+          strokeDasharray={`${progress} 1`}
+        />
+      </svg>
       <span>{text}</span>
     </div>
   );
@@ -126,6 +150,7 @@ export default function PullToRefresh({ children }: PullToRefreshProps) {
     () => false,
   );
   const [phase, setPhase] = useState<PullRefreshPhase>("idle");
+  const [pullDistance, setPullDistance] = useState(0);
   const [visualOffset, setVisualOffset] = useState(0);
 
   const updatePhase = useCallback((nextPhase: PullRefreshPhase) => {
@@ -146,6 +171,7 @@ export default function PullToRefresh({ children }: PullToRefreshProps) {
     startRef.current = null;
     activatedRef.current = false;
     rawDistanceRef.current = 0;
+    setPullDistance(0);
     setVisualOffset(0);
     updatePhase("idle");
   }, [cancelMoveFrame, updatePhase]);
@@ -167,6 +193,7 @@ export default function PullToRefresh({ children }: PullToRefreshProps) {
         return;
       }
 
+      setPullDistance(pendingUpdate.rawDistance);
       setVisualOffset(getPullVisualOffset(pendingUpdate.rawDistance));
       updatePhase(getPullRefreshPhase(pendingUpdate.rawDistance));
     });
@@ -289,6 +316,7 @@ export default function PullToRefresh({ children }: PullToRefreshProps) {
         return;
       }
 
+      setPullDistance(rawDistance);
       setVisualOffset(getPullVisualOffset(rawDistance));
       updatePhase("refreshing");
     };
@@ -326,6 +354,7 @@ export default function PullToRefresh({ children }: PullToRefreshProps) {
         transform: `translate3d(0, ${visualOffset}px, 0)`,
         willChange: "transform",
       };
+  const pullProgress = getPullProgress(pullDistance);
 
   return (
     <div
@@ -335,7 +364,7 @@ export default function PullToRefresh({ children }: PullToRefreshProps) {
       data-pull-offset={enabled ? visualOffset : undefined}
       style={surfaceStyle}
     >
-      {enabled && phase !== "idle" ? <PullRefreshIndicator phase={phase} /> : null}
+      {enabled && phase !== "idle" ? <PullRefreshIndicator phase={phase} progress={pullProgress} /> : null}
       {children}
     </div>
   );

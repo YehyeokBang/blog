@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  getPullProgress,
   getPullRefreshPhase,
   getPullVisualOffset,
   getScrollBehavior,
@@ -10,6 +11,14 @@ import {
   shouldShowBackToTop,
   shouldStickToc,
 } from "./scroll-ux.ts";
+
+test("당김 진행률은 임계값까지 0과 1 사이로 제한한다", () => {
+  assert.equal(getPullProgress(-1), 0);
+  assert.equal(getPullProgress(0), 0);
+  assert.equal(getPullProgress(36), 0.5);
+  assert.equal(getPullProgress(72), 1);
+  assert.equal(getPullProgress(120), 1);
+});
 
 test("당김 거리는 음수를 0으로 제한하고 72px에서 armed로 전환한다", () => {
   assert.equal(PULL_REFRESH_THRESHOLD_PX, 72);
