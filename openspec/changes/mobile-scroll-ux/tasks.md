@@ -18,7 +18,7 @@
 - [x] 3.5 `frontend/app/layout.tsx`에서 header를 viewport top의 fixed 60px layer로 바꾸고 global `BackToTopButton`을 비변환 sibling으로, `<main>`·`<footer>`만 `PullToRefresh`의 transformable surface로 조립해 기존 flex footer layout과 정확한 60px content offset을 유지한다.
 - [x] 3.6 `frontend/app/globals.css`에 enabled root의 `overscroll-behavior-y: contain`, pull surface/indicator와 reduced-motion rule을 추가하고 header 조상에는 fixed containing block을 바꾸는 transform/filter/will-change가 없음을 검사한다.
 - [ ] 3.7 touch-capable local browser automation에서 71px cancel, 72px armed, 단일 document navigation reload, header geometry, activation 전후 multi-touch/cancel, interactive target와 code scroll 제외를 재현하고 phase/offset DOM 상태와 console/network 근거를 기록한다.
-- [ ] 3.8 `getPullProgress`의 `-1/0/36/72/120` boundary를 test-first로 고정하고, progress ring이 pulling에서 0~100%를 표시하며 armed에서 full, refreshing에서만 rotation을 표시하도록 구현한다. reduced motion에서는 static fill과 text만 유지한다.
+- [x] 3.8 `getPullProgress`의 `-1/0/36/72/120` boundary를 test-first로 고정하고, progress ring이 pulling에서 0~100%를 표시하며 armed에서 full, refreshing에서만 rotation을 표시하도록 구현한다. reduced motion에서는 static fill과 text만 유지한다.
 
 ## 4. Brand home and detail top navigation
 
