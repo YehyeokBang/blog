@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type ReactNode, type RefObject } from "react";
 import {
   getPullProgress,
   getPullRefreshPhase,
@@ -92,11 +92,12 @@ function subscribeToPullRefreshCapability(onStoreChange: () => void): () => void
 
 function PullRefreshIndicator({
   phase,
-  progress,
+  progressRef,
 }: {
-  phase: Exclude<PullRefreshPhase, "idle">;
-  progress: number;
+  phase: PullRefreshPhase;
+  progressRef: RefObject<SVGCircleElement | null>;
 }) {
+  const isIdle = phase === "idle";
   const text = phase === "pulling"
     ? "아래로 당겨 새로고침"
     : phase === "armed"
@@ -107,8 +108,8 @@ function PullRefreshIndicator({
     <div
       className="pull-refresh-indicator"
       data-pull-refresh-indicator={phase}
-      role="status"
-      aria-live="polite"
+      role={isIdle ? undefined : "status"}
+      aria-live={isIdle ? undefined : "polite"}
       aria-busy={phase === "refreshing" ? true : undefined}
     >
       <svg
@@ -121,12 +122,12 @@ function PullRefreshIndicator({
       >
         <circle className="pull-refresh-indicator-ring-track" cx="14" cy="14" r="11" />
         <circle
+          ref={progressRef}
           className="pull-refresh-indicator-ring-progress"
           cx="14"
           cy="14"
           r="11"
           pathLength="1"
-          strokeDasharray={`${progress} 1`}
         />
       </svg>
       <span>{text}</span>
@@ -136,6 +137,7 @@ function PullRefreshIndicator({
 
 export default function PullToRefresh({ children }: PullToRefreshProps) {
   const surfaceRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<SVGCircleElement>(null);
   const startRef = useRef<PullStart | null>(null);
   const activatedRef = useRef(false);
   const rawDistanceRef = useRef(0);
@@ -150,12 +152,34 @@ export default function PullToRefresh({ children }: PullToRefreshProps) {
     () => false,
   );
   const [phase, setPhase] = useState<PullRefreshPhase>("idle");
-  const [pullDistance, setPullDistance] = useState(0);
-  const [visualOffset, setVisualOffset] = useState(0);
 
   const updatePhase = useCallback((nextPhase: PullRefreshPhase) => {
+    if (phaseRef.current === nextPhase) {
+      return;
+    }
+
     phaseRef.current = nextPhase;
     setPhase(nextPhase);
+  }, []);
+
+  const applyPullVisuals = useCallback((rawDistance: number) => {
+    const surface = surfaceRef.current;
+    if (surface) {
+      surface.style.transform = `translate3d(0, ${getPullVisualOffset(rawDistance)}px, 0)`;
+      surface.style.willChange = "transform";
+    }
+
+    progressRef.current?.style.setProperty("--pull-progress", String(getPullProgress(rawDistance)));
+  }, []);
+
+  const clearPullVisuals = useCallback(() => {
+    const surface = surfaceRef.current;
+    if (surface) {
+      surface.style.removeProperty("transform");
+      surface.style.removeProperty("will-change");
+    }
+
+    progressRef.current?.style.setProperty("--pull-progress", "0");
   }, []);
 
   const cancelMoveFrame = useCallback(() => {
@@ -171,10 +195,9 @@ export default function PullToRefresh({ children }: PullToRefreshProps) {
     startRef.current = null;
     activatedRef.current = false;
     rawDistanceRef.current = 0;
-    setPullDistance(0);
-    setVisualOffset(0);
+    clearPullVisuals();
     updatePhase("idle");
-  }, [cancelMoveFrame, updatePhase]);
+  }, [cancelMoveFrame, clearPullVisuals, updatePhase]);
 
   const schedulePullUpdate = useCallback((rawDistance: number) => {
     rawDistanceRef.current = rawDistance;
@@ -193,11 +216,10 @@ export default function PullToRefresh({ children }: PullToRefreshProps) {
         return;
       }
 
-      setPullDistance(pendingUpdate.rawDistance);
-      setVisualOffset(getPullVisualOffset(pendingUpdate.rawDistance));
+      applyPullVisuals(pendingUpdate.rawDistance);
       updatePhase(getPullRefreshPhase(pendingUpdate.rawDistance));
     });
-  }, [updatePhase]);
+  }, [applyPullVisuals, updatePhase]);
 
   useEffect(() => {
     if (!enabled) {
@@ -316,8 +338,7 @@ export default function PullToRefresh({ children }: PullToRefreshProps) {
         return;
       }
 
-      setPullDistance(rawDistance);
-      setVisualOffset(getPullVisualOffset(rawDistance));
+      applyPullVisuals(rawDistance);
       updatePhase("refreshing");
     };
 
@@ -337,7 +358,7 @@ export default function PullToRefresh({ children }: PullToRefreshProps) {
       surface.removeEventListener("touchcancel", handleTouchCancel);
       resetPull();
     };
-  }, [cancelMoveFrame, enabled, resetPull, schedulePullUpdate, updatePhase]);
+  }, [applyPullVisuals, cancelMoveFrame, enabled, resetPull, schedulePullUpdate, updatePhase]);
 
   useEffect(() => {
     return () => {
@@ -348,24 +369,16 @@ export default function PullToRefresh({ children }: PullToRefreshProps) {
     };
   }, [cancelMoveFrame]);
 
-  const surfaceStyle: CSSProperties | undefined = phase === "idle"
-    ? undefined
-    : {
-        transform: `translate3d(0, ${visualOffset}px, 0)`,
-        willChange: "transform",
-      };
-  const pullProgress = getPullProgress(pullDistance);
-
   return (
-    <div
-      ref={surfaceRef}
-      className="pull-refresh-surface pt-[60px]"
-      data-pull-phase={enabled ? phase : undefined}
-      data-pull-offset={enabled ? visualOffset : undefined}
-      style={surfaceStyle}
-    >
-      {enabled && phase !== "idle" ? <PullRefreshIndicator phase={phase} progress={pullProgress} /> : null}
-      {children}
-    </div>
+    <>
+      {enabled ? <PullRefreshIndicator phase={phase} progressRef={progressRef} /> : null}
+      <div
+        ref={surfaceRef}
+        className="pull-refresh-surface pt-[60px]"
+        data-pull-phase={enabled ? phase : undefined}
+      >
+        {children}
+      </div>
+    </>
   );
 }
