@@ -18,6 +18,7 @@
 - [x] 3.5 `frontend/app/layout.tsx`에서 header를 viewport top의 fixed 60px layer로 바꾸고 global `BackToTopButton`을 비변환 sibling으로, `<main>`·`<footer>`만 `PullToRefresh`의 transformable surface로 조립해 기존 flex footer layout과 정확한 60px content offset을 유지한다.
 - [x] 3.6 `frontend/app/globals.css`에 enabled root의 `overscroll-behavior-y: contain`, pull surface/indicator와 reduced-motion rule을 추가하고 header 조상에는 fixed containing block을 바꾸는 transform/filter/will-change가 없음을 검사한다.
 - [ ] 3.7 touch-capable local browser automation에서 71px cancel, 72px armed, 단일 document navigation reload, header geometry, activation 전후 multi-touch/cancel, interactive target와 code scroll 제외를 재현하고 phase/offset DOM 상태와 console/network 근거를 기록한다.
+- [ ] 3.8 `getPullProgress`의 `-1/0/36/72/120` boundary를 test-first로 고정하고, progress ring이 pulling에서 0~100%를 표시하며 armed에서 full, refreshing에서만 rotation을 표시하도록 구현한다. reduced motion에서는 static fill과 text만 유지한다.
 
 ## 4. Brand home and detail top navigation
 
@@ -27,6 +28,7 @@
 - [x] 4.4 IntersectionObserver 미지원 fallback을 passive scroll listener와 requestAnimationFrame으로 구현하고, activation이 top `0` 이동·motion preference·focus 비강탈 계약을 따르게 한다.
 - [x] 4.5 `frontend/app/globals.css`에 top `68px`, `z-index: 40`, `88×44px`의 `subtle floating glass surface`를 light/dark 수치대로 구현한다. `@supports ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px)))`와 그 전체 조건을 부정한 불투명 fallback, 88%/90% hover, pressed/focus-visible/reduced-motion/forced-colors 상태를 추가한다.
 - [ ] 4.6 375×812와 1280×720의 light/dark에서 article header 전후 visibility, `↑ 위로` 위치·label·keyboard activation, 4.5:1 text와 3:1 focus 대비, backdrop 지원/fallback, scroll 중 geometry와 console error를 검증한다. thumbnail, 일반 본문, code/table 위를 각각 배경 fixture로 사용한다.
+- [ ] 4.7 visible text arrow를 Lucide `ArrowUp` SVG icon-only control로 교체하고, `aria-label="맨 위로 이동"`, visibility·top-scroll·focus 계약을 유지한 44×44 glass surface를 375×812와 1280×720의 light/dark에서 검증한다.
 
 ## 5. Fully visible TOC without nested scrolling
 

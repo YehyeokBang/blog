@@ -12,11 +12,11 @@
 
 #### Scenario: Eligible pull communicates progress and reloads
 - **WHEN** 지원 browser의 `window.scrollY === 0`에서 사용자가 non-interactive content를 한 손가락으로 아래 방향 우세하게 당긴다
-- **THEN** raw distance `0..71px`에서는 `아래로 당겨 새로고침`과 `pulling` 상태를 표시한다
-- **AND** raw distance `72px` 이상에서는 `놓으면 새로고침`과 `armed` 상태를 표시한다
+- **THEN** raw distance `0..71px`에서는 `아래로 당겨 새로고침`, `pulling` 상태와 `rawDistance / 72`에 비례하는 SVG progress ring을 표시한다
+- **AND** raw distance `72px` 이상에서는 `놓으면 새로고침`, `armed` 상태와 완전히 찬 progress ring을 표시한다
 - **AND** content visual offset은 raw distance에 0.55 resistance를 적용하고 `0..96px`로 제한된다
 - **WHEN** 사용자가 `armed` 상태에서 손가락을 놓는다
-- **THEN** 시스템은 `새로고침 중`과 busy 상태를 표시한 뒤 `window.location.reload()`를 정확히 한 번 호출한다
+- **THEN** 시스템은 `새로고침 중`, busy 상태와 회전하는 full progress ring을 표시한 뒤 `window.location.reload()`를 정확히 한 번 호출한다
 
 #### Scenario: Incomplete or cancelled pull returns safely
 - **WHEN** 사용자가 raw distance `72px` 미만에서 손가락을 놓거나 `touchcancel`이 발생한다
@@ -49,7 +49,7 @@
 - **THEN** `role="status"`의 polite live region은 각각 `아래로 당겨 새로고침`, `놓으면 새로고침`, `새로고침 중`을 상태 변화당 한 번 전달한다
 - **AND** refreshing 동안 `aria-busy="true"`를 제공하며 keyboard focus를 이동하지 않는다
 - **WHEN** `prefers-reduced-motion: reduce`가 활성화되어 있다
-- **THEN** spring, spinner rotation과 transition은 제거되지만 pull 위치와 text feedback은 유지된다
+- **THEN** spring, progress ring rotation과 transition은 제거되지만 pull 위치, static ring fill과 text feedback은 유지된다
 
 ### Requirement: Predictable brand home navigation
 
@@ -84,20 +84,20 @@
 - **WHEN** 게시글 제목·metadata header가 fixed header 아래에 보인다
 - **THEN** back-to-top control은 숨겨진다
 - **WHEN** article header가 60px fixed header 위로 완전히 사라지고 document가 top보다 아래에 있다
-- **THEN** `↑ 위로` control은 viewport top `68px`, `z-index: 40`의 가로 중앙에 `88×44px`로 표시된다
+- **THEN** `ArrowUp` SVG icon-only control은 viewport top `68px`, `z-index: 40`의 가로 중앙에 `44×44px`로 표시된다
 - **WHEN** top으로 돌아가 article header가 다시 보인다
 - **THEN** control은 다시 숨겨진다
 
 #### Scenario: Control returns to document top
-- **WHEN** 사용자가 visible `↑ 위로` control을 pointer 또는 keyboard로 활성화한다
+- **WHEN** 사용자가 visible SVG top control을 pointer 또는 keyboard로 활성화한다
 - **THEN** document는 top `0`으로 이동한다
 - **AND** 기본 motion preference에서는 `smooth`, reduced motion에서는 `auto` behavior를 사용한다
 - **AND** control은 focus를 강제로 다른 element로 옮기지 않는다
 
 #### Scenario: Control is an accessible target
 - **WHEN** back-to-top control이 표시된다
-- **THEN** native button, visible label `↑ 위로`, accessible name `맨 위로 이동`, 최소 44px hit area와 visible `focus-visible`을 제공한다
-- **AND** label과 icon은 실제 light/dark 배경에서 4.5:1 이상, focus indicator는 인접색과 3:1 이상의 대비를 갖는다
+- **THEN** native button, visible `ArrowUp` SVG, accessible name `맨 위로 이동`, 정확히 44px hit area와 visible `focus-visible`을 제공한다
+- **AND** SVG icon은 실제 light/dark 배경에서 4.5:1 이상, focus indicator는 인접색과 3:1 이상의 대비를 갖는다
 - **AND** forced-colors에서도 text와 focus indicator가 식별 가능하다
 
 #### Scenario: Control uses restrained glass with fallback
