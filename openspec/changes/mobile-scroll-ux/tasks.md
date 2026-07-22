@@ -19,6 +19,7 @@
 - [x] 3.6 `frontend/app/globals.css`에 enabled root의 `overscroll-behavior-y: contain`, pull surface/indicator와 reduced-motion rule을 추가하고 header 조상에는 fixed containing block을 바꾸는 transform/filter/will-change가 없음을 검사한다.
 - [ ] 3.7 touch-capable local browser automation에서 71px cancel, 72px armed, 단일 document navigation reload, header geometry, activation 전후 multi-touch/cancel, interactive target와 code scroll 제외를 재현하고 phase/offset DOM 상태와 console/network 근거를 기록한다.
 - [x] 3.8 `getPullProgress`의 `-1/0/36/72/120` boundary를 test-first로 고정하고, progress ring이 pulling에서 0~100%를 표시하며 armed에서 full, refreshing에서만 rotation을 표시하도록 구현한다. reduced motion에서는 static fill과 text만 유지한다.
+- [ ] 3.9 `PullToRefresh`의 indicator를 transformable surface 밖 fixed sibling으로 분리하고, move rAF가 content transform과 ring CSS custom property만 직접 갱신하도록 바꾼다. phase text는 경계에서만 React state를 갱신하고 idle indicator DOM은 유지·숨김 처리한다. 반복 pull/release와 reduced motion에서 smoothness 및 status contract를 browser로 검증한다.
 
 ## 4. Brand home and detail top navigation
 
@@ -29,6 +30,7 @@
 - [x] 4.5 `frontend/app/globals.css`에 top `68px`, `z-index: 40`, `88×44px`의 `subtle floating glass surface`를 light/dark 수치대로 구현한다. `@supports ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px)))`와 그 전체 조건을 부정한 불투명 fallback, 88%/90% hover, pressed/focus-visible/reduced-motion/forced-colors 상태를 추가한다.
 - [ ] 4.6 375×812와 1280×720의 light/dark에서 article header 전후 visibility, `↑ 위로` 위치·label·keyboard activation, 4.5:1 text와 3:1 focus 대비, backdrop 지원/fallback, scroll 중 geometry와 console error를 검증한다. thumbnail, 일반 본문, code/table 위를 각각 배경 fixture로 사용한다.
 - [ ] 4.7 visible text arrow를 Lucide `ArrowUp` SVG icon-only control로 교체하고, `aria-label="맨 위로 이동"`, visibility·top-scroll·focus 계약을 유지한 44×44 glass surface를 375×812와 1280×720의 light/dark에서 검증한다.
+- [ ] 4.8 상세 목록 복귀 Link의 visible label을 `< 목록`으로 변경하고 `href="/"` 및 keyboard focus/hover 동작을 유지한다.
 
 ## 5. Fully visible TOC without nested scrolling
 
@@ -36,7 +38,7 @@
 - [x] 5.2 `frontend/components/TOC.tsx`에 required `variant: "inline" | "sidebar"`를 추가하고 공통 nav에서 `max-height`, `overflow-y-auto`, `custom-scrollbar`와 right padding을 제거하되 heading extraction, active section과 click lock은 변경하지 않는다. heading click은 `getScrollBehavior`로 기본 smooth, reduced motion auto를 사용한다.
 - [x] 5.3 inline variant는 항상 normal flow, sidebar variant는 ResizeObserver·window resize로 실제 높이를 측정해 fit할 때만 `sticky top-[100px]`가 되게 하고 초기/미지원 상태는 non-sticky로 둔다.
 - [x] 5.4 `frontend/app/posts/[slug]/page.tsx`의 mobile·desktop 호출부에 각각 `inline`·`sidebar` variant를 전달하고 기존 desktop sticky wrapper를 제거한다.
-- [x] 5.5 `frontend/app/globals.css`의 TOC custom scrollbar rule을 삭제하고 긴 mobile/desktop 목차에서 모든 h1·h2 item이 DOM에 존재하며 TOC 내부 wheel/touch scroll 없이 document scroll로 마지막 item까지 접근 가능한지 검증한다.
+- [ ] 5.5 `frontend/app/globals.css`의 TOC custom scrollbar rule을 삭제하고 긴 mobile/desktop 목차에서 모든 h1·h2 item이 DOM에 존재하며 TOC 내부 wheel/touch scroll 없이 document scroll로 마지막 item까지 접근 가능한지 검증한다.
 
 ## 6. Documentation and automated verification
 

@@ -8,6 +8,7 @@
 - 당김 거리별로 `아래로 당겨 새로고침`, `놓으면 새로고침`, `새로고침 중` 상태와 72px 임계값까지 차오르는 progress ring을 표시하고, 승인 임계점에서 실제 문서 reload를 실행한다.
 - 지원되지 않는 브라우저에서는 touch 입력을 강제로 가로채지 않고 브라우저 기본 새로고침을 유지한다.
 - 목록의 `Yehyeok` home control이 query 기반 tag filter를 초기화하고 문서 최상단으로 이동하도록 한다.
+- 상세 metadata 위의 목록 복귀 link는 icon glyph 대신 텍스트 기반 `< 목록` label을 사용한다.
 - 상세 페이지의 글 header가 화면에서 사라진 뒤 header 아래 중앙에 접근 가능한 icon-only SVG top control을 표시한다.
 - top control은 기존 색상 토큰 안에서 절제된 작은 floating glass surface를 사용하고, backdrop filter 미지원 환경에는 불투명 surface fallback을 제공한다.
 - 상세 목차의 내부 높이 제한과 세로 scrollbar를 제거하고, desktop에서는 전체 목차가 viewport에 들어올 때만 sticky로 유지한다.

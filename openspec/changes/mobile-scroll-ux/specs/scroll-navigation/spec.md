@@ -15,6 +15,7 @@
 - **THEN** raw distance `0..71px`에서는 `아래로 당겨 새로고침`, `pulling` 상태와 `rawDistance / 72`에 비례하는 SVG progress ring을 표시한다
 - **AND** raw distance `72px` 이상에서는 `놓으면 새로고침`, `armed` 상태와 완전히 찬 progress ring을 표시한다
 - **AND** content visual offset은 raw distance에 0.55 resistance를 적용하고 `0..96px`로 제한된다
+- **AND** raw distance와 content offset은 requestAnimationFrame에서 transform/CSS custom property로 갱신하며, 매 move에 content children을 React re-render하지 않는다
 - **WHEN** 사용자가 `armed` 상태에서 손가락을 놓는다
 - **THEN** 시스템은 `새로고침 중`, busy 상태와 회전하는 full progress ring을 표시한 뒤 `window.location.reload()`를 정확히 한 번 호출한다
 
@@ -47,6 +48,7 @@
 #### Scenario: Pull status is accessible and motion-aware
 - **WHEN** custom phase가 `pulling`, `armed`, `refreshing`으로 바뀐다
 - **THEN** `role="status"`의 polite live region은 각각 `아래로 당겨 새로고침`, `놓으면 새로고침`, `새로고침 중`을 상태 변화당 한 번 전달한다
+- **AND** supported browser의 indicator DOM은 idle에도 유지하되 assistive announcement와 visual surface는 숨긴다
 - **AND** refreshing 동안 `aria-busy="true"`를 제공하며 keyboard focus를 이동하지 않는다
 - **WHEN** `prefers-reduced-motion: reduce`가 활성화되어 있다
 - **THEN** spring, progress ring rotation과 transition은 제거되지만 pull 위치, static ring fill과 text feedback은 유지된다
@@ -114,6 +116,15 @@
 - **THEN** outer shadow를 제거하고 reduced motion이 아닐 때만 `translateY(1px)`를 최대 140ms 적용한다
 - **WHEN** keyboard focus가 control에 있다
 - **THEN** 2px primary outline과 2px offset을 표시한다
+
+### Requirement: Predictable detail list return link
+
+시스템은 게시글 상세 metadata 위에 목록 복귀 Link를 제공해야 한다(MUST).
+
+#### Scenario: Detail link uses an unambiguous text arrow
+- **WHEN** 사용자가 게시글 상세를 연다
+- **THEN** 목록 복귀 Link는 `href="/"`와 기존 keyboard focus/hover 동작을 유지한다
+- **AND** visible label은 Unicode arrow glyph 없이 정확히 `< 목록`이다
 
 ### Requirement: Fully visible article table of contents
 
