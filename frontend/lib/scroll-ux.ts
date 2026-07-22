@@ -18,6 +18,10 @@ export function getPullRefreshPhase(rawDistance: number): "pulling" | "armed" {
   return rawDistance >= PULL_REFRESH_THRESHOLD_PX ? "armed" : "pulling";
 }
 
+export function isPullActivationMove(deltaX: number, deltaY: number): boolean {
+  return deltaY > 0 && Math.abs(deltaY) > Math.abs(deltaX);
+}
+
 export function getScrollBehavior(reducedMotion = false): ScrollBehavior {
   return reducedMotion ? "auto" : "smooth";
 }

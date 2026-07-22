@@ -4,6 +4,7 @@ import {
   getPullRefreshPhase,
   getPullVisualOffset,
   getScrollBehavior,
+  isPullActivationMove,
   PULL_REFRESH_MAX_OFFSET_PX,
   PULL_REFRESH_THRESHOLD_PX,
   shouldStickToc,
@@ -25,6 +26,14 @@ test("당김 위치는 0.55 저항을 적용하고 96px로 제한한다", () => 
   assert.ok(Math.abs(getPullVisualOffset(100) - 55) < 0.000001);
   assert.equal(PULL_REFRESH_MAX_OFFSET_PX, 96);
   assert.equal(getPullVisualOffset(200), 96);
+});
+
+test("첫 move는 아래 방향이면서 수직 우세일 때만 custom pull을 활성화한다", () => {
+  assert.equal(isPullActivationMove(0, 1), true);
+  assert.equal(isPullActivationMove(20, 21), true);
+  assert.equal(isPullActivationMove(20, 20), false);
+  assert.equal(isPullActivationMove(21, 20), false);
+  assert.equal(isPullActivationMove(0, -1), false);
 });
 
 test("스크롤 이동은 reduced motion에서 즉시 이동한다", () => {
