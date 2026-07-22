@@ -1,13 +1,13 @@
 ## 1. Approval and baseline gate
 
-- [ ] 1.1 `proposal.md`, `design.md`, `specs/scroll-navigation/spec.md`와 이 작업표를 함께 검토·승인하고, 승인 전에는 `frontend/` 제품 코드를 변경하지 않는다.
-- [ ] 1.2 작업 시작 시 `git status --short --branch`, `./scripts/validate-openspec.sh`, `cd frontend && npm run test:engagement && npm run lint`를 실행해 기존 branch와 baseline 결과를 기록한다.
+- [x] 1.1 `proposal.md`, `design.md`, `specs/scroll-navigation/spec.md`와 이 작업표를 함께 검토·승인하고, 승인 전에는 `frontend/` 제품 코드를 변경하지 않는다.
+- [x] 1.2 작업 시작 시 `git status --short --branch`, `./scripts/validate-openspec.sh`, `cd frontend && npm run test:engagement && npm run lint`를 실행해 기존 branch와 baseline 결과를 기록한다.
 
 ## 2. Scroll decision TDD foundation
 
-- [ ] 2.1 `frontend/lib/scroll-ux.test.ts`를 먼저 만들고 raw distance `-1/0/71/72`, 0.55 resistance, 96px clamp, reduced-motion behavior, TOC fit boundary `viewportHeight - 120`의 실패 test를 작성한다.
-- [ ] 2.2 `cd frontend && node --test --experimental-strip-types lib/scroll-ux.test.ts`가 예상한 missing module/function으로 실패하는지 확인한 뒤 `frontend/lib/scroll-ux.ts`에 `PULL_REFRESH_THRESHOLD_PX`, `PULL_REFRESH_MAX_OFFSET_PX`, `PullRefreshPhase`, `PullRefreshState`, `getPullVisualOffset`, `getPullRefreshPhase`, `getScrollBehavior`, `shouldStickToc`를 최소 구현한다.
-- [ ] 2.3 새 unit test와 기존 `frontend/lib/engagement.test.ts`를 함께 통과시키고 `frontend/package.json`에 두 suite를 명시적으로 실행하는 `test:scroll-ux` 또는 통합 `test` script를 추가한다.
+- [x] 2.1 `frontend/lib/scroll-ux.test.ts`를 먼저 만들고 raw distance `-1/0/71/72`, 0.55 resistance, 96px clamp, reduced-motion behavior, TOC fit boundary `viewportHeight - 120`의 실패 test를 작성한다.
+- [x] 2.2 `cd frontend && node --test --experimental-strip-types lib/scroll-ux.test.ts`가 예상한 missing module/function으로 실패하는지 확인한 뒤 `frontend/lib/scroll-ux.ts`에 `PULL_REFRESH_THRESHOLD_PX`, `PULL_REFRESH_MAX_OFFSET_PX`, `PullRefreshPhase`, `PullRefreshState`, `getPullVisualOffset`, `getPullRefreshPhase`, `getScrollBehavior`, `shouldStickToc`를 최소 구현한다.
+- [x] 2.3 새 unit test와 기존 `frontend/lib/engagement.test.ts`를 함께 통과시키고 `frontend/package.json`에 두 suite를 명시적으로 실행하는 `test:scroll-ux` 또는 통합 `test` script를 추가한다.
 
 ## 3. Fixed header and progressive pull-to-refresh
 
