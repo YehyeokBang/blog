@@ -21,11 +21,11 @@
 
 ## 4. Brand home and detail top navigation
 
-- [ ] 4.1 `frontend/components/HeaderHomeLink.tsx`를 추가해 다른 route에서는 `Link href="/" scroll={true}`로 이동하고, root에서는 `URLSearchParams`의 `tag`만 삭제해 다른 query를 보존한 URL을 `router.replace(..., { scroll: false })`한 뒤 top으로 이동하며 already-top에서는 중복 animation을 만들지 않는다.
-- [ ] 4.2 `HeaderHomeLink`가 `getScrollBehavior`를 사용해 기본 `smooth`, reduced motion `auto`를 적용하도록 하고 `frontend/app/layout.tsx`의 기존 brand Link만 이 component로 교체한다.
-- [ ] 4.3 게시글 metadata header에 `id="article-header"`를 추가하고 RootLayout의 비변환 sibling `frontend/components/BackToTopButton.tsx`가 `/posts/` route에서만 IntersectionObserver로 이 header를 관찰해 fixed header 위로 사라졌을 때 `↑ 위로` native button을 표시하게 한다.
-- [ ] 4.4 IntersectionObserver 미지원 fallback을 passive scroll listener와 requestAnimationFrame으로 구현하고, activation이 top `0` 이동·motion preference·focus 비강탈 계약을 따르게 한다.
-- [ ] 4.5 `frontend/app/globals.css`에 top `68px`, `z-index: 40`, `88×44px`의 `subtle floating glass surface`를 light/dark 수치대로 구현한다. `@supports ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px)))`와 그 전체 조건을 부정한 불투명 fallback, 88%/90% hover, pressed/focus-visible/reduced-motion/forced-colors 상태를 추가한다.
+- [x] 4.1 `frontend/components/HeaderHomeLink.tsx`를 추가해 다른 route에서는 `Link href="/" scroll={true}`로 이동하고, root에서는 `URLSearchParams`의 `tag`만 삭제해 다른 query를 보존한 URL을 `router.replace(..., { scroll: false })`한 뒤 top으로 이동하며 already-top에서는 중복 animation을 만들지 않는다.
+- [x] 4.2 `HeaderHomeLink`가 `getScrollBehavior`를 사용해 기본 `smooth`, reduced motion `auto`를 적용하도록 하고 `frontend/app/layout.tsx`의 기존 brand Link만 이 component로 교체한다.
+- [x] 4.3 게시글 metadata header에 `id="article-header"`를 추가하고 RootLayout의 비변환 sibling `frontend/components/BackToTopButton.tsx`가 `/posts/` route에서만 IntersectionObserver로 이 header를 관찰해 fixed header 위로 사라졌을 때 `↑ 위로` native button을 표시하게 한다.
+- [x] 4.4 IntersectionObserver 미지원 fallback을 passive scroll listener와 requestAnimationFrame으로 구현하고, activation이 top `0` 이동·motion preference·focus 비강탈 계약을 따르게 한다.
+- [x] 4.5 `frontend/app/globals.css`에 top `68px`, `z-index: 40`, `88×44px`의 `subtle floating glass surface`를 light/dark 수치대로 구현한다. `@supports ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px)))`와 그 전체 조건을 부정한 불투명 fallback, 88%/90% hover, pressed/focus-visible/reduced-motion/forced-colors 상태를 추가한다.
 - [ ] 4.6 375×812와 1280×720의 light/dark에서 article header 전후 visibility, `↑ 위로` 위치·label·keyboard activation, 4.5:1 text와 3:1 focus 대비, backdrop 지원/fallback, scroll 중 geometry와 console error를 검증한다. thumbnail, 일반 본문, code/table 위를 각각 배경 fixture로 사용한다.
 
 ## 5. Fully visible TOC without nested scrolling
