@@ -423,18 +423,3 @@ html[data-pull-refresh="enabled"] {
   font-weight: 500;
   border: 1px solid var(--color-hairline-soft);
 }
-
-/* Custom Scrollbar for TOC */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
-}
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: var(--color-hairline);
-  border-radius: 4px;
-}
-.custom-scrollbar:hover::-webkit-scrollbar-thumb {
-  background-color: var(--color-muted-soft);
-}

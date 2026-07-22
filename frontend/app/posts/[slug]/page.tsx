@@ -129,7 +129,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         )}
 
         <div className="block lg:hidden mb-lg p-md bg-surface-soft rounded-lg border border-hairline-soft">
-          <TOC />
+          <TOC variant="inline" />
         </div>
 
         <PostContent content={post.content} />
@@ -140,9 +140,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       </article>
 
       <aside className="hidden lg:block w-[250px] shrink-0">
-        <div className="sticky top-[100px]">
-          <TOC />
-        </div>
+        <TOC variant="sidebar" />
       </aside>
     </div>
     </>

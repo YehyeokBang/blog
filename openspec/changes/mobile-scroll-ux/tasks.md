@@ -30,11 +30,11 @@
 
 ## 5. Fully visible TOC without nested scrolling
 
-- [ ] 5.1 기존 TOC test fixture 또는 `scroll-ux.test.ts`에서 TOC가 available height와 같을 때 sticky이고 1px 클 때 non-sticky인 test를 먼저 실패시킨 뒤 `shouldStickToc` 결과를 고정한다.
-- [ ] 5.2 `frontend/components/TOC.tsx`에 required `variant: "inline" | "sidebar"`를 추가하고 공통 nav에서 `max-height`, `overflow-y-auto`, `custom-scrollbar`와 right padding을 제거하되 heading extraction, active section과 click lock은 변경하지 않는다. heading click은 `getScrollBehavior`로 기본 smooth, reduced motion auto를 사용한다.
-- [ ] 5.3 inline variant는 항상 normal flow, sidebar variant는 ResizeObserver·window resize로 실제 높이를 측정해 fit할 때만 `sticky top-[100px]`가 되게 하고 초기/미지원 상태는 non-sticky로 둔다.
-- [ ] 5.4 `frontend/app/posts/[slug]/page.tsx`의 mobile·desktop 호출부에 각각 `inline`·`sidebar` variant를 전달하고 기존 desktop sticky wrapper를 제거한다.
-- [ ] 5.5 `frontend/app/globals.css`의 TOC custom scrollbar rule을 삭제하고 긴 mobile/desktop 목차에서 모든 h1·h2 item이 DOM에 존재하며 TOC 내부 wheel/touch scroll 없이 document scroll로 마지막 item까지 접근 가능한지 검증한다.
+- [x] 5.1 기존 TOC test fixture 또는 `scroll-ux.test.ts`에서 TOC가 available height와 같을 때 sticky이고 1px 클 때 non-sticky인 test를 먼저 실패시킨 뒤 `shouldStickToc` 결과를 고정한다.
+- [x] 5.2 `frontend/components/TOC.tsx`에 required `variant: "inline" | "sidebar"`를 추가하고 공통 nav에서 `max-height`, `overflow-y-auto`, `custom-scrollbar`와 right padding을 제거하되 heading extraction, active section과 click lock은 변경하지 않는다. heading click은 `getScrollBehavior`로 기본 smooth, reduced motion auto를 사용한다.
+- [x] 5.3 inline variant는 항상 normal flow, sidebar variant는 ResizeObserver·window resize로 실제 높이를 측정해 fit할 때만 `sticky top-[100px]`가 되게 하고 초기/미지원 상태는 non-sticky로 둔다.
+- [x] 5.4 `frontend/app/posts/[slug]/page.tsx`의 mobile·desktop 호출부에 각각 `inline`·`sidebar` variant를 전달하고 기존 desktop sticky wrapper를 제거한다.
+- [x] 5.5 `frontend/app/globals.css`의 TOC custom scrollbar rule을 삭제하고 긴 mobile/desktop 목차에서 모든 h1·h2 item이 DOM에 존재하며 TOC 내부 wheel/touch scroll 없이 document scroll로 마지막 item까지 접근 가능한지 검증한다.
 
 ## 6. Documentation and automated verification
 

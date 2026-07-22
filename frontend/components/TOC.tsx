@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { getScrollBehavior, shouldStickToc } from "@/lib/scroll-ux";
 
 interface TOCItem {
   id: string;
@@ -8,11 +9,17 @@ interface TOCItem {
   level: number;
 }
 
-export default function TOC() {
+interface TOCProps {
+  variant: "inline" | "sidebar";
+}
+
+export default function TOC({ variant }: TOCProps) {
   const [headings, setHeadings] = useState<TOCItem[]>([]);
   const [activeId, setActiveId] = useState<string>("");
+  const [isSticky, setIsSticky] = useState(false);
   const clickLockedRef = useRef(false);
   const rafRef = useRef<number | null>(null);
+  const navRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     // id가 없는 헤딩은 TOC에 표시하지 않으므로, elements도 동일하게 필터링
@@ -97,10 +104,49 @@ export default function TOC() {
     };
   }, []);
 
+  useEffect(() => {
+    if (variant !== "sidebar" || headings.length === 0 || !window.ResizeObserver) {
+      return;
+    }
+
+    const nav = navRef.current;
+    if (!nav) {
+      return;
+    }
+
+    let isMounted = true;
+    const updateStickyState = () => {
+      const nav = navRef.current;
+      if (!isMounted || !nav) {
+        return;
+      }
+
+      const nextIsSticky = shouldStickToc(nav.scrollHeight, window.innerHeight);
+      setIsSticky((currentIsSticky) =>
+        currentIsSticky === nextIsSticky ? currentIsSticky : nextIsSticky,
+      );
+    };
+
+    const observer = new window.ResizeObserver(updateStickyState);
+    observer.observe(nav);
+    window.addEventListener("resize", updateStickyState);
+
+    return () => {
+      isMounted = false;
+      observer.disconnect();
+      window.removeEventListener("resize", updateStickyState);
+    };
+  }, [headings.length, variant]);
+
   if (headings.length === 0) return null;
 
   return (
-    <nav className="toc-container text-[14px] max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar pr-2">
+    <nav
+      ref={navRef}
+      className={`toc-container text-[14px] ${
+        variant === "sidebar" && isSticky ? "sticky top-[100px]" : ""
+      }`}
+    >
       <h3 className="font-bold text-ink mb-4 uppercase text-xs tracking-wider">
         목차
       </h3>
@@ -127,8 +173,9 @@ export default function TOC() {
                   clickLockedRef.current = false;
                 }, 1000);
 
+                const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
                 document.getElementById(heading.id)?.scrollIntoView({
-                  behavior: "smooth",
+                  behavior: getScrollBehavior(reducedMotion),
                 });
               }}
             >
