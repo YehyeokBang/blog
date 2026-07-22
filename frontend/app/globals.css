@@ -77,7 +77,7 @@ html[data-pull-refresh="enabled"] {
 
 .pull-refresh-indicator {
   position: absolute;
-  top: -44px;
+  top: 60px;
   width: 100%;
   display: flex;
   align-items: center;

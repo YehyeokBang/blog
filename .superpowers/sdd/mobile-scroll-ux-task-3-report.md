@@ -64,3 +64,34 @@ The current test setup is Node's built-in test runner with TypeScript stripping 
 - Reviewed the Task 3 brief and approved design contract after implementation.
 - Confirmed no Task 4 control behavior or Task 5/TOC edits are included.
 - Confirmed changed paths are limited to Task 3 frontend code/tests/CSS and this requested report.
+
+## P1 follow-up: indicator geometry
+
+### Root cause and minimal fix
+
+- The original `.pull-refresh-indicator { top: -44px; }` used the transformable surface's top as its reference. At the 71px/72px threshold, the resistance-adjusted surface offset is only about 39px, leaving the indicator inside the fixed header's `0..60px` z-50 layer.
+- Changed only the indicator reference point to `top: 60px`. The fixed header is exactly 60px high and every active surface offset is non-negative, so pulling, armed, and refreshing status text begins below the header without changing header, surface, or gesture behavior.
+
+### Test feasibility and browser evidence
+
+- No new focused Node test was added: the existing runner is a Node TypeScript test runner without DOM/CSS layout, positioning, or stacking-context computation. A source-text assertion for `top: 60px` would not prove rendered geometry.
+- The controller's required browser evidence phase must confirm the rendered indicator is visibly below the fixed header at pulling, armed, and refreshing offsets.
+
+### Follow-up verification
+
+Executed from `frontend/` after the CSS change:
+
+```text
+npm run test:scroll-ux
+# 5 tests passed, 0 failed
+
+npm run lint
+# exit 0; existing unrelated warning only:
+# frontend/app/about/page.tsx: DetailItem is defined but never used
+
+NEXT_PUBLIC_SITE_URL=http://localhost:3000 npm run build
+# exit 0
+
+git diff --check
+# exit 0
+```
