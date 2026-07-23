@@ -29,6 +29,7 @@
 - 현재 P1-A 실행 계획: [문서·개발 운영 정리 P1-A 구현 계획](superpowers/plans/2026-07-19-documentation-operations-p1-a.md)
 - 진행 중 운영 반응 구현 계획: [운영 게시글 반응 구현 계획](superpowers/plans/2026-07-19-post-engagement-production.md)
 - 진행 중 피드 반응 로딩 UX 구현 계획: [피드 반응 지표 로딩 상태 구현 계획](superpowers/plans/2026-07-20-feed-engagement-loading-state.md)
+- 진행 중 콘텐츠 새로고침·모바일 여백 구현 계획: [콘텐츠 전용 새로고침과 모바일 상단 여백 정리 계획](superpowers/plans/2026-07-23-content-refresh-and-mobile-spacing.md)
 - 완료되거나 대체된 문서: [아카이브 인덱스](archive/README.md)
 
 활성 문서와 아카이브가 충돌하면 활성 문서와 실제 코드·설정을 우선한다.

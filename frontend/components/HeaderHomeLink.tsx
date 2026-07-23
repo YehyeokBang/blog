@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { getScrollBehavior } from "@/lib/scroll-ux";
+import { useContentScrollContainer } from "./ContentScrollContext";
 
 const brandClassName = "text-[20px] font-bold text-ink hover:opacity-80 transition-opacity";
 
 export default function HeaderHomeLink() {
   const pathname = usePathname();
   const router = useRouter();
+  const scrollContainer = useContentScrollContainer();
 
   if (pathname !== "/") {
     return (
@@ -28,9 +30,9 @@ export default function HeaderHomeLink() {
 
     router.replace(nextUrl, { scroll: false });
 
-    if (window.scrollY > 0) {
+    if (scrollContainer && scrollContainer.scrollTop > 0) {
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      window.scrollTo({ top: 0, behavior: getScrollBehavior(reducedMotion) });
+      scrollContainer.scrollTo({ top: 0, behavior: getScrollBehavior(reducedMotion) });
     }
   };
 

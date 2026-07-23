@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { getScrollBehavior, shouldStickToc } from "@/lib/scroll-ux";
+import { useContentScrollContainer } from "./ContentScrollContext";
 
 interface TOCItem {
   id: string;
@@ -11,9 +12,11 @@ interface TOCItem {
 
 interface TOCProps {
   variant: "inline" | "sidebar";
+  contentVersion?: number;
 }
 
-export default function TOC({ variant }: TOCProps) {
+export default function TOC({ variant, contentVersion = 0 }: TOCProps) {
+  const scrollContainer = useContentScrollContainer();
   const [headings, setHeadings] = useState<TOCItem[]>([]);
   const [activeId, setActiveId] = useState<string>("");
   const [isSticky, setIsSticky] = useState(false);
@@ -24,6 +27,11 @@ export default function TOC({ variant }: TOCProps) {
   useEffect(() => {
     // id가 없는 헤딩은 TOC에 표시하지 않으므로, elements도 동일하게 필터링
     // → thresholds[i]와 items[i]가 항상 같은 헤딩을 가리키도록 보장
+    if (!scrollContainer) {
+      return;
+    }
+    const activeScrollContainer = scrollContainer;
+
     const elements = Array.from(
       document.querySelectorAll("article h1, article h2")
     )
@@ -65,8 +73,9 @@ export default function TOC({ variant }: TOCProps) {
     const NAVBAR_HEIGHT = 96; // 내비바 + 여백 (px)
 
     function getActiveId(): string {
-      const scrollY = window.scrollY;
-      const maxScroll = document.body.scrollHeight - window.innerHeight;
+      const scrollY = activeScrollContainer.scrollTop;
+      const maxScroll = activeScrollContainer.scrollHeight - activeScrollContainer.clientHeight;
+      const scrollTop = activeScrollContainer.getBoundingClientRect().top;
 
       // 페이지 맨 끝: 마지막 헤딩 활성화
       if (maxScroll > 0 && scrollY >= maxScroll - 4) {
@@ -75,7 +84,7 @@ export default function TOC({ variant }: TOCProps) {
 
       // 역방향 탐색: 기준선을 이미 지난 헤딩 중 가장 마지막 것
       for (let i = elements.length - 1; i >= 0; i--) {
-        if (scrollY >= elements[i].offsetTop - NAVBAR_HEIGHT) {
+        if (elements[i].getBoundingClientRect().top <= scrollTop + NAVBAR_HEIGHT) {
           return items[i].id;
         }
       }
@@ -96,13 +105,13 @@ export default function TOC({ variant }: TOCProps) {
 
     setActiveId(getActiveId());
 
-    window.addEventListener("scroll", onScroll, { passive: true });
+    activeScrollContainer.addEventListener("scroll", onScroll, { passive: true });
     return () => {
-      window.removeEventListener("scroll", onScroll);
+      activeScrollContainer.removeEventListener("scroll", onScroll);
       clearTimeout(headingTimer);
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
-  }, []);
+  }, [contentVersion, scrollContainer]);
 
   useEffect(() => {
     if (variant !== "sidebar" || headings.length === 0 || !window.ResizeObserver) {

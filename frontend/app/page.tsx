@@ -19,7 +19,7 @@ export default async function Home() {
 
   return (
     <div className="w-full">
-      <div className="py-xl">
+      <div>
         <h1 className="text-display-md md:text-display-lg font-extrabold text-ink tracking-tight">아티클</h1>
       </div>
 
