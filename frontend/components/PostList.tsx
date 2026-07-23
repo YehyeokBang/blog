@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import PostThumbnail from "./PostThumbnail";
 import { PostMetadata } from "@/lib/markdown";
 import { fetchAllEngagements, resolveFeedEngagementState } from "@/lib/engagement";
+import { useContentRefresh } from "./ContentRefreshContext";
 
 const ALL_TAG = "전체";
 
@@ -15,8 +16,19 @@ interface PostListProps {
 
 export default function PostList({ initialPosts }: PostListProps) {
   const searchParams = useSearchParams();
+  const { registerRefreshHandler } = useContentRefresh();
+  const [posts, setPosts] = useState(initialPosts);
   const [engagements, setEngagements] = useState<Map<string, { likeCount: number; commentCount: number }> | null>(null);
   const [engagementError, setEngagementError] = useState(false);
+
+  const loadEngagements = useCallback(async () => {
+    try {
+      setEngagements(await fetchAllEngagements());
+      setEngagementError(false);
+    } catch {
+      setEngagementError(true);
+    }
+  }, []);
 
   useEffect(() => {
     const load = async () => {
@@ -29,18 +41,32 @@ export default function PostList({ initialPosts }: PostListProps) {
     };
     void load();
   }, []);
+
+  useEffect(() => {
+    return registerRefreshHandler(async () => {
+      const response = await fetch("/content-refresh/post-index", { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error("아티클 목록을 새로고침하지 못했습니다.");
+      }
+
+      setPosts(await response.json() as PostMetadata[]);
+      setEngagements(null);
+      setEngagementError(false);
+      void loadEngagements();
+    });
+  }, [loadEngagements, registerRefreshHandler]);
   const tagParam = searchParams?.get("tag");
 
   const uniqueTags = Array.from(
-    new Set(initialPosts.flatMap((post) => post.tags || []))
+    new Set(posts.flatMap((post) => post.tags || []))
   );
   const tags = [ALL_TAG, ...uniqueTags];
   
   const selectedTag = tagParam && uniqueTags.includes(tagParam) ? tagParam : ALL_TAG;
 
   const filteredPosts = selectedTag === ALL_TAG
-    ? initialPosts
-    : initialPosts.filter((post) => (post.tags || []).includes(selectedTag));
+    ? posts
+    : posts.filter((post) => (post.tags || []).includes(selectedTag));
 
   return (
     <div>

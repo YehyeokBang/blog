@@ -4,14 +4,19 @@ import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type Re
 import {
   getPullProgress,
   getPullRefreshPhase,
+  getPullIndicatorOffset,
   getPullVisualOffset,
   isPullActivationMove,
+  isScrollContainerAtTop,
   PULL_REFRESH_THRESHOLD_PX,
   type PullRefreshPhase,
 } from "@/lib/scroll-ux";
 
 interface PullToRefreshProps {
   children: ReactNode;
+  enabled: boolean;
+  onRefresh: () => Promise<void>;
+  onScrollContainerChange: (element: HTMLElement | null) => void;
 }
 
 interface PullStart {
@@ -50,6 +55,10 @@ function isExcludedPullTarget(target: EventTarget | null, surface: HTMLElement):
 
   let current: Element | null = target;
   while (current) {
+    if (current === surface) {
+      break;
+    }
+
     const style = window.getComputedStyle(current);
     if (
       isScrollable(style.overflow) ||
@@ -57,10 +66,6 @@ function isExcludedPullTarget(target: EventTarget | null, surface: HTMLElement):
       isScrollable(style.overflowY)
     ) {
       return true;
-    }
-
-    if (current === surface) {
-      break;
     }
 
     current = current.parentElement;
@@ -92,9 +97,11 @@ function subscribeToPullRefreshCapability(onStoreChange: () => void): () => void
 
 function PullRefreshIndicator({
   phase,
+  indicatorRef,
   progressRef,
 }: {
   phase: PullRefreshPhase;
+  indicatorRef: RefObject<HTMLDivElement | null>;
   progressRef: RefObject<SVGCircleElement | null>;
 }) {
   const isIdle = phase === "idle";
@@ -106,6 +113,7 @@ function PullRefreshIndicator({
 
   return (
     <div
+      ref={indicatorRef}
       className="pull-refresh-indicator"
       data-pull-refresh-indicator={phase}
       role={isIdle ? undefined : "status"}
@@ -114,8 +122,6 @@ function PullRefreshIndicator({
     >
       <svg
         className="pull-refresh-indicator-ring"
-        width="28"
-        height="28"
         viewBox="0 0 28 28"
         aria-hidden="true"
         focusable="false"
@@ -130,27 +136,32 @@ function PullRefreshIndicator({
           pathLength="1"
         />
       </svg>
-      <span>{text}</span>
+      <span className="sr-only">{text}</span>
     </div>
   );
 }
 
-export default function PullToRefresh({ children }: PullToRefreshProps) {
+export default function PullToRefresh({
+  children,
+  enabled: isRouteEnabled,
+  onRefresh,
+  onScrollContainerChange,
+}: PullToRefreshProps) {
   const surfaceRef = useRef<HTMLDivElement>(null);
+  const indicatorRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<SVGCircleElement>(null);
   const startRef = useRef<PullStart | null>(null);
   const activatedRef = useRef(false);
   const rawDistanceRef = useRef(0);
   const pendingUpdateRef = useRef<PendingPullUpdate | null>(null);
   const moveFrameRef = useRef<number | null>(null);
-  const reloadFrameRef = useRef<number | null>(null);
-  const reloadStartedRef = useRef(false);
   const phaseRef = useRef<PullRefreshPhase>("idle");
-  const enabled = useSyncExternalStore(
+  const capabilityEnabled = useSyncExternalStore(
     subscribeToPullRefreshCapability,
     getPullRefreshCapability,
     () => false,
   );
+  const enabled = isRouteEnabled && capabilityEnabled;
   const [phase, setPhase] = useState<PullRefreshPhase>("idle");
 
   const updatePhase = useCallback((nextPhase: PullRefreshPhase) => {
@@ -164,11 +175,16 @@ export default function PullToRefresh({ children }: PullToRefreshProps) {
 
   const applyPullVisuals = useCallback((rawDistance: number) => {
     const surface = surfaceRef.current;
+    const visualOffset = getPullVisualOffset(rawDistance);
     if (surface) {
-      surface.style.transform = `translate3d(0, ${getPullVisualOffset(rawDistance)}px, 0)`;
+      surface.style.transform = `translate3d(0, ${visualOffset}px, 0)`;
       surface.style.willChange = "transform";
     }
 
+    indicatorRef.current?.style.setProperty(
+      "--pull-refresh-indicator-offset",
+      `${getPullIndicatorOffset(rawDistance)}px`,
+    );
     progressRef.current?.style.setProperty("--pull-progress", String(getPullProgress(rawDistance)));
   }, []);
 
@@ -179,6 +195,7 @@ export default function PullToRefresh({ children }: PullToRefreshProps) {
       surface.style.removeProperty("will-change");
     }
 
+    indicatorRef.current?.style.removeProperty("--pull-refresh-indicator-offset");
     progressRef.current?.style.setProperty("--pull-progress", "0");
   }, []);
 
@@ -238,23 +255,26 @@ export default function PullToRefresh({ children }: PullToRefreshProps) {
       return;
     }
 
-    reloadFrameRef.current = window.requestAnimationFrame(() => {
-      reloadFrameRef.current = null;
-      if (reloadStartedRef.current) {
-        return;
-      }
-
-      reloadStartedRef.current = true;
-      window.location.reload();
-    });
+    let cancelled = false;
+    void onRefresh()
+      .catch(() => undefined)
+      .finally(() => {
+        if (!cancelled) {
+          resetPull();
+        }
+      });
 
     return () => {
-      if (reloadFrameRef.current !== null) {
-        window.cancelAnimationFrame(reloadFrameRef.current);
-        reloadFrameRef.current = null;
-      }
+      cancelled = true;
     };
-  }, [enabled, phase]);
+  }, [enabled, onRefresh, phase, resetPull]);
+
+  useEffect(() => {
+    const surface = surfaceRef.current;
+    onScrollContainerChange(surface);
+
+    return () => onScrollContainerChange(null);
+  }, [onScrollContainerChange]);
 
   useEffect(() => {
     const surface = surfaceRef.current;
@@ -263,7 +283,11 @@ export default function PullToRefresh({ children }: PullToRefreshProps) {
     }
 
     const handleTouchStart = (event: TouchEvent) => {
-      if (phaseRef.current === "refreshing" || window.scrollY !== 0 || event.touches.length !== 1) {
+      if (
+        phaseRef.current === "refreshing"
+        || !isScrollContainerAtTop(surface.scrollTop)
+        || event.touches.length !== 1
+      ) {
         startRef.current = null;
         return;
       }
@@ -363,18 +387,21 @@ export default function PullToRefresh({ children }: PullToRefreshProps) {
   useEffect(() => {
     return () => {
       cancelMoveFrame();
-      if (reloadFrameRef.current !== null) {
-        window.cancelAnimationFrame(reloadFrameRef.current);
-      }
     };
   }, [cancelMoveFrame]);
 
   return (
     <>
-      {enabled ? <PullRefreshIndicator phase={phase} progressRef={progressRef} /> : null}
+      {enabled ? (
+        <PullRefreshIndicator
+          phase={phase}
+          indicatorRef={indicatorRef}
+          progressRef={progressRef}
+        />
+      ) : null}
       <div
         ref={surfaceRef}
-        className="pull-refresh-surface pt-[60px]"
+        className="pull-refresh-surface"
         data-pull-phase={enabled ? phase : undefined}
       >
         {children}

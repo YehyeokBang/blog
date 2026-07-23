@@ -60,35 +60,48 @@
 }
 
 html, body {
+  height: 100%;
+  overflow: hidden;
   background-color: var(--color-canvas);
   color: var(--color-body);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 
-html[data-pull-refresh="enabled"] {
-  overscroll-behavior-y: contain;
+:root {
+  --site-header-height: 60px;
+  --pull-refresh-indicator-offset: 0px;
+  --pull-refresh-ring-size: 28px;
+  --pull-refresh-ring-stroke-width: 3.5;
 }
 
 .pull-refresh-surface {
   position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
   transition: transform 120ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.content-scroll-shell {
+  display: flex;
+  height: 100dvh;
+  flex-direction: column;
 }
 
 .pull-refresh-indicator {
   position: fixed;
-  top: 60px;
-  left: 0;
+  top: var(--site-header-height);
+  left: 50%;
   z-index: 40;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-sm);
   color: var(--color-muted);
-  font-size: var(--text-tag);
   pointer-events: none;
-  white-space: nowrap;
+  transform: translate(-50%, calc(var(--pull-refresh-indicator-offset) - 50%));
 }
 
 .pull-refresh-indicator[data-pull-refresh-indicator="idle"] {
@@ -97,13 +110,15 @@ html[data-pull-refresh="enabled"] {
 
 .pull-refresh-indicator-ring {
   flex: none;
+  width: var(--pull-refresh-ring-size);
+  height: var(--pull-refresh-ring-size);
   transform: rotate(-90deg);
 }
 
 .pull-refresh-indicator-ring-track,
 .pull-refresh-indicator-ring-progress {
   fill: none;
-  stroke-width: 2.5;
+  stroke-width: var(--pull-refresh-ring-stroke-width);
 }
 
 .pull-refresh-indicator-ring-track {

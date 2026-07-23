@@ -65,7 +65,7 @@
 
 ### Header와 footer
 
-- Header는 높이 60px의 fixed surface이며 약한 blur와 bottom hairline을 사용한다. 지원되는 coarse touch browser의 당김 새로고침은 header를 움직이지 않고 main·footer content surface에만 적용하며, 상태는 text와 SVG progress ring으로 전달한다.
+- Header는 높이 60px의 비스크롤 surface이며 약한 blur와 bottom hairline을 사용한다. Header와 main·footer는 같은 `100dvh` flex shell의 형제이고, main·footer만 전용 스크롤 surface 안에 둔다. 지원되는 coarse touch browser에서는 아티클 목록과 글 상세에서만 당김 새로고침을 제공하며, 최신 정적 콘텐츠 payload를 다시 읽는 동안 header·theme state는 유지한다. 소개 페이지는 당김 새로고침 대상이 아니다. 상태는 화면상 텍스트 없이 SVG progress ring으로 전달한다. 전용 스크롤 surface와 overscroll 제어로 iOS browser의 네이티브 새로고침 충돌을 줄이되, 브라우저 제스처의 완전 차단은 보장하지 않는다.
 - 왼쪽에는 `Yehyeok`, 오른쪽에는 아티클·소개 navigation과 theme toggle이 있다.
 - Footer는 GitHub와 소개 링크를 제공한다.
 

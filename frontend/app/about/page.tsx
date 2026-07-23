@@ -65,7 +65,7 @@ const HistorySection = ({ title, items }: { title: string; items: HistoryItem[] 
 export default function AboutPage() {
   return (
     <div className="w-full">
-      <div className="py-xl">
+      <div>
         <h1 className="text-display-md md:text-display-lg font-extrabold text-ink tracking-tight">소개</h1>
       </div>
       <div className="w-full">
