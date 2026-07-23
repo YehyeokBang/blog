@@ -58,6 +58,7 @@
 - 간격은 4px 단위를 기준으로 `4, 8, 16, 24, 32, 48, 80px` 토큰을 사용한다.
 - 공통 shell의 최대 너비는 1000px이고 좌우 padding은 mobile 24px, desktop 24px이다.
 - 글 상세의 article은 최대 800px, desktop TOC 열은 250px이다.
+- 페이지 제목은 mobile 28px, desktop 40px과 `leading-tight`를 사용하고 첫 콘텐츠와 24px 간격을 둔다.
 - 기본 radius는 12px, 큰 surface는 14px 이상을 사용한다. tag는 pill 형태다.
 - 목록 항목은 mobile 48px, desktop 80px 간격으로 분리한다.
 
@@ -88,7 +89,7 @@
 
 ### 소개
 
-소개, 연락처, 경력, 활동을 같은 1000px shell 안에서 제공한다. mobile과 desktop의 글자 크기만 조정하고 별도 좁은 column을 만들지 않는다.
+소개, 연락처, 경력, 활동을 같은 1000px shell 안에서 제공한다. mobile과 desktop의 글자 크기만 조정하고 별도 좁은 column을 만들지 않는다. 경력·활동 제목은 mobile 22px, desktop 28px과 `leading-tight`를 사용한다. 소개, 경력, 활동의 주요 구획 사이는 80px, 섹션 제목과 첫 항목 사이는 24px로 통일한다.
 
 ## 반응형 기준
 

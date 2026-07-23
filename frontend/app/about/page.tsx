@@ -13,8 +13,10 @@ export const metadata: Metadata = {
 
 const HistorySection = ({ title, items }: { title: string; items: HistoryItem[] }) => {
   return (
-    <section className="mb-xl">
-      <h2 className="text-display-md md:text-display-lg font-extrabold text-ink mb-lg">{title}</h2>
+    <section>
+      <h2 className="text-title-lg md:text-display-md font-extrabold text-ink tracking-tight leading-tight mb-lg">
+        {title}
+      </h2>
       <div className="flex flex-col gap-xl">
         {items.map((item, index) => (
           <div key={index} className="flex flex-col gap-sm">
@@ -66,7 +68,9 @@ export default function AboutPage() {
   return (
     <div className="w-full">
       <div>
-        <h1 className="text-display-md md:text-display-lg font-extrabold text-ink tracking-tight">소개</h1>
+        <h1 className="text-display-md md:text-display-lg font-extrabold text-ink tracking-tight leading-tight mb-lg">
+          소개
+        </h1>
       </div>
       <div className="w-full">
         <div className="flex flex-col gap-sm mb-lg">
@@ -77,7 +81,7 @@ export default function AboutPage() {
           ))}
         </div>
 
-        <ul className="list-disc pl-lg flex flex-col gap-sm mb-section">
+        <ul className="list-disc pl-lg flex flex-col gap-sm">
           <li className="text-body-md md:text-body-lg text-body">
             Email: <a href="mailto:qkddpgur318@gmail.com" className="text-primary hover:underline underline-offset-4 transition-all">qkddpgur318@gmail.com</a>
           </li>
@@ -89,8 +93,10 @@ export default function AboutPage() {
           </li>
         </ul>
 
-        <HistorySection title="경력" items={CAREERS} />
-        <HistorySection title="활동" items={ACTIVITIES} />
+        <div className="mt-section flex flex-col gap-section">
+          <HistorySection title="경력" items={CAREERS} />
+          <HistorySection title="활동" items={ACTIVITIES} />
+        </div>
       </div>
     </div>
   );
