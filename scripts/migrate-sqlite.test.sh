@@ -11,19 +11,36 @@ cleanup() {
 }
 trap cleanup EXIT
 
-sqlite3 "$DATABASE" '
-CREATE TABLE post (id INTEGER PRIMARY KEY, slug TEXT NOT NULL UNIQUE, active BOOLEAN NOT NULL);
-CREATE TABLE comment (id INTEGER PRIMARY KEY, post_slug TEXT NOT NULL, content TEXT NOT NULL);
-INSERT INTO post(id, slug, active) VALUES (1, "active-post", 1);
-INSERT INTO comment(id, post_slug, content) VALUES (1, "active-post", "existing comment");
-'
-
 run_migration() {
     env DATABASE="$DATABASE" bash "$REPOSITORY_ROOT/scripts/migrate-sqlite.sh"
 }
 
+# A production database begins as an empty SQLite file. The migration chain, not
+# Hibernate ddl-auto, must create every table required for application startup.
+touch "$DATABASE"
+run_migration
+[[ "$(sqlite3 "$DATABASE" "SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name = 'post';")" == "1" ]]
+[[ "$(sqlite3 "$DATABASE" "SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name = 'comment';")" == "1" ]]
+[[ "$(sqlite3 "$DATABASE" 'SELECT COUNT(*) FROM schema_migration WHERE version = 0;')" == "1" ]]
+[[ "$(sqlite3 "$DATABASE" 'SELECT COUNT(*) FROM schema_migration WHERE version = 1;')" == "1" ]]
+
+rm "$DATABASE"
+sqlite3 "$DATABASE" '
+CREATE TABLE post (id INTEGER PRIMARY KEY, slug TEXT NOT NULL UNIQUE, active BOOLEAN NOT NULL);
+CREATE TABLE comment (id INTEGER PRIMARY KEY, post_slug TEXT NOT NULL, author_name TEXT NOT NULL DEFAULT "legacy", author_avatar TEXT NOT NULL DEFAULT "https://api.dicebear.com/9.x/fun-emoji/svg?seed=legacy", content TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT "2026-07-19T00:00:00Z");
+INSERT INTO post(id, slug, active) VALUES (1, "active-post", 1);
+INSERT INTO comment(id, post_slug, content) VALUES (1, "active-post", "existing comment");
+CREATE TABLE anonymous_visitor (id INTEGER PRIMARY KEY AUTOINCREMENT, token_hash TEXT NOT NULL UNIQUE, created_at TEXT NOT NULL);
+CREATE TABLE post_like (id INTEGER PRIMARY KEY AUTOINCREMENT, post_id INTEGER NOT NULL, visitor_id INTEGER NOT NULL, created_at TEXT NOT NULL, CONSTRAINT fk_post_like_post FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE RESTRICT, CONSTRAINT fk_post_like_visitor FOREIGN KEY (visitor_id) REFERENCES anonymous_visitor(id) ON DELETE CASCADE, CONSTRAINT uk_post_like_post_visitor UNIQUE (post_id, visitor_id));
+CREATE INDEX idx_post_like_post_id ON post_like(post_id);
+CREATE INDEX idx_comment_post_slug ON comment(post_slug);
+CREATE TABLE schema_migration (version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL);
+INSERT INTO schema_migration(version, applied_at) VALUES (1, "2026-07-19T00:00:00Z");
+'
+
 run_migration
 
+[[ "$(sqlite3 "$DATABASE" 'SELECT COUNT(*) FROM schema_migration WHERE version = 0;')" == "1" ]]
 [[ "$(sqlite3 "$DATABASE" 'SELECT COUNT(*) FROM schema_migration WHERE version = 1;')" == "1" ]]
 [[ "$(sqlite3 "$DATABASE" 'SELECT COUNT(*) FROM anonymous_visitor;')" == "0" ]]
 [[ "$(sqlite3 "$DATABASE" 'SELECT COUNT(*) FROM post_like;')" == "0" ]]

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { INTRODUCTION, CAREERS, ACTIVITIES, HistoryItem, DetailItem } from "./data";
+import { INTRODUCTION, CAREERS, ACTIVITIES, HistoryItem } from "./data";
 
 export const metadata: Metadata = {
   title: "소개",

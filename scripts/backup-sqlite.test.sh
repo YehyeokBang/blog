@@ -32,6 +32,15 @@ run_backup
 exec 9>&-
 grep -q '다른 SQLite 백업이 실행 중이므로 건너뜁니다.' "$BACKUP_DIRECTORY"/backup-*.log
 
+exec 9>"$BACKUP_DIRECTORY/backup.lock"
+flock -n 9
+if env DATABASE="$DATABASE" BACKUP_DIRECTORY="$BACKUP_DIRECTORY" LOCK_MODE=fail \
+    bash "$REPOSITORY_ROOT/scripts/backup-sqlite.sh"; then
+    printf '%s\n' 'fail-closed backup unexpectedly succeeded while the lock was held.' >&2
+    exit 1
+fi
+exec 9>&-
+
 touch "$BACKUP_DIRECTORY/blog-expired.db" "$BACKUP_DIRECTORY/backup-expired.log"
 touch -d '7 days ago' "$BACKUP_DIRECTORY/blog-expired.db" "$BACKUP_DIRECTORY/backup-expired.log"
 run_backup

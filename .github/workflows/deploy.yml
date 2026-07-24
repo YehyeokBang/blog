@@ -6,6 +6,10 @@ on:
       - main
   workflow_dispatch:
     inputs:
+      frontend_image_tag:
+        description: 'rollback할 frontend image tag (일반 배포에서는 비워 둠)'
+        required: false
+        type: string
       backend_image_tag:
         description: 'rollback할 backend image tag (일반 배포에서는 비워 둠)'
         required: false
@@ -163,21 +167,44 @@ jobs:
           sudo install -m 0644 backend/src/main/resources/db/migration/*.sql /opt/blog/migrations/migration/
           sudo touch /opt/blog/data/blog.db
           sudo chown -R 10001:10001 /opt/blog/data
-          sudo chown -R "$USER":"$(id -gn)" /opt/blog/backups /opt/blog/scripts
+          sudo chown -R root:root /opt/blog/backups /opt/blog/scripts
+      - name: Resolve deterministic image versions
+        id: versions
+        env:
+          BUILT_FRONTEND_TAG: ${{ needs.build-frontend.result == 'success' && format('sha-{0}', github.sha) || '' }}
+          BUILT_BACKEND_TAG: ${{ needs.build-backend.result == 'success' && format('sha-{0}', github.sha) || '' }}
+          REQUESTED_FRONTEND_TAG: ${{ inputs.frontend_image_tag }}
+          REQUESTED_BACKEND_TAG: ${{ inputs.backend_image_tag }}
+        run: |
+          versions_file=/opt/blog/deployed-image-versions.env
+          if [[ -f "$versions_file" ]]; then
+            source "$versions_file"
+          fi
+          frontend_tag="${REQUESTED_FRONTEND_TAG:-${BUILT_FRONTEND_TAG:-${FRONTEND_IMAGE_TAG:-}}}"
+          backend_tag="${REQUESTED_BACKEND_TAG:-${BUILT_BACKEND_TAG:-${BACKEND_IMAGE_TAG:-}}}"
+          [[ "$frontend_tag" == sha-* ]] || { echo 'frontend의 직전 성공 SHA를 찾을 수 없습니다.' >&2; exit 1; }
+          [[ "$backend_tag" == sha-* ]] || { echo 'backend의 직전 성공 SHA를 찾을 수 없습니다.' >&2; exit 1; }
+          printf 'frontend=%s\nbackend=%s\n' "$frontend_tag" "$backend_tag" >> "$GITHUB_OUTPUT"
       - name: Backup and migrate SQLite before backend replacement
         run: |
-          sudo env DATABASE=/opt/blog/data/blog.db BACKUP_DIRECTORY=/opt/blog/backups /opt/blog/scripts/backup-sqlite.sh
+          backup_output="$(sudo env DATABASE=/opt/blog/data/blog.db BACKUP_DIRECTORY=/opt/blog/backups LOCK_MODE=fail /opt/blog/scripts/backup-sqlite.sh)"
+          printf '%s\n' "$backup_output"
+          backup_file="${backup_output#BACKUP_CREATED=}"
+          [[ "$backup_output" == "BACKUP_CREATED="* && -f "$backup_file" ]] || { echo 'migration 전 SQLite backup 생성 확인에 실패했습니다.' >&2; exit 1; }
           sudo env DATABASE=/opt/blog/data/blog.db MIGRATION_DIRECTORY=/opt/blog/migrations/migration /opt/blog/scripts/migrate-sqlite.sh
       - name: Deploy and wait for health checks
         env:
-          FRONTEND_IMAGE_TAG: ${{ needs.build-frontend.result == 'success' && format('sha-{0}', github.sha) || 'latest' }}
-          BACKEND_IMAGE_TAG: ${{ inputs.backend_image_tag || (needs.build-backend.result == 'success' && format('sha-{0}', github.sha) || 'latest') }}
+          FRONTEND_IMAGE_TAG: ${{ steps.versions.outputs.frontend }}
+          BACKEND_IMAGE_TAG: ${{ steps.versions.outputs.backend }}
         run: |
           cd /opt/blog
           printf 'FRONTEND_IMAGE_TAG=%s\nBACKEND_IMAGE_TAG=%s\n' "$FRONTEND_IMAGE_TAG" "$BACKEND_IMAGE_TAG" | sudo tee /opt/blog/.env >/dev/null
           docker compose pull
           if ! docker compose up -d --wait --wait-timeout 120; then
+            printf 'health failure: target frontend=%s backend=%s\n' "$FRONTEND_IMAGE_TAG" "$BACKEND_IMAGE_TAG"
+            docker compose images
             docker compose ps
             docker compose logs --tail=200 backend
             exit 1
           fi
+          printf 'FRONTEND_IMAGE_TAG=%s\nBACKEND_IMAGE_TAG=%s\n' "$FRONTEND_IMAGE_TAG" "$BACKEND_IMAGE_TAG" | sudo tee /opt/blog/deployed-image-versions.env >/dev/null

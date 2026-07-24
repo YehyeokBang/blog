@@ -47,7 +47,7 @@ backend image에는 `curl`이 있어 Compose가 내부 `/actuator/health`를 검
 
 운영 schema 변경은 backend image 교체 전에 `scripts/migrate-sqlite.sh`가 versioned SQL을 SQLite transaction으로 적용한다. runner는 `schema_migration`으로 적용 version을 기록하고, SQL 오류 시 `.bail on`으로 중단되어 transaction과 version 기록이 함께 rollback된다. migration 전에는 기존 backup script로 integrity-checked SQLite `.backup`을 만든다.
 
-`anonymous_visitor`와 `post_like`는 이 방식으로 추가되며, backend datasource는 `ddl-auto: validate`와 connection별 `PRAGMA foreign_keys=ON`을 사용한다. migration은 additive여야 하므로 이전 backend image는 새 table을 무시하고 동작할 수 있다. deploy workflow는 frontend/backend image를 `sha-<commit>`과 `latest`로 publish하며 workflow dispatch의 `backend_image_tag`로 이전 backend SHA를 선택해 application rollback할 수 있다. production Traefik smoke test와 실제 rollback rehearsal은 배포 후 운영 검증 항목이다.
+`V0__core_schema.sql`이 빈 DB의 `post`·`comment` schema를 만들고, `V1__post_engagement.sql`이 engagement schema를 추가한다. 기존 DB에 V1만 기록된 경우에도 V0은 `IF NOT EXISTS`로 안전하게 기록된다. backend datasource는 `ddl-auto: validate`와 connection별 `PRAGMA foreign_keys=ON`을 사용한다. deploy는 frontend/backend의 직전 health 성공 SHA를 `/opt/blog/deployed-image-versions.env`에 각각 기록하고, 변경되지 않은 service는 그 SHA만 재사용한다. 기록이 없으면 `latest`로 대체하지 않고 실패한다. production Traefik smoke test와 실제 rollback rehearsal은 배포 후 운영 검증 항목이다.
 
 ## CI/CD
 
@@ -68,7 +68,7 @@ PR CI는 manifest를 생성한 뒤 backend `./gradlew ktlintCheck test build`와
 
 ## SQLite backup
 
-매일 02:00 KST (`0 17 * * *` UTC)에 같은 Oracle self-hosted runner가 `scripts/backup-sqlite.sh`를 실행한다. 스크립트는 `flock -n`으로 중첩을 건너뛰고, `/opt/blog/data/blog.db`를 SQLite `.backup`으로 임시 파일에 복사한다. `integrity_check`가 `ok`일 때만 `/opt/blog/backups`의 최종 파일로 atomic rename한다. KST timestamp log와 backup은 최근 7일만 유지한다.
+매일 02:00 KST (`0 17 * * *` UTC)에 같은 Oracle self-hosted runner가 `sudo /opt/blog/scripts/backup-sqlite.sh`를 실행한다. deploy pre-migration backup도 같은 root identity와 script를 사용한다. scheduled backup은 lock이 있으면 성공 skip하지만 deploy는 `LOCK_MODE=fail`로 fail-closed하며, 성공 시 `BACKUP_CREATED=<path>`와 파일 존재를 확인한다. 스크립트는 `flock -n`으로 중첩을 막고 `/opt/blog/data/blog.db`를 SQLite `.backup`으로 임시 파일에 복사한다. `integrity_check`가 `ok`일 때만 `/opt/blog/backups`의 최종 파일로 atomic rename한다. KST timestamp log와 backup은 최근 7일만 유지한다.
 
 로컬 backup은 서버 디스크 장애까지 막지 못한다. 원격 backup은 별도 변경으로 검토한다.
 

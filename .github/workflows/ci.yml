@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  frontend:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -24,36 +24,6 @@ jobs:
           cd frontend
           npm ci
 
-      - name: Lint
-        run: |
-          cd frontend
-          npm run lint
-
-      - name: Build Next.js
-        # Provide a dummy URL for CI build to prevent SITE_URL production guard error
-        env:
-          NEXT_PUBLIC_SITE_URL: http://localhost:3000
-        run: |
-          cd frontend
-          npm run build
-
-  backend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Generate post manifest
-        run: node scripts/generate-posts-manifest.mjs
-
-      - name: Test SQLite backup script
-        run: bash scripts/backup-sqlite.test.sh
-
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -61,7 +31,5 @@ jobs:
           java-version: '25'
           cache: gradle
 
-      - name: Check and build backend
-        run: |
-          cd backend
-          ./gradlew ktlintCheck test build
+      - name: Run the local verification entry point
+        run: bash scripts/verify.sh

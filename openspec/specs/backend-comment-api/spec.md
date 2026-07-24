@@ -15,6 +15,13 @@ Markdown manifest로 활성화된 글에만 댓글 작성을 허용하면서 기
 - **WHEN** 클라이언트가 inactive 또는 unknown slug에 POST 요청을 보낸다
 - **THEN** 시스템은 HTTP 404 ProblemDetail과 `code: NOT_FOUND`를 반환한다
 
+### Requirement: Public comment input boundary
+시스템은 작성자 이름을 공백 아닌 최대 50자로 제한하고(MUST), avatar는 `https://api.dicebear.com/9.x/fun-emoji/svg?seed=<alphanumeric>`만 저장해야 한다(MUST). 기존 DB의 비허용 avatar는 frontend에서 신뢰된 fallback으로 표시해야 한다(MUST).
+
+#### Scenario: 임의 외부 avatar 또는 긴 이름
+- **WHEN** client가 허용되지 않은 avatar URL 또는 50자를 초과한 authorName을 POST한다
+- **THEN** 시스템은 HTTP 400 ProblemDetail과 `code: INVALID_REQUEST`를 반환한다
+
 ### Requirement: Comment retrieval preservation
 시스템은 기존 댓글 보존을 위해 inactive slug의 댓글도 조회할 수 있어야 한다(MUST).
 

@@ -13,4 +13,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run SQLite backup
-        run: /bin/bash scripts/backup-sqlite.sh
+        run: |
+          sudo env DATABASE=/opt/blog/data/blog.db BACKUP_DIRECTORY=/opt/blog/backups \
+            /opt/blog/scripts/backup-sqlite.sh

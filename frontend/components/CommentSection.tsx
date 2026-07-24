@@ -1,14 +1,7 @@
 "use client";
 
 import { useState, useEffect, FormEvent } from "react";
-
-interface Comment {
-  id: number;
-  authorName: string;
-  authorAvatar: string;
-  content: string;
-  createdAt: string;
-}
+import { fetchComments, parseComments, resolveCommentListState, safeAvatarUrl, type Comment } from "@/lib/comments";
 
 const ADJECTIVES = ["활기찬", "명랑한", "재미있는", "용감한", "지혜로운", "신비로운", "즐거운", "행복한"];
 const NOUNS = ["다람쥐", "펭귄", "사슴", "나비", "고양이", "강아지", "여우", "부엉이"];
@@ -61,8 +54,8 @@ function generateRandomProfile() {
 }
 
 export default function CommentSection({ slug }: { slug: string }) {
-  const [comments, setComments] = useState<Comment[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [comments, setComments] = useState<Comment[] | null>(null);
+  const [commentLoadError, setCommentLoadError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -77,21 +70,17 @@ export default function CommentSection({ slug }: { slug: string }) {
   }, []);
 
   useEffect(() => {
-    const fetchComments = async () => {
+    const loadComments = async () => {
       try {
-        const res = await fetch(`/api/posts/${slug}/comments`);
-        if (res.ok) {
-          const data = await res.json();
-          setComments(data);
-        }
+        setCommentLoadError(null);
+        setComments(await fetchComments(slug));
       } catch (err) {
         console.error("Failed to fetch comments", err);
-      } finally {
-        setIsLoading(false);
+        setCommentLoadError("댓글을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
       }
     };
 
-    fetchComments();
+    loadComments();
   }, [slug]);
 
   const handleSubmit = async (e: FormEvent) => {
@@ -121,8 +110,8 @@ export default function CommentSection({ slug }: { slug: string }) {
         throw new Error("댓글 등록에 실패했습니다.");
       }
 
-      const newComment = await res.json();
-      setComments((prev) => [...prev, newComment]);
+      const newComment = parseComments([await res.json()])[0];
+      setComments((prev) => [...(prev ?? []), newComment]);
       setContent("");
 
     } catch (err: unknown) {
@@ -136,6 +125,8 @@ export default function CommentSection({ slug }: { slug: string }) {
     }
   };
 
+  const commentListState = resolveCommentListState(comments, commentLoadError);
+
   const handleRandomize = () => {
     setProfile(generateRandomProfile());
   };
@@ -143,7 +134,7 @@ export default function CommentSection({ slug }: { slug: string }) {
   return (
     <div className="mt-24">
       <h2 className="text-title-md font-bold text-ink mb-6">
-        댓글 {comments.length}
+        댓글 {comments?.length ?? 0}
       </h2>
 
       <form onSubmit={handleSubmit} className="mb-12">
@@ -204,7 +195,7 @@ export default function CommentSection({ slug }: { slug: string }) {
         <div className="flex justify-end">
           <button
             type="submit"
-            disabled={isSubmitting || isLoading}
+            disabled={isSubmitting || commentListState.status === "loading"}
             className="px-6 py-3 bg-primary hover:bg-primary-hover text-on-primary rounded-xl font-medium transition-colors disabled:opacity-50 cursor-pointer"
           >
             {isSubmitting ? "등록 중..." : "댓글 남기기"}
@@ -214,12 +205,12 @@ export default function CommentSection({ slug }: { slug: string }) {
 
       {/* Comment List */}
       <div className="flex flex-col gap-4">
-        {comments.map((comment) => (
+        {comments?.map((comment) => (
           <div key={comment.id} className="bg-surface-soft p-5 rounded-2xl">
             <div className="flex items-center gap-3 mb-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={comment.authorAvatar}
+                src={safeAvatarUrl(comment.authorAvatar)}
                 alt={comment.authorName}
                 width={36}
                 height={36}
@@ -239,9 +230,14 @@ export default function CommentSection({ slug }: { slug: string }) {
             </p>
           </div>
         ))}
-        {comments.length === 0 && !isLoading && (
+        {commentListState.status === "empty" && (
           <div className="text-center py-12 text-muted text-body-md bg-surface-soft rounded-2xl">
             가장 먼저 댓글을 남겨보세요.
+          </div>
+        )}
+        {commentListState.status === "error" && (
+          <div className="text-center py-12 text-red-500 text-body-md bg-surface-soft rounded-2xl">
+            {commentListState.message}
           </div>
         )}
       </div>
