@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS post (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    slug TEXT NOT NULL UNIQUE,
+    active BOOLEAN NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS comment (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    post_slug TEXT NOT NULL,
+    author_name TEXT NOT NULL,
+    author_avatar TEXT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL
+);

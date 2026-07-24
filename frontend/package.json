@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test --experimental-strip-types lib/*.test.ts",
     "test:content-refresh": "node --test --experimental-strip-types lib/content-refresh.test.ts",
     "test:engagement": "node --test --experimental-strip-types lib/engagement.test.ts",
     "test:scroll-ux": "node --test --experimental-strip-types lib/scroll-ux.test.ts"

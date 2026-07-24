@@ -15,6 +15,7 @@
 | [백엔드 컨벤션](backend/README.md) | Kotlin·Spring 구현 및 리뷰 규칙의 역할별 진입점 |
 | [백엔드 도메인·API 규칙](backend/domain-and-api.md) | 도메인 모델과 HTTP API 구현 규칙 |
 | [백엔드 품질·운영 규칙](backend/quality-and-operations.md) | 품질, 테스트, 빌드, 운영·검토 규칙 |
+| [Pull-to-refresh 의사결정 기록](pull-to-refresh-decision-2026-07-24.md) | 실기기 gate 전 유지·제거 판단 보류 근거 |
 
 ## 역할별 시작점
 

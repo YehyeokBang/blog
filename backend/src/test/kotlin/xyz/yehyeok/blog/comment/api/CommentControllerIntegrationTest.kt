@@ -40,7 +40,8 @@ class CommentControllerIntegrationTest {
     @Test
     fun `active slug 댓글 작성은 201과 Location을 반환한다`() {
         // given
-        val body = """{"authorName":"활기찬고양이","authorAvatar":"https://example.com/avatar.svg","content":"댓글입니다"}"""
+        val body =
+            """{"authorName":"활기찬고양이","authorAvatar":"https://api.dicebear.com/9.x/fun-emoji/svg?seed=cat","content":"댓글입니다"}"""
 
         // when & then
         mockMvc
@@ -53,7 +54,8 @@ class CommentControllerIntegrationTest {
     @Test
     fun `inactive slug 댓글 작성은 404 ProblemDetail을 반환한다`() {
         // given
-        val body = """{"authorName":"활기찬고양이","authorAvatar":"https://example.com/avatar.svg","content":"댓글입니다"}"""
+        val body =
+            """{"authorName":"활기찬고양이","authorAvatar":"https://api.dicebear.com/9.x/fun-emoji/svg?seed=cat","content":"댓글입니다"}"""
 
         // when & then
         mockMvc
@@ -72,5 +74,31 @@ class CommentControllerIntegrationTest {
             .andExpect(status().isOk)
             .andExpect(jsonPath("$").isArray)
             .andExpect(jsonPath("$").isEmpty)
+    }
+
+    @Test
+    fun `허용되지 않은 avatar URL과 50자 초과 작성자 이름은 400을 반환한다`() {
+        // given
+        val externalAvatar =
+            """{"authorName":"활기찬고양이","authorAvatar":"https://example.com/avatar.svg","content":"댓글입니다"}"""
+        val longName = "a".repeat(51)
+        val oversizedName =
+            """{"authorName":"$longName","authorAvatar":"https://api.dicebear.com/9.x/fun-emoji/svg?seed=cat","content":"댓글입니다"}"""
+
+        // when & then
+        mockMvc
+            .perform(
+                post("/api/posts/active-post/comments")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(externalAvatar),
+            ).andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.code").value("INVALID_REQUEST"))
+        mockMvc
+            .perform(
+                post("/api/posts/active-post/comments")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(oversizedName),
+            ).andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.code").value("INVALID_REQUEST"))
     }
 }

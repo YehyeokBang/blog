@@ -13,19 +13,17 @@ import java.sql.DriverManager
 
 class SchemaValidationIntegrationTest {
     @Test
-    fun `게시글 반응 migration 적용 후 스키마 검증으로 백엔드가 시작된다`() {
+    fun `빈 SQLite DB에 전체 migration chain을 적용하면 스키마 검증으로 백엔드가 시작된다`() {
         // given
         val database = Files.createTempFile("blog-schema-validation", ".db")
         val databaseUrl = "jdbc:sqlite:$database"
 
         try {
-            startApplication(databaseUrl, "update").close()
-
             DriverManager.getConnection(databaseUrl).use { connection ->
-                connection.createStatement().use { statement ->
-                    statement.execute("DROP TABLE post_like")
-                    statement.execute("DROP TABLE anonymous_visitor")
-                }
+                ScriptUtils.executeSqlScript(
+                    connection,
+                    EncodedResource(ClassPathResource("db/migration/V0__core_schema.sql")),
+                )
                 ScriptUtils.executeSqlScript(
                     connection,
                     EncodedResource(ClassPathResource("db/migration/V1__post_engagement.sql")),

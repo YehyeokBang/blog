@@ -28,7 +28,7 @@ services:
       - blog-network
 
   frontend:
-    image: ghcr.io/yehyeokbang/blog-frontend:${FRONTEND_IMAGE_TAG:-latest}
+    image: ghcr.io/yehyeokbang/blog-frontend:${FRONTEND_IMAGE_TAG:?FRONTEND_IMAGE_TAG is required}
     container_name: blog-frontend
     restart: always
     labels:
@@ -42,7 +42,7 @@ services:
       - blog-network
 
   backend:
-    image: ghcr.io/yehyeokbang/blog-backend:${BACKEND_IMAGE_TAG:-latest}
+    image: ghcr.io/yehyeokbang/blog-backend:${BACKEND_IMAGE_TAG:?BACKEND_IMAGE_TAG is required}
     container_name: blog-backend
     restart: always
     volumes:

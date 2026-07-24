@@ -28,6 +28,7 @@ Spring Boot backend image에서 SQLite 데이터를 분리해 보존하고, arm6
 - **WHEN** backend가 120초 내 healthy가 되지 않는다
 - **THEN** deploy job은 backend logs를 출력하고 실패한다
 - **AND** Traefik을 통해 actuator endpoint를 공개하지 않는다
+- **AND** workflow log에는 실행하려던 frontend/backend SHA와 현재 compose image가 남는다
 
 ### Requirement: Deterministic deployment workflow
 시스템은 frontend, backend, content, infrastructure 변경을 명시된 workflow DAG에 따라 처리하고 production deploy를 직렬화해야 한다(MUST). Oracle deploy runner는 `[self-hosted, ARM64]` label을 사용해야 한다(MUST).
@@ -40,3 +41,8 @@ Spring Boot backend image에서 SQLite 데이터를 분리해 보존하고, arm6
 #### Scenario: Infrastructure-only 변경
 - **WHEN** compose, tracked script 또는 deploy workflow만 변경된다
 - **THEN** image를 rebuild하지 않고 compose/script artifact를 배치한 뒤 deploy한다
+- **AND** 직전 health 성공 deploy가 기록한 frontend/backend SHA를 각각 재사용한다
+
+#### Scenario: 첫 infrastructure-only deploy
+- **WHEN** 이전 성공 deploy의 두 SHA 기록이 없는 host에서 image를 rebuild하지 않는 deploy가 시작된다
+- **THEN** workflow는 `latest`를 추측하지 않고 실패한다
