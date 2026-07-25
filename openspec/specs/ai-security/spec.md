@@ -1,5 +1,8 @@
-## ADDED Requirements
+# ai-security Specification
 
+## Purpose
+TBD - created by archiving change ai-summary. Update Purpose after archive.
+## Requirements
 ### Requirement: 본문 버전 기반 2계층 캐싱
 The system SHALL cache only successfully completed and validated summaries in both an in-memory cache and a separate `ai_summary` SQLite table. Cache validity SHALL be determined by `slug`, a SHA-256 hash of the exact normalized post content sent to the model, model identifier, and prompt version. The SQLite table SHALL use `slug` as its logical post identifier and SHALL NOT have a physical foreign key constraint to the `post` table.
 
@@ -121,3 +124,4 @@ The system SHALL preserve incremental SSE delivery through the production edge p
 #### Scenario: 운영 스트리밍 검증
 - **WHEN** the deployed endpoint is requested through the public Traefik route using a non-buffering client such as `curl -N`
 - **THEN** response headers identify `text/event-stream`, heartbeat or delta bytes arrive incrementally, and the dedicated router's rate and concurrency protections are observable
+

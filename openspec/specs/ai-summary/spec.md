@@ -1,5 +1,8 @@
-## ADDED Requirements
+# ai-summary Specification
 
+## Purpose
+TBD - created by archiving change ai-summary. Update Purpose after archive.
+## Requirements
 ### Requirement: 서버가 소유한 포스트 본문 기반 AI 요약
 The system SHALL generate a concise summary of exactly 3 non-empty lines from the active blog post identified by `slug`, using the server-owned post content and the configured Gemini Flash model via Spring AI. The public API SHALL NOT accept arbitrary post content from the client.
 
@@ -74,3 +77,4 @@ The system SHALL include an integration test that uses a controllable mock Gemin
 #### Scenario: SSE wire format 통합 테스트
 - **WHEN** a successful summary stream is inspected at the HTTP wire level
 - **THEN** every content event has `event: delta` and `id:`, the final event has `event: complete` and `data: [DONE]`, and the response is delivered incrementally before the full summary completes
+
