@@ -94,11 +94,16 @@ export default function AiSummary({ slug }: AiSummaryProps) {
 
     return () => {
       if (timer) clearTimeout(timer);
+    };
+  }, [status, generateSummary]);
+
+  useEffect(() => {
+    return () => {
       if (eventSourceRef.current) {
         eventSourceRef.current.close();
       }
     };
-  }, [status, generateSummary]);
+  }, []);
 
   const renderFormattedText = (text: string) => {
     const parts = text.split(/`([^`]+)`/g);
