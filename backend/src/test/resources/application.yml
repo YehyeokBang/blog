@@ -1,4 +1,11 @@
 spring:
+  ai:
+    google:
+      genai:
+        api-key: mock-key-for-tests
+        chat:
+          options:
+            model: ${app.ai.summary.model-id}
   datasource:
     url: jdbc:sqlite:build/test-db/blog.db
     driver-class-name: org.sqlite.JDBC
@@ -7,6 +14,9 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: false
+
+server:
+  port: 8080
 
 management:
   endpoints:
@@ -18,3 +28,11 @@ app:
   engagement:
     allowed-origins: http://localhost:3000
     cookie-secure: false
+  ai:
+    summary:
+      model-id: "gemini-3.5-flash-lite"
+      prompt-version: "v1"
+      generation-timeout: 30s
+      heartbeat-interval: 15s
+      daily-quota: 500
+      timezone: "Asia/Seoul"

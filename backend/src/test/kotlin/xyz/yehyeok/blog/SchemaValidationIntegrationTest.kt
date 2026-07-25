@@ -23,12 +23,18 @@ class SchemaValidationIntegrationTest {
 
             DriverManager.getConnection(databaseUrl).use { connection ->
                 connection.createStatement().use { statement ->
+                    statement.execute("DROP TABLE IF EXISTS ai_summary")
+                    statement.execute("DROP TABLE IF EXISTS ai_daily_usage")
                     statement.execute("DROP TABLE post_like")
                     statement.execute("DROP TABLE anonymous_visitor")
                 }
                 ScriptUtils.executeSqlScript(
                     connection,
                     EncodedResource(ClassPathResource("db/migration/V1__post_engagement.sql")),
+                )
+                ScriptUtils.executeSqlScript(
+                    connection,
+                    EncodedResource(ClassPathResource("db/migration/V2__ai_summary.sql")),
                 )
             }
 

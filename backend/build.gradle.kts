@@ -22,6 +22,8 @@ repositories {
 }
 
 dependencies {
+    implementation(platform(libs.spring.ai.bom))
+    implementation(libs.spring.ai.starter.model.google.genai)
     implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.spring.boot.starter.webmvc)
     implementation(libs.spring.boot.starter.actuator)

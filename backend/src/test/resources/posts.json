@@ -1,1 +1,7 @@
-["test-post"]
+[
+  {
+    "slug": "test-post",
+    "contentHash": "dummyhash",
+    "content": "dummy content"
+  }
+]

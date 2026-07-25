@@ -45,6 +45,8 @@ services:
     image: ghcr.io/yehyeokbang/blog-backend:${BACKEND_IMAGE_TAG:-latest}
     container_name: blog-backend
     restart: always
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
     volumes:
       - "/opt/blog/data/blog.db:/data/blog.db"
     healthcheck:
@@ -77,6 +79,15 @@ services:
       - "traefik.http.middlewares.like-write-rate-limit.ratelimit.period=1m"
       - "traefik.http.middlewares.like-write-rate-limit.ratelimit.burst=5"
       - "traefik.http.middlewares.like-write-rate-limit.ratelimit.sourcecriterion.ipstrategy.depth=0"
+      - "traefik.http.routers.ai-summary.rule=Host(`blog.yehyeok.xyz`) && Method(`GET`) && PathRegexp(`^/api/posts/[^/]+/ai-summary/?$`)"
+      - "traefik.http.routers.ai-summary.priority=300"
+      - "traefik.http.routers.ai-summary.entrypoints=websecure"
+      - "traefik.http.routers.ai-summary.tls.certresolver=myresolver"
+      - "traefik.http.routers.ai-summary.middlewares=ai-summary-rate-limit"
+      - "traefik.http.middlewares.ai-summary-rate-limit.ratelimit.average=15"
+      - "traefik.http.middlewares.ai-summary-rate-limit.ratelimit.period=1m"
+      - "traefik.http.middlewares.ai-summary-rate-limit.ratelimit.burst=5"
+      - "traefik.http.middlewares.ai-summary-rate-limit.ratelimit.sourcecriterion.ipstrategy.depth=0"
       - "traefik.http.services.backend.loadbalancer.server.port=8080"
     networks:
       - blog-network
