@@ -1,4 +1,5 @@
-import { readdir, mkdir, writeFile } from "node:fs/promises";
+import { readdir, mkdir, writeFile, readFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -15,8 +16,18 @@ export async function createPostsManifest(postsDirectory, outputPath) {
     throw new Error("posts manifest에는 하나 이상의 유효한 slug가 필요합니다.");
   }
 
+  const manifest = await Promise.all(
+    slugs.map(async (slug) => {
+      const content = await readFile(join(postsDirectory, `${slug}.md`), "utf8");
+      // Use the raw markdown content as the input for AI summary.
+      // Generate SHA-256 hash to track content changes for cache invalidation.
+      const contentHash = createHash("sha256").update(content).digest("hex");
+      return { slug, contentHash, content };
+    })
+  );
+
   await mkdir(dirname(outputPath), { recursive: true });
-  await writeFile(outputPath, `${JSON.stringify(slugs)}\n`, "utf8");
+  await writeFile(outputPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
 }
 
 const scriptPath = fileURLToPath(import.meta.url);

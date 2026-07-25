@@ -6,11 +6,13 @@ import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
 import org.junit.jupiter.api.Test
+import xyz.yehyeok.blog.ai.infra.AiSummaryRepository
 import xyz.yehyeok.blog.post.infra.PostRepository
 
 class PostManifestSynchronizerTest {
-    private val postRepository = mockk<PostRepository>()
-    private val synchronizer = PostManifestSynchronizer(postRepository)
+    private val postRepository = mockk<PostRepository>(relaxed = true)
+    private val aiSummaryRepository = mockk<AiSummaryRepository>(relaxed = true)
+    private val synchronizer = PostManifestSynchronizer(postRepository, aiSummaryRepository)
 
     @Test
     fun `manifest slug는 active로 만들고 사라진 slug는 inactive로 만든다`() {
@@ -23,7 +25,13 @@ class PostManifestSynchronizerTest {
         every { postRepository.saveAll(capture(savedPosts)) } answers { savedPosts.captured }
 
         // when
-        synchronizer.sync(sortedSetOf("becomes-active", "new-post", "still-active"))
+        synchronizer.sync(
+            listOf(
+                PostManifestEntry("becomes-active", "hash1", "c1"),
+                PostManifestEntry("new-post", "hash2", "c2"),
+                PostManifestEntry("still-active", "hash3", "c3"),
+            ),
+        )
 
         // then
         savedPosts.captured.associateBy { it.slug }.mapValues { it.value.active } shouldBe

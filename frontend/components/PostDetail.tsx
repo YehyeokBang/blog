@@ -7,6 +7,7 @@ import PostContent from "./PostContent";
 import PostLikeButton from "./PostLikeButton";
 import PostThumbnail from "./PostThumbnail";
 import TOC from "./TOC";
+import AiSummary from "./AiSummary";
 import { useContentRefresh } from "./ContentRefreshContext";
 import type { PostRefreshPayload } from "@/lib/content-refresh";
 
@@ -67,6 +68,8 @@ export default function PostDetail({ initialPost }: { initialPost: PostRefreshPa
         {post.metadata.thumbnail && (
           <PostThumbnail src={post.metadata.thumbnail} alt={post.metadata.title} type="detail" priority />
         )}
+
+        <AiSummary slug={post.metadata.slug} />
 
         <div className="block lg:hidden mb-lg p-md bg-surface-soft rounded-lg border border-hairline-soft">
           <TOC key={refreshVersion} variant="inline" contentVersion={refreshVersion} />

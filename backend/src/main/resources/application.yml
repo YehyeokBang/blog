@@ -1,4 +1,11 @@
 spring:
+  ai:
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY:mock-key-for-tests}
+        chat:
+          options:
+            model: ${app.ai.summary.model-id}
   threads:
     virtual:
       enabled: true
@@ -29,3 +36,12 @@ app:
   engagement:
     allowed-origins: https://blog.yehyeok.xyz
     cookie-secure: true
+  ai:
+    summary:
+      model-id: "gemini-3.5-flash-lite"
+      prompt-version: "v1"
+      generation-timeout: 30s
+      heartbeat-interval: 15s
+      daily-quota: 500
+      timezone: "Asia/Seoul"
+      max-concurrent-generations: 5
