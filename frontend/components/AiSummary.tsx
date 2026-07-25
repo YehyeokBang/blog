@@ -77,11 +77,15 @@ export default function AiSummary({ slug }: AiSummaryProps) {
 
   useEffect(() => {
     // 자동 생성 시작
+    let timer: NodeJS.Timeout;
     if (status === "idle") {
-      generateSummary();
+      timer = setTimeout(() => {
+        generateSummary();
+      }, 0);
     }
 
     return () => {
+      if (timer) clearTimeout(timer);
       if (eventSourceRef.current) {
         eventSourceRef.current.close();
       }
