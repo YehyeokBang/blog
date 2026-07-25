@@ -12,6 +12,8 @@ export default function AiSummary({ slug }: AiSummaryProps) {
   const [status, setStatus] = useState<AiSummaryStatus>("idle");
   const [summary, setSummary] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [progressMessage, setProgressMessage] = useState("");
+  const [animationKey, setAnimationKey] = useState(0);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const eventSourceRef = useRef<EventSource | null>(null);
   const infoRef = useRef<HTMLDivElement>(null);
@@ -38,9 +40,15 @@ export default function AiSummary({ slug }: AiSummaryProps) {
     setStatus("loading");
     setSummary("");
     setErrorMessage("");
+    setProgressMessage("");
 
     const es = new EventSource(`/api/posts/${slug}/ai-summary`);
     eventSourceRef.current = es;
+
+    es.addEventListener("progress", (event) => {
+      setProgressMessage((event as MessageEvent).data);
+      setAnimationKey(prev => prev + 1);
+    });
 
     es.addEventListener("delta", (event) => {
       setSummary((prev) => prev + (event as MessageEvent).data);
@@ -172,11 +180,20 @@ export default function AiSummary({ slug }: AiSummaryProps) {
       {status === "loading" && (
         <div className="text-body-sm text-ink/80 leading-relaxed min-h-[4rem]">
           {summary ? renderSummary(summary) : (
-            <div className="space-y-3 py-1">
-              <div className="h-4 bg-gradient-to-r from-primary-surface to-surface-soft rounded w-3/4 animate-pulse"></div>
-              <div className="h-4 bg-gradient-to-r from-primary-surface to-surface-soft rounded w-full animate-pulse delay-75"></div>
-              <div className="h-4 bg-gradient-to-r from-primary-surface to-surface-soft rounded w-5/6 animate-pulse delay-150"></div>
-            </div>
+            progressMessage ? (
+              <div key={animationKey} className="animate-fade-in-up font-medium text-primary py-2 flex items-center gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="animate-spin text-primary/70">
+                  <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+                </svg>
+                {progressMessage}
+              </div>
+            ) : (
+              <div className="space-y-3 py-1">
+                <div className="h-4 bg-gradient-to-r from-primary-surface to-surface-soft rounded w-3/4 animate-pulse"></div>
+                <div className="h-4 bg-gradient-to-r from-primary-surface to-surface-soft rounded w-full animate-pulse delay-75"></div>
+                <div className="h-4 bg-gradient-to-r from-primary-surface to-surface-soft rounded w-5/6 animate-pulse delay-150"></div>
+              </div>
+            )
           )}
         </div>
       )}

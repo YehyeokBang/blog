@@ -206,9 +206,34 @@ class AiSummaryService(
                         .event("delta")
                         .data(chunk)
                         .build()
-                }
+                }.share()
 
-        return dataFlux
+        val progressMessages =
+            listOf(
+                "서버에 묻어둔 문서를 꺼내는 중...",
+                "AI가 글을 읽고 생각에 잠겼습니다...",
+                "문맥을 이진수로 변환하여 이해하는 중...",
+                "커피 한 잔 마시며 핵심을 요약하는 중...",
+                "3줄 요약을 위해 3천 번 고민하는 중...",
+                "거의 다 왔습니다...",
+            )
+
+        val progressFlux =
+            Flux
+                .interval(Duration.ofMillis(1200))
+                .zipWithIterable(progressMessages)
+                .map { it.t2 }
+                .map { msg ->
+                    ServerSentEvent
+                        .builder<String>()
+                        .id(requestId)
+                        .event("progress")
+                        .data(msg)
+                        .build()
+                }.takeUntilOther(dataFlux.ignoreElements())
+
+        return progressFlux
+            .mergeWith(dataFlux)
             .mergeWith(
                 Flux
                     .interval(heartbeatInterval)
