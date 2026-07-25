@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 type AiSummaryStatus = "idle" | "loading" | "complete" | "error";
 
@@ -30,20 +30,7 @@ export default function AiSummary({ slug }: AiSummaryProps) {
     };
   }, [isInfoOpen]);
 
-  useEffect(() => {
-    // 자동 생성 시작
-    if (status === "idle") {
-      generateSummary();
-    }
-
-    return () => {
-      if (eventSourceRef.current) {
-        eventSourceRef.current.close();
-      }
-    };
-  }, []);
-
-  const generateSummary = () => {
+  const generateSummary = useCallback(() => {
     if (eventSourceRef.current) {
       eventSourceRef.current.close();
     }
@@ -70,7 +57,7 @@ export default function AiSummary({ slug }: AiSummaryProps) {
       try {
         const errorData = JSON.parse((event as MessageEvent).data);
         setErrorMessage(errorData.message || "요약 생성 중 오류가 발생했습니다.");
-      } catch (e) {
+      } catch {
         setErrorMessage("요약 생성 중 오류가 발생했습니다.");
       }
       es.close();
@@ -86,7 +73,20 @@ export default function AiSummary({ slug }: AiSummaryProps) {
         eventSourceRef.current = null;
       }
     };
-  };
+  }, [slug]);
+
+  useEffect(() => {
+    // 자동 생성 시작
+    if (status === "idle") {
+      generateSummary();
+    }
+
+    return () => {
+      if (eventSourceRef.current) {
+        eventSourceRef.current.close();
+      }
+    };
+  }, [status, generateSummary]);
 
   const renderFormattedText = (text: string) => {
     const parts = text.split(/`([^`]+)`/g);
