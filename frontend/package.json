@@ -9,6 +9,7 @@
     "lint": "eslint",
     "test:content-refresh": "node --test --experimental-strip-types lib/content-refresh.test.ts",
     "test:engagement": "node --test --experimental-strip-types lib/engagement.test.ts",
+    "test:feed-ui": "node --test --experimental-strip-types lib/feed-ui.test.ts",
     "test:scroll-ux": "node --test --experimental-strip-types lib/scroll-ux.test.ts"
   },
   "dependencies": {

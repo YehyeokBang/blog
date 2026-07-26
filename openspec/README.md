@@ -15,6 +15,7 @@ OpenSpec은 기능별 현재 요구사항과 변경 중인 요구사항을 구�
 
 ## 진행 중 change
 
+- [feed-ui-accessibility](changes/feed-ui-accessibility/proposal.md) — 피드 tag overflow 단서, 카드 전체 link와 키보드 포커스 UX
 - [mobile-scroll-ux](changes/mobile-scroll-ux/proposal.md) — 고정 header, 점진적 당겨서 새로고침, 상단 이동과 전체 목차 UX
 - [post-engagement-production](changes/post-engagement-production/proposal.md) — 운영 게시글 좋아요·댓글 수 projection, 익명 cookie와 배포 안전성
 
