@@ -19,7 +19,7 @@ export default function PostThumbnail({ src, alt, type = 'list', priority = fals
     : 'w-full aspect-[800/440] max-h-[350px] relative overflow-hidden rounded-xl bg-surface-muted mb-xl';
     
   const imageClass = isList 
-    ? 'object-cover object-center group-hover:scale-105'
+    ? 'object-cover object-center group-has-[.post-card-link:hover]/card:scale-105'
     : 'object-cover object-center';
 
   return (

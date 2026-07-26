@@ -74,8 +74,10 @@
 
 - 최신순 목록과 URL query 기반 tag filter를 제공한다.
 - 제목, 설명, 날짜, 읽기 시간, tag를 표시한다.
-- thumbnail이 있으면 desktop에서는 우측 고정 비율 이미지로, mobile에서는 글 정보 위의 가로 이미지로 노출한다.
-- 제목과 thumbnail이 상세 페이지 링크이며 tag는 filter 링크로 독립 동작한다.
+- thumbnail이 있으면 mobile(`sm` 미만)에서는 글 정보 위의 가로 이미지로, `sm` 이상에서는 우측 고정 비율 이미지로 노출한다.
+- 태그를 제외한 카드 전체는 상세 페이지 링크이며 tag는 filter 링크로 독립 동작한다.
+- 피드 상단 가로 tag filter 목록은 오른쪽에 숨은 tag가 있을 때만 클릭을 막지 않는 우측 시각 단서를 보이고, overflow가 없거나 오른쪽 끝까지 스크롤하면 단서를 숨긴다.
+- 피드의 상세 링크와 tag 링크는 마우스 클릭의 미관을 해치지 않되, 키보드 탐색의 `focus-visible` 상태에서는 primary 색의 식별 가능한 ring 또는 outline을 표시한다.
 
 ### 글 상세
 
