@@ -8,6 +8,7 @@ import {
   getPullVisualOffset,
   isPullActivationMove,
   isScrollContainerAtTop,
+  shouldExcludePullTarget,
   PULL_REFRESH_THRESHOLD_PX,
   type PullRefreshPhase,
 } from "@/lib/scroll-ux";
@@ -49,7 +50,10 @@ function isExcludedPullTarget(target: EventTarget | null, surface: HTMLElement):
     return true;
   }
 
-  if (target.closest(INTERACTIVE_TARGET_SELECTOR)) {
+  if (shouldExcludePullTarget(
+    Boolean(target.closest(INTERACTIVE_TARGET_SELECTOR)),
+    Boolean(target.closest("[data-pull-refresh-allow]")),
+  )) {
     return true;
   }
 
