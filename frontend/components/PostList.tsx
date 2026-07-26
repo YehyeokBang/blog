@@ -139,6 +139,7 @@ export default function PostList({ initialPosts }: PostListProps) {
                 <Link
                   href={`/posts/${post.slug}`}
                   aria-label={post.title}
+                  data-pull-refresh-allow
                   className="post-card-link absolute inset-0 z-0 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-canvas"
                 />
                 <div className="pointer-events-none relative z-10 flex w-full flex-col-reverse items-start gap-xl sm:flex-row">

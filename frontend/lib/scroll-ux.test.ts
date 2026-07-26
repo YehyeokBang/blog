@@ -8,6 +8,7 @@ import {
   getScrollBehavior,
   isPullRefreshRoute,
   isScrollContainerAtTop,
+  shouldExcludePullTarget,
   isPullActivationMove,
   PULL_REFRESH_MAX_OFFSET_PX,
   PULL_REFRESH_THRESHOLD_PX,
@@ -67,6 +68,12 @@ test("콘텐츠 스크롤 영역이 맨 위일 때만 당김 새로고침을 시
   assert.equal(isScrollContainerAtTop(0), true);
   assert.equal(isScrollContainerAtTop(0.1), false);
   assert.equal(isScrollContainerAtTop(24), false);
+});
+
+test("카드 상세 링크는 당김 새로고침을 허용하고 일반 링크는 제외한다", () => {
+  assert.equal(shouldExcludePullTarget(true, false), true);
+  assert.equal(shouldExcludePullTarget(true, true), false);
+  assert.equal(shouldExcludePullTarget(false, false), false);
 });
 
 test("페이지 경로가 바뀌면 콘텐츠 스크롤을 맨 위로 초기화한다", () => {
