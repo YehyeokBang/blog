@@ -39,6 +39,13 @@ export function isScrollContainerAtTop(scrollTop: number): boolean {
   return scrollTop === 0;
 }
 
+export function shouldExcludePullTarget(
+  targetIsInteractive: boolean,
+  targetAllowsPullRefresh: boolean,
+): boolean {
+  return targetIsInteractive && !targetAllowsPullRefresh;
+}
+
 export function shouldResetContentScroll(previousPathname: string | null, pathname: string): boolean {
   return previousPathname !== null && previousPathname !== pathname;
 }
