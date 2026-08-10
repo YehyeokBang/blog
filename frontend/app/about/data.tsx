@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { ExternalLink } from "lucide-react";
 
 export interface DetailItem {
   text: ReactNode;
@@ -6,7 +7,7 @@ export interface DetailItem {
 }
 
 export interface HistoryItem {
-  title: string;
+  title: ReactNode;
   role?: string;
   period: string;
   description?: string;
@@ -20,7 +21,11 @@ export const INTRODUCTION: ReactNode[] = [
 
 export const CAREERS: HistoryItem[] = [
   {
-    title: "짐싸",
+    title: (
+      <a href="https://www.zimssa.com/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-xs text-ink hover:text-primary focus-visible:text-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4 transition-colors">
+        짐싸 <ExternalLink aria-hidden="true" className="size-[0.7em] stroke-[2.5]" />
+      </a>
+    ),
     role: "백엔드 엔지니어",
     period: "2026.03 ~",
     description: "이사 견적 비교부터 청소, 설치까지 파편화된 이사 프로세스를 하나로 연결하여, 고객의 불편함을 기술로 해결하는 토탈 무빙 케어 플랫폼",
@@ -32,7 +37,11 @@ export const CAREERS: HistoryItem[] = [
 
 export const ACTIVITIES: HistoryItem[] = [
   {
-    title: "우아한테크코스",
+    title: (
+      <a href="https://www.woowacourse.io/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-xs text-ink hover:text-primary focus-visible:text-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4 transition-colors">
+        우아한테크코스 <ExternalLink aria-hidden="true" className="size-[0.7em] stroke-[2.5]" />
+      </a>
+    ),
     role: "7기 웹 백엔드",
     period: "2025.02 ~ 2025.11",
     description: "우아한형제들이 주관하는 협업 능력과 기술 역량을 함께 키우는 개발자 교육 과정입니다.",
@@ -40,12 +49,10 @@ export const ACTIVITIES: HistoryItem[] = [
       { text: "Java, Spring Boot 기반 웹 백엔드 개발, 데이터베이스, AWS 기반 인프라, 테스트 코드 학습" },
       {
         text: <>페어 프로그래밍과 현업 개발자 코드 리뷰 <strong>과정으로 협업 중심의 문제 해결 역량 강화</strong></>,
-        subDetails: [
-          <>결제 승인 API <strong>Connection Timeout, Read Timeout 학습 및 적용</strong></>,
-          <>복잡해지는 요구사항 속 도메인 간 <strong>강결합 해소 경험</strong></>,
-        ]
       },
-      { text: <><strong>Race Condition 발생 원리</strong>를 주제로 테코톡 발표 진행</> },
+      {
+        text: <><a href="https://youtu.be/At4Gyezw8WA?si=UOPKVrGcSdzSXedf" target="_blank" rel="noreferrer" className="inline-flex items-center gap-xs mr-xs text-body hover:text-primary focus-visible:text-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4 transition-colors"><strong>Race Condition 발생 원리</strong> <ExternalLink aria-hidden="true" className="size-[0.7em] stroke-[2.5]" /></a>를 주제로 테코톡 발표 진행</>,
+      },
     ],
   },
   {
@@ -72,5 +79,13 @@ export const ACTIVITIES: HistoryItem[] = [
         ]
       },
     ],
+  },
+];
+
+export const CERTIFICATIONS: HistoryItem[] = [
+  {
+    title: "SQL 개발자",
+    role: "한국데이터산업진흥원 (SQLD-060005994)",
+    period: "발행일: 2026년 3월",
   },
 ];

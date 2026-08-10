@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { INTRODUCTION, CAREERS, ACTIVITIES, HistoryItem, DetailItem } from "./data";
+import { INTRODUCTION, CAREERS, ACTIVITIES, CERTIFICATIONS, HistoryItem } from "./data";
 
 export const metadata: Metadata = {
   title: "소개",
@@ -96,6 +96,7 @@ export default function AboutPage() {
         <div className="mt-section flex flex-col gap-section">
           <HistorySection title="경력" items={CAREERS} />
           <HistorySection title="활동" items={ACTIVITIES} />
+          <HistorySection title="자격증" items={CERTIFICATIONS} />
         </div>
       </div>
     </div>
