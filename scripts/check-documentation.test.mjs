@@ -16,6 +16,20 @@ test("현재 문서가 링크, 인덱스, archive 상태 규칙을 만족한다"
     assert.deepEqual(checkDocumentation(repositoryRoot), []);
 });
 
+test("디자인 시스템 진입점과 호환 문서가 연결된다", () => {
+    const compatibilityDocument = fs.readFileSync(path.join(repositoryRoot, "docs/design.md"), "utf8");
+    const designSystemDocument = fs.readFileSync(
+        path.join(repositoryRoot, "docs/design-system/README.md"),
+        "utf8",
+    );
+
+    assert.match(compatibilityDocument, /\[현재 디자인 시스템\]\(design-system\/README\.md\)/);
+    assert.match(designSystemDocument, /\[SEED 참고 기록\]\(references\/seed\.md\)/);
+    assert.match(designSystemDocument, /frontend\/app\/globals\.css/);
+    assert.match(designSystemDocument, /As-is/);
+    assert.match(designSystemDocument, /To-be/);
+});
+
 test("깨진 상대 링크의 문서와 대상 경로를 보고한다", () => {
     const fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "blog-docs-link-"));
     fs.mkdirSync(path.join(fixtureRoot, "docs"));
