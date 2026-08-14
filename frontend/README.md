@@ -35,6 +35,6 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000 npm run build
 
 ## 관련 문서
 
-- [디자인 시스템](../docs/design.md)
+- [디자인 시스템](../docs/design-system/README.md)
 - [기술 아키텍처](../docs/architecture.md)
 - [프론트엔드 개발 규칙](AGENTS.md)
