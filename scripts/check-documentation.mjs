@@ -9,7 +9,7 @@ const activeDocuments = [
     "docs/project-overview.md",
     "docs/architecture.md",
     "docs/roadmap.md",
-    "docs/design.md",
+    "docs/design-system/README.md",
     "docs/git-strategy.md",
     "docs/persona.md",
     "docs/backend/README.md",
