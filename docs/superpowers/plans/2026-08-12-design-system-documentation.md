@@ -121,15 +121,15 @@ Expected: FAIL with `ENOENT` for `docs/design-system/README.md`.
 
 작성 시 다음 내용을 명시한다.
 
-- 현재 값과 실제 동작은 [`frontend/app/globals.css`](../../frontend/app/globals.css)와 대상 컴포넌트가 정본이다.
-- 디자인 원칙은 이 문서, 승인된 동작 요구사항은 관련 OpenSpec, 게시글 문체는 [`docs/persona.md`](../persona.md)가 정본이다.
+- 현재 값과 실제 동작은 [`frontend/app/globals.css`](../../../frontend/app/globals.css)와 대상 컴포넌트가 정본이다.
+- 디자인 원칙은 이 문서, 승인된 동작 요구사항은 관련 OpenSpec, 게시글 문체는 [`docs/persona.md`](../../persona.md)가 정본이다.
 - 코드와 원칙이 다르면 문서를 자동으로 코드에 맞추지 않고 의도된 변경인지 구현 누락인지 확인한다.
 - 사용자의 “줄여줘”, “키워줘”, “답답해”, “너무 튀어”, “뭔가 어색해”를 유효한 피드백으로 취급하고 글자 크기·너비·여백·대비·정렬 후보로 번역한다.
 - 시각적 판단이 필요한 경우 로컬 화면이나 스크린샷으로 As-is / To-be를 비교한다.
 - 버튼·오류·빈 상태 같은 UI 문구와 게시글 본문의 문체 범위를 분리한다.
 - SEED 참고 기록은 평상시 필독이 아니며 새로운 UI 패턴을 검토할 때만 읽는다.
 - 실제 공용 UI primitive 5개 이상, 반복 패턴 증가, 문서 300줄 초과 등 설계 문서의 분할 조건을 그대로 기록한다.
-- 외부 참고 절에서 `[SEED 참고 기록](references/seed.md)`으로 연결한다.
+- 외부 참고 절에서 `[SEED 참고 기록](../../design-system/references/seed.md)`으로 연결한다.
 
 - [ ] **Step 4: `docs/design-system/references/seed.md` 작성**
 
@@ -252,7 +252,12 @@ git commit -m "docs: 디자인 시스템 진입점과 SEED 참고 기록 추가"
 
 - [ ] **Step 4: `frontend/README.md` 링크 갱신**
 
-기존 `[디자인 시스템](../docs/design.md)` 링크를 `[디자인 시스템](../docs/design-system/README.md)`으로 바꾼다.
+다음 Markdown 링크를 갱신한다.
+
+```markdown
+[디자인 시스템](../docs/design.md)
+[디자인 시스템](../docs/design-system/README.md)
+```
 
 - [ ] **Step 5: 활성 문서 연결 검사**
 
