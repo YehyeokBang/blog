@@ -35,13 +35,18 @@
 - `AGENTS.md`: 문서 지도에서 디자인 작업의 진입점을 새 경로로 바꾼다.
 - `frontend/AGENTS.md`: UI 작업 유형별 최소 읽기 경로와 직관적 소통 원칙을 추가한다.
 - `frontend/README.md`: 프론트엔드 참고 문서 링크를 새 디자인 진입점으로 바꾼다.
+- `openspec/changes/feed-ui-accessibility/proposal.md`: 안정적인 디자인 원칙의 진입점을 새 경로로 바꾸고 동작 권한을 OpenSpec과 코드로 구분한다.
+- `openspec/changes/mobile-scroll-ux/proposal.md`: 안정적인 디자인 원칙의 진입점을 새 경로로 바꾸고 동작 권한을 OpenSpec과 코드로 구분한다.
+- `openspec/changes/mobile-scroll-ux/design.md`: 파일 책임 표에서 호환 문서의 계약 책임을 제거한다.
+- `openspec/changes/mobile-scroll-ux/tasks.md`: 호환 문서 갱신 작업을 OpenSpec·코드 대조 작업으로 바꾼다.
 - `scripts/check-documentation.mjs`: 활성 문서 목록에서 새 디자인 진입점을 검사한다.
-- `scripts/check-documentation.test.mjs`: 호환 문서, 새 진입점, SEED 참고 문서의 연결을 회귀 테스트로 고정한다.
+- `scripts/check-documentation.test.mjs`: 새 진입점의 존재·인덱스 연결, 호환 문서의 비정본 상태, 프론트엔드 두 문서의 라우팅을 알려진 기준선과 독립된 회귀 테스트로 고정한다.
 
 ### 유지
 
 - `docs/feed.png`, `docs/details.png`: 초기 시각 참고 자료로 그대로 둔다.
-- 과거 계획, OpenSpec change, archive 문서: 기존 `docs/design.md` 링크를 수정하지 않는다.
+- 과거 계획과 완료된 OpenSpec archive 문서: 기존 `docs/design.md` 링크를 수정하지 않는다.
+- 진행 중인 `feed-ui-accessibility`, `mobile-scroll-ux` change: 안정적인 디자인 원칙 링크만 `docs/design-system/README.md`로 옮기고 요구사항이나 task 완료 상태는 바꾸지 않는다.
 
 ---
 
@@ -174,7 +179,7 @@ Expected: FAIL with `ENOENT` for `docs/design-system/README.md`.
 
 현재 디자인 원칙과 작업 지침은 [현재 디자인 시스템](design-system/README.md)으로 이동했습니다.
 
-이 파일은 과거 계획, OpenSpec, 아카이브 문서의 기존 링크를 보존하기 위해 유지합니다. 현재 UI 값과 실제 동작은 새 디자인 시스템 문서가 안내하는 코드 위치를 기준으로 확인합니다.
+이 파일은 과거 계획과 완료된 OpenSpec 아카이브 문서의 기존 링크를 보존하기 위해 유지합니다. 현재 UI 값과 실제 동작은 새 디자인 시스템 문서가 안내하는 코드 위치를 기준으로 확인합니다.
 ```
 
 - [ ] **Step 6: 새 진입점 테스트와 상대 링크 검사 실행**
@@ -291,7 +296,7 @@ git commit -m "docs: 디자인 작업별 문서 라우팅 연결"
 
 **Interfaces:**
 - Consumes: Task 1의 새 디자인 진입점과 Task 2의 `docs/README.md` 활성 링크
-- Produces: 새 디자인 진입점의 존재와 인덱스 도달성을 검사하는 문서 검증 계약
+- Produces: 새 디자인 진입점의 존재와 인덱스 도달성, 호환 문서의 비정본 상태, 프론트엔드 두 문서의 라우팅을 기존 OpenSpec 기준선과 독립적으로 검사하는 문서 검증 계약
 
 - [ ] **Step 1: 활성 문서 목록을 새 진입점으로 변경**
 
@@ -305,18 +310,19 @@ git commit -m "docs: 디자인 작업별 문서 라우팅 연결"
 "docs/design-system/README.md",
 ```
 
-호환용 `docs/design.md`는 전체 상대 링크 검사 대상에는 계속 포함되지만 활성 문서 인덱스의 정본으로 요구하지 않는다.
+호환용 `docs/design.md`는 전체 상대 링크 검사 대상에는 계속 포함되지만 활성 문서 인덱스의 정본으로 요구하지 않는다. 집중 검증 함수는 이 설정과 새 진입점의 존재·인덱스 연결, `frontend/AGENTS.md`와 `frontend/README.md`의 라우팅을 함께 검사한다.
 
 - [ ] **Step 2: 전체 검사에서 새 디자인 관련 실패가 없는지 확인**
 
 Run:
 
 ```bash
+node --test --test-name-pattern="디자인 문서" scripts/check-documentation.test.mjs
 node --test scripts/check-documentation.test.mjs
 node scripts/check-documentation.mjs
 ```
 
-Expected: 두 명령 모두 기존 OpenSpec 인덱스 누락 3건 때문에 실패할 수 있으나, 오류 집합에 다음 문자열은 없어야 한다.
+Expected: 집중 테스트는 통과한다. 전체 테스트와 검사 명령은 기존 OpenSpec 인덱스 누락 3건 때문에 실패할 수 있으나, 오류 집합에 다음 문자열은 없어야 한다.
 
 ```text
 docs/design-system/README.md
