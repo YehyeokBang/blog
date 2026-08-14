@@ -9,7 +9,7 @@
 | [프로젝트 개요](project-overview.md) | 목표, 핵심 가치, 콘텐츠 식별 규칙 |
 | [기술 아키텍처](architecture.md) | 기술 스택, 실행·배포 구조, 운영 사전 조건 |
 | [로드맵](roadmap.md) | 제품 우선순위와 운영 방식 |
-| [디자인 시스템](design.md) | 현재 디자인 원칙, 토큰, UI 동작 |
+| [디자인 시스템](design-system/README.md) | 디자인 원칙, UI 선택 기준, 협업 방식과 구현 정본 안내 |
 | [Git 전략](git-strategy.md) | 브랜치, 커밋, PR, OpenSpec 종료 흐름 |
 | [페르소나](persona.md) | 운영자와 독자, 글쓰기 성향 |
 | [백엔드 컨벤션](backend/README.md) | Kotlin·Spring 구현 및 리뷰 규칙의 역할별 진입점 |
@@ -19,7 +19,7 @@
 ## 역할별 시작점
 
 - 전체 작업: [AGENTS.md](../AGENTS.md)와 작업 영역에 해당하는 활성 문서
-- 프론트엔드: [frontend/README.md](../frontend/README.md), [frontend/AGENTS.md](../frontend/AGENTS.md), [디자인 시스템](design.md)
+- 프론트엔드: [frontend/README.md](../frontend/README.md), [frontend/AGENTS.md](../frontend/AGENTS.md), [디자인 시스템](design-system/README.md)
 - 백엔드: [백엔드 컨벤션](backend/README.md), [기술 아키텍처](architecture.md)
 - 요구사항 변경: [OpenSpec 인덱스](../openspec/README.md), [Git 전략](git-strategy.md)
 

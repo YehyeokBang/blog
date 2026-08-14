@@ -42,7 +42,7 @@
 
 ## 6. Documentation and automated verification
 
-- [ ] 6.1 `docs/design.md`의 header, 상세, 반응형 동작을 fixed global header, progressive pull-to-refresh, brand/top navigation, conditional sticky TOC와 subtle glass/fallback 계약으로 갱신한다.
+- [ ] 6.1 안정적인 디자인 원칙은 `docs/design-system/README.md`, 승인된 fixed global header·progressive pull-to-refresh·brand/top navigation·conditional sticky TOC·subtle glass/fallback 계약은 이 change의 design·delta spec, 현재 실제 동작은 대상 code로 대조한다.
 - [ ] 6.2 `cd frontend && npm run test:engagement && npm run test:scroll-ux && npm run lint`를 실행하고 모든 command가 exit 0인지 확인한다.
 - [ ] 6.3 `cd frontend && NEXT_PUBLIC_SITE_URL=http://localhost:3000 npm run build`를 실행해 Next.js 16 static export가 성공하고 새 client component가 server-rendered page build를 깨지 않는지 확인한다.
 - [ ] 6.4 저장소 root에서 `./scripts/validate-openspec.sh`, `node --test scripts/check-documentation.test.mjs`, `node scripts/check-documentation.mjs`를 실행해 strict OpenSpec과 문서 link 검사를 통과한다.
