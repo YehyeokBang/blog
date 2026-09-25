@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  *{box-sizing:border-box}body{margin:0;width:1200px;height:560px;padding:42px 52px;background:#f8fafc;color:#172033;font-family:Arial,"Apple SD Gothic Neo",sans-serif}
+  .host{position:relative;width:1096px;height:355px;border:3px solid #64748b;border-radius:18px;background:#fff;overflow:hidden}.host-label{position:absolute;top:22px;left:25px;font-size:26px;font-weight:750}.host-note{position:absolute;top:27px;right:25px;font-size:18px;color:#52657b}
+  .task{position:absolute;top:86px;left:25px;width:50%;height:196px;border:3px solid #2563eb;border-radius:13px;background:#eff6ff}.task-label{position:absolute;top:16px;left:18px;font-size:22px;font-weight:750;color:#1d4ed8}.task-note{position:absolute;bottom:18px;left:18px;font-size:17px;color:#475569}
+  .host-free{position:absolute;top:111px;right:50px;font-size:19px;color:#64748b}.heap{position:absolute;top:171px;left:47px;width:70%;height:63px;border-radius:9px;background:repeating-linear-gradient(135deg,#fff1f2 0 12px,#ffe4e6 12px 24px);border:2px solid #ef4444;color:#b91c1c;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:21px;font-weight:700}.heap strong{font-size:26px}.cross{position:absolute;top:294px;left:53%;color:#dc2626;font-size:18px;font-weight:700}
+  .foot{margin-top:24px;padding:18px 23px;border-radius:12px;background:#e2e8f0;font-size:20px;font-weight:700}.foot span{color:#dc2626}.caption{margin-top:13px;color:#52657b;font-size:17px}
+</style>
+<div class="host">
+  <div class="host-label">EC2 호스트 · 4GiB</div><div class="host-note">전체 RAM의 경계</div>
+  <div class="task"><div class="task-label">태스크 하드 한도 · 2GiB</div><div class="task-note">실제 사용량은 이 선 안에 있어야 함</div></div>
+  <div class="host-free">호스트에는 여유가 있어도</div>
+  <div class="heap">계산된 최대 힙 상한 · 실사용 아님 <strong>2.8GiB</strong></div>
+  <div class="cross">↑ 힙 상한이 태스크 경계를 넘음</div>
+</div>
+<div class="foot">실제 메모리 사용량이 태스크 한도에 도달하고 회수할 수 없으면 <span>OOM kill 가능</span></div>
+<div class="caption">가상 예시 · 2.8GiB는 사용량이 아니라 호스트 4GiB × 힙 비율 70%로 계산한 상한</div>
+</html>
