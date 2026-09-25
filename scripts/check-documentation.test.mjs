@@ -7,6 +7,7 @@ import {
     checkDocumentation,
     validateArchiveState,
     validateArchivePlacement,
+    validateDesignDocumentation,
     validateRelativeLinks,
 } from "./check-documentation.mjs";
 
@@ -14,6 +15,32 @@ const repositoryRoot = path.resolve(import.meta.dirname, "..");
 
 test("현재 문서가 링크, 인덱스, archive 상태 규칙을 만족한다", () => {
     assert.deepEqual(checkDocumentation(repositoryRoot), []);
+});
+
+test("디자인 문서 활성 권한과 프론트엔드 라우팅은 알려진 기준선과 독립적으로 유효하다", () => {
+    const designErrors = checkDocumentation(repositoryRoot).filter((error) =>
+        error.includes("docs/design"),
+    );
+
+    assert.deepEqual(designErrors, []);
+    assert.deepEqual(validateDesignDocumentation(repositoryRoot), []);
+});
+
+test("디자인 문서 진입점과 프론트엔드 라우팅 누락을 함께 보고한다", () => {
+    const fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), "blog-design-docs-"));
+    fs.mkdirSync(path.join(fixtureRoot, "docs", "design-system"), { recursive: true });
+    fs.mkdirSync(path.join(fixtureRoot, "frontend"));
+    fs.writeFileSync(path.join(fixtureRoot, "docs", "README.md"), "[이전 디자인 문서](design.md)\n");
+    fs.writeFileSync(path.join(fixtureRoot, "docs", "design.md"), "# 호환 문서\n");
+    fs.writeFileSync(path.join(fixtureRoot, "frontend", "AGENTS.md"), "[이전 디자인 문서](../docs/design.md)\n");
+    fs.writeFileSync(path.join(fixtureRoot, "frontend", "README.md"), "[이전 디자인 문서](../docs/design.md)\n");
+
+    assert.deepEqual(validateDesignDocumentation(fixtureRoot), [
+        "디자인 시스템 문서 오류: docs/design-system/README.md이 없습니다",
+        "디자인 시스템 인덱스 오류: docs/README.md가 docs/design-system/README.md를 링크해야 합니다",
+        "디자인 시스템 라우팅 오류: frontend/AGENTS.md가 docs/design-system/README.md를 링크해야 합니다",
+        "디자인 시스템 라우팅 오류: frontend/README.md가 docs/design-system/README.md를 링크해야 합니다",
+    ]);
 });
 
 test("깨진 상대 링크의 문서와 대상 경로를 보고한다", () => {

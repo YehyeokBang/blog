@@ -9,7 +9,7 @@ const activeDocuments = [
     "docs/project-overview.md",
     "docs/architecture.md",
     "docs/roadmap.md",
-    "docs/design.md",
+    "docs/design-system/README.md",
     "docs/git-strategy.md",
     "docs/persona.md",
     "docs/backend/README.md",
@@ -156,6 +156,34 @@ function validateActiveDocumentIndexes(repositoryRoot) {
     return errors;
 }
 
+export function validateDesignDocumentation(repositoryRoot) {
+    const errors = [];
+    const designSystemDocument = "docs/design-system/README.md";
+    const compatibilityDocument = "docs/design.md";
+    const routingDocuments = ["frontend/AGENTS.md", "frontend/README.md"];
+
+    if (!activeDocuments.includes(designSystemDocument)) {
+        errors.push(`디자인 시스템 활성 문서 오류: ${designSystemDocument}가 활성 문서 목록에 필요합니다`);
+    }
+    if (activeDocuments.includes(compatibilityDocument)) {
+        errors.push(`디자인 시스템 호환 문서 오류: ${compatibilityDocument}를 활성 문서 정본으로 요구하면 안 됩니다`);
+    }
+    if (!fs.existsSync(path.join(repositoryRoot, designSystemDocument))) {
+        errors.push(`디자인 시스템 문서 오류: ${designSystemDocument}이 없습니다`);
+    }
+    if (!indexedDocumentPaths(repositoryRoot, "docs/README.md").has(designSystemDocument)) {
+        errors.push(`디자인 시스템 인덱스 오류: docs/README.md가 ${designSystemDocument}를 링크해야 합니다`);
+    }
+
+    for (const routingDocument of routingDocuments) {
+        if (!indexedDocumentPaths(repositoryRoot, routingDocument).has(designSystemDocument)) {
+            errors.push(`디자인 시스템 라우팅 오류: ${routingDocument}가 ${designSystemDocument}를 링크해야 합니다`);
+        }
+    }
+
+    return errors;
+}
+
 export function validateArchiveState(repositoryRoot, archiveFiles) {
     const errors = [];
 
@@ -205,6 +233,7 @@ export function checkDocumentation(repositoryRoot) {
     return [
         ...validateRelativeLinks(repositoryRoot, markdownFiles),
         ...validateActiveDocumentIndexes(repositoryRoot),
+        ...validateDesignDocumentation(repositoryRoot),
         ...validateArchiveState(repositoryRoot, archiveFiles),
         ...validateArchivePlacement(repositoryRoot, documentationFiles),
     ];

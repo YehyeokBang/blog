@@ -29,7 +29,7 @@
 - `frontend/components/`에 pull-to-refresh, home control, 상세 top control을 담당하는 client component가 추가된다.
 - `frontend/components/TOC.tsx`는 inline/sidebar variant와 viewport 적합성에 따른 sticky 정책을 갖는다.
 - `frontend/lib/`에 제스처 상태와 scroll navigation 결정을 검증 가능한 순수 함수로 분리하고 Node test를 추가한다.
-- `frontend/app/globals.css`, `frontend/package.json`, `docs/design.md`가 새 interaction·surface·검증 계약을 반영한다.
+- 안정적인 디자인 원칙은 `docs/design-system/README.md`를 따르고, 승인된 interaction·surface·검증 계약은 이 change의 design·delta spec, 현재 실제 동작은 `frontend/app/globals.css`, `frontend/package.json`과 대상 component를 기준으로 확인한다.
 - backend API, database, analytics, deployment route와 `content/posts/*.md`는 변경하지 않는다.
 
 ## Non-Goals

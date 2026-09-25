@@ -4,6 +4,16 @@
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
+## UI 작업 전 확인
+
+- 색상·타이포그래피·간격 변경: [디자인 시스템](../docs/design-system/README.md)의 기초 원칙과 `frontend/app/globals.css`
+- 기존 화면 동작 변경: 관련 OpenSpec과 대상 컴포넌트
+- 버튼·필터·입력 UI 추가: [디자인 시스템](../docs/design-system/README.md)의 UI 선택 기준과 대상 컴포넌트
+- 버튼·오류·빈 상태 문구 변경: [디자인 시스템](../docs/design-system/README.md)의 UI 문구 원칙과 [`docs/persona.md`](../docs/persona.md)
+- 새 UI 패턴 비교: [SEED 참고 기록](../docs/design-system/references/seed.md)과 관련 공식 문서
+
+사용자에게 디자인 전문 용어만으로 설명하지 않는다. 현재 모습, 바꿀 모습, 사용자에게 생기는 효과 순서로 설명하고, 시각적 판단이 필요하면 로컬 화면이나 스크린샷으로 As-is와 To-be를 비교한다.
+
 # Frontend Development Guidelines
 
 > These guidelines help create frontend code that is **easy to change** by following four key criteria: Readability, Predictability, Cohesion, and Coupling.

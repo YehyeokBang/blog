@@ -22,7 +22,7 @@
 ## Impact
 
 - `frontend/components/PostList.tsx`와 피드 overflow 판정 helper·test가 변경된다.
-- `docs/design.md`와 `blog-rendering` delta spec이 구현 계약을 기록한다.
+- 안정적인 디자인 원칙은 `docs/design-system/README.md`를 따르고, 승인된 동작은 `blog-rendering` delta spec, 현재 실제 동작은 대상 frontend code를 기준으로 확인한다.
 - Markdown 콘텐츠, backend API, analytics 및 배포 구조는 변경하지 않는다.
 
 ## Non-Goals

@@ -177,7 +177,7 @@ SVG icon은 background와 4.5:1 이상, focus indicator는 인접색과 3:1 이�
 | `frontend/app/posts/[slug]/page.tsx` | article header id와 TOC variant 조립 |
 | `frontend/app/globals.css` | pull/reduced-motion, glass/fallback, obsolete TOC scrollbar removal |
 | `frontend/package.json` | `test:scroll-ux` script |
-| `docs/design.md` | 승인된 global header, scroll navigation, TOC와 glass contract |
+| `docs/design-system/README.md` | 안정적인 디자인 원칙과 UI 작업 진입점. 승인된 동작은 이 change의 design·delta spec, 현재 실제 동작은 대상 code를 기준으로 확인 |
 
 `PostList`, post Markdown, engagement client, theme toggle와 backend는 변경하지 않는다.
 
